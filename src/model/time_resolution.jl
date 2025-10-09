@@ -58,3 +58,5 @@ Base.@kwdef struct FlexibleResolution <: AbstractResolution
     end
 end
 
+TimeResolution(time_resolution_input::Int, period_length::Int) = UniformResolution(time_resolution_input, period_length)
+TimeResolution(time_resolution_input::Vector{Int}, period_length::Int=8760) = FlexibleResolution(time_resolution_input, period_length)
