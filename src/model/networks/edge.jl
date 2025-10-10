@@ -3,7 +3,7 @@ macro AbstractEdgeBaseAttributes()
     esc(quote
         id::Symbol
         location::Union{Missing, Symbol} = $edge_defaults[:location]
-        timedata::TimeData{T}
+        timedata::TimeData
         start_vertex::AbstractVertex
         end_vertex::AbstractVertex
         availability::Vector{Float64} = Float64[]
