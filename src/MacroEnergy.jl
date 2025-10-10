@@ -53,7 +53,7 @@ abstract type Steam <: Commodity end ## MWh
 
 ## Time data types
 abstract type AbstractResolution end
-abstract type AbstractTimeData{T<:Commodity} end
+abstract type AbstractTimeData end
 
 ##
 abstract type AbstractSystem end
@@ -142,6 +142,7 @@ include_all_in_folder("utilities")
 include("model/units.jl")
 include("model/time_management.jl")
 include("model/time_resolution.jl")
+include("model/time_series.jl")
 include("model/networks/vertex.jl")
 include("model/networks/node.jl")
 include("model/networks/storage.jl")

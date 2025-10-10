@@ -2,7 +2,7 @@ macro AbstractEdgeBaseAttributes()
     edge_defaults = edge_default_data()
     esc(quote
         id::Symbol
-        timedata::TimeData{T}
+        timedata::TimeData
         start_vertex::AbstractVertex
         end_vertex::AbstractVertex
         availability::Vector{Float64} = Float64[]
