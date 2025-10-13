@@ -1,7 +1,7 @@
 macro AbstractNodeBaseAttributes()
     node_defaults = node_default_data()
     esc(quote
-        demand::Vector{Float64} = Vector{Float64}()
+        demand::MacroTimeSeries = $node_defaults[:demand]
         min_nsd::Vector{Float64} = $node_defaults[:min_nsd]
         max_nsd::Vector{Float64} = $node_defaults[:max_nsd]
         max_supply::Vector{Float64} = $node_defaults[:max_supply]
@@ -9,7 +9,7 @@ macro AbstractNodeBaseAttributes()
         policy_budgeting_vars::Dict = Dict()
         policy_budgeting_constraints::Dict{DataType,JuMPConstraint} = Dict{DataType,JuMPConstraint}()  # Store policy budget constraint references
         policy_slack_vars::Dict = Dict()
-        price::Vector{Float64} = Vector{Float64}()
+        price::MacroTimeSeries = $node_defaults[:price]
         price_nsd::Vector{Float64} = $node_defaults[:price_nsd]
         price_supply::Vector{Float64} = $node_defaults[:price_supply]
         price_unmet_policy::Dict{DataType,Float64} = Dict{DataType,Float64}()
@@ -31,14 +31,14 @@ end
     - operation_expr::Dict: Operational JuMP expressions for the node
 
     # Fields
-    - demand::Union{Vector{Float64},Dict{Int64,Float64}}: Time series of demand values
+    - demand::MacroTimeSeries: Time series of demand values
     - max_nsd::Vector{Float64}: Maximum allowed non-served demand for each segment
     - max_supply::Vector{Float64}: Maximum supply for each segment
     - non_served_demand::Union{JuMPVariable,Matrix{Float64}}: JuMP variables or matrix representing unmet demand
     - policy_budgeting_vars::Dict: Policy budgeting variables for constraints
     - policy_budgeting_constraints::Dict{DataType,JuMPConstraint}: Policy budget constraint references (sum across subperiods, keyed by :ConstraintType)
     - policy_slack_vars::Dict: Policy slack variables for constraints
-    - price::Union{Vector{Float64},Dict{Int64,Float64}}: Time series of prices
+    - price::MacroTimeSeries: Time series of prices
     - price_nsd::Vector{Float64}: Penalties for non-served demand by segment
     - price_supply::Vector{Float64}: Supply costs by segment
     - price_unmet_policy::Dict{DataType,Float64}: Mapping of policy types to penalty costs
@@ -70,13 +70,21 @@ function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodit
             delete!(filtered_data, key)
         end
     end
+    # Time series
+    if haskey(data, :demand) && isa(data[:demand], Vector{Float64})
+        data[:demand] = MacroTimeSeries(data[:demand], time_data.resolution)
+    end
+    if haskey(data, :price) && isa(data[:price], Vector{Float64})
+        data[:price] = MacroTimeSeries(data[:price], time_data.resolution)
+    end
+
     _node = Node{commodity}(;
         id = id,
         timedata = time_data,
-        demand = get(data, :demand, Vector{Float64}()),
+        demand = get(data, :demand, MacroTimeSeries()),
         max_nsd = get(data, :max_nsd, [0.0]),
         max_supply = get(data, :max_supply, [0.0]),
-        price = get(data, :price, Vector{Float64}()),
+        price = get(data, :price, MacroTimeSeries()),
         price_nsd = get(data, :price_nsd, [0.0]),
         price_supply = get(data, :price_supply, [0.0]),
         price_unmet_policy = get(data, :price_unmet_policy, Dict{DataType,Float64}()),
