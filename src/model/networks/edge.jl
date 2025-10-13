@@ -704,10 +704,16 @@ function update_startup_fuel_balance!(e::EdgeWithUC)
     i = startup_fuel_balance_id(e)
 
     if i ∈ balance_ids(v) && startup_fuel_consumption(e) > 0
-        balance_coeff = -1 * startup_fuel_consumption(e) * capacity_size(e)
-        balance_expr = get_balance(v,i)
-        for t in time_interval(e)
-            add_to_expression!(balance_expr[t], balance_coeff, ustart(e, t))
+        # get common time blocks for the startup fuel balance from the vertex v
+        constraint_time_intervals = balance_time_intervals(v, i)
+        # find the corresponding time blocks for the current edge
+        edge_time_intervals = map_time_steps_to_common_time_intervals(time_resolution(e), constraint_time_intervals)
+        # update the balance expression for the current edge
+        balance_expr = get_balance(v, i)
+        coeff = -1 * startup_fuel_consumption(e) * capacity_size(e)
+        for (int_idx, time_indices) in enumerate(edge_time_intervals)
+            # sum the startup flow over the time blocks
+            add_to_expression!(balance_expr[int_idx], coeff, sum(ustart(e, t) for t in time_indices))
         end
     end
 
@@ -739,17 +745,8 @@ function update_balance_start!(e::AbstractEdge, model::Model)
     elseif e.unidirectional == false && !lossy_edge(e)
         effective_flow = @expression(model, [t in time_interval(e)], flow(e, t))
     end
-    
-    for i in balance_ids(v)
-        balance_coeff = -1 * balance_data(e, v, i)
-        balance_expr = get_balance(v,i)
-        if balance_coeff != 0.0
-            for t in time_interval(e)
-                add_to_expression!(balance_expr[t], balance_coeff, effective_flow[t])
-            end
-        end
-    end
 
+    update_balance!(e, v, effective_flow, -1)
 end
 
 function update_balance_end!(e::AbstractEdge, model::Model)
@@ -776,16 +773,50 @@ function update_balance_end!(e::AbstractEdge, model::Model)
         effective_flow = @expression(model, [t in time_interval(e)], flow(e, t))
     end
 
+    update_balance!(e, v, effective_flow, 1)
+
+end
+
+###### Helper Functions for Balance Updates ######
+
+"""
+    update_balance!(e::AbstractEdge, v::Transformation, effective_flow::JuMP.Containers.DenseAxisArray, coeff_sign::Int=1)
+Update balance for **Transformation** vertices with time resolution alignment.
+This function performs the following steps:
+1. Find common time blocks for the balance equation at the Transformation `v`
+2. Map the time steps of the edge `e` to the common time blocks
+3. Get the balance expression for the current edge
+4. Get the coefficient for the current edge
+5. Update the balance expression for the current edge by summing the flow variables over the time blocks
+"""
+function update_balance!(e::AbstractEdge, v::Transformation, flow::JuMP.Containers.DenseAxisArray, coeff_sign::Int=1)
     for i in balance_ids(v)
-        balance_coeff = balance_data(e, v, i)
-        balance_expr = get_balance(v,i)
-        if balance_coeff != 0.0
-            for t in time_interval(e)
-                 add_to_expression!(balance_expr[t], balance_coeff, effective_flow[t])
-            end
+        constraint_time_intervals = balance_time_intervals(v, i)
+        edge_time_intervals = map_time_steps_to_common_time_intervals(time_resolution(e), constraint_time_intervals)
+        balance_expr = get_balance(v, i)
+        coeff = coeff_sign * balance_data(e, v, i)
+        for (int_idx, time_indices) in enumerate(edge_time_intervals)
+            add_to_expression!(balance_expr[int_idx], coeff, sum(flow[t] for t in time_indices))
         end
     end
-    
+end
+
+"""
+    update_balance!(e::AbstractEdge, v::AbstractVertex, effective_flow::JuMP.Containers.DenseAxisArray, coeff_sign::Int=1)
+Update balance for non-Transformation vertices with direct time alignment.
+This function performs the following steps:
+1. Find the balance expression for the current edge
+2. Get the coefficient for the current edge
+3. Update the balance expression for the current edge by summing the flow variables over the time blocks
+"""
+function update_balance!(e::AbstractEdge, v::AbstractVertex, effective_flow::JuMP.Containers.DenseAxisArray, coeff_sign::Int=1)
+    for i in balance_ids(v)
+        balance_expr = get_balance(v, i)
+        coeff = coeff_sign * balance_data(e, v, i)
+        for t in time_steps(e)
+            add_to_expression!(balance_expr[t], coeff, effective_flow[t])
+        end
+    end
 end
 
 ###### Templates ######
