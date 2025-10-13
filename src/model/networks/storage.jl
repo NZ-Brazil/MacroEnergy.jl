@@ -253,7 +253,7 @@ function operation_model!(g::Storage, model::Model)
 
     g.storage_level = @variable(
         model,
-        [t in time_interval(g)],
+        [t in time_steps(g)],
         lower_bound = 0.0,
         base_name = "vSTOR_$(g.id)_period$(period_index(g))"
     )
@@ -264,14 +264,14 @@ function operation_model!(g::Storage, model::Model)
             if i == :storage 
                 g.operation_expr[:storage] = @expression(
                     model,
-                    [t in time_interval(g)],
+                    [t in time_steps(g)],
                     -storage_level(g, t) +
                     (1 - loss_fraction(g,timestepbefore(t, 1, subperiods(g)))) *
                     storage_level(g, timestepbefore(t, 1, subperiods(g)))
                 )
             else
                 g.operation_expr[i] =
-                @expression(model, [t in time_interval(g)], 0 * model[:vREF])
+                @expression(model, [t in time_steps(g)], 0 * model[:vREF])
             end
         end
     else
@@ -367,7 +367,7 @@ function operation_model!(g::LongDurationStorage, model::Model)
 
     g.storage_level = @variable(
         model,
-        [t in time_interval(g)],
+        [t in time_steps(g)],
         lower_bound = 0.0,
         base_name = "vSTOR_$(g.id)_period$(period_index(g))"
     )
@@ -380,7 +380,7 @@ function operation_model!(g::LongDurationStorage, model::Model)
                 STARTS = [first(sp) for sp in subperiods(g)];
                 g.operation_expr[:storage] = @expression(
                     model,
-                    [t in time_interval(g)],
+                    [t in time_steps(g)],
                     if t ∈ STARTS 
                         -storage_level(g, t) +
                         (1 - loss_fraction(g,timestepbefore(t, 1, subperiods(g)))) *
@@ -393,7 +393,7 @@ function operation_model!(g::LongDurationStorage, model::Model)
                 )
             else
                 g.operation_expr[i] =
-                @expression(model, [t in time_interval(g)], 0 * model[:vREF])
+                @expression(model, [t in time_steps(g)], 0 * model[:vREF])
             end
         end
     else

@@ -22,7 +22,7 @@ function add_model_constraint!(ct::BalanceConstraint, v::AbstractVertex, model::
 
     ct.constraint_ref = @constraint(
         model,
-        [i in balance_ids(v), t in time_interval(v)],
+        [i in balance_ids(v), t in time_steps(v)],
         get_balance(v, i, t) == 0.0
     )
 

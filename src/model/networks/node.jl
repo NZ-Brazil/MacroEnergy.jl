@@ -185,12 +185,12 @@ function operation_model!(n::Node, model::Model)
             if i == :demand
                 n.operation_expr[:demand] = @expression(
                     model,
-                    [t in time_interval(n)],
+                    [t in time_steps(n)],
                     -demand(n, t) * model[:vREF]
                 )
             else
                 n.operation_expr[i] =
-                    @expression(model, [t in time_interval(n)], 0 * model[:vREF])
+                    @expression(model, [t in time_steps(n)], 0 * model[:vREF])
             end
         end
     end
@@ -198,11 +198,11 @@ function operation_model!(n::Node, model::Model)
     if !all(max_non_served_demand(n) .== 0)
         n.non_served_demand = @variable(
             model,
-            [s in segments_non_served_demand(n), t in time_interval(n)],
+            [s in segments_non_served_demand(n), t in time_steps(n)],
             lower_bound = 0.0,
             base_name = "vNSD_$(id(n))_period$(period_index(n))"
         )
-        for t in time_interval(n)
+        for t in time_steps(n)
             w = current_subperiod(n,t)
             for s in segments_non_served_demand(n)
                 add_to_expression!(
@@ -219,13 +219,13 @@ function operation_model!(n::Node, model::Model)
 
         n.supply_flow = @variable(
             model,
-            [s in supply_segments(n) ,t in time_interval(n)],
+            [s in supply_segments(n) ,t in time_steps(n)],
             lower_bound = 0.0,
             upper_bound = max_supply(n,s),
             base_name = "vSUPPLY_$(id(n))_period$(period_index(n))"
         )
 
-        for t in time_interval(n)
+        for t in time_steps(n)
             w = current_subperiod(n,t)
             for s in supply_segments(n)
 

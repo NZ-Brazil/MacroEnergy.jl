@@ -225,7 +225,7 @@ function get_optimal_flow(
     scaling::Float64=1.0,
     obj_asset_map::Dict{Symbol,Base.RefValue{<:AbstractAsset}}=Dict{Symbol,Base.RefValue{<:AbstractAsset}}()
 )
-    time_axis = time_interval(obj)
+    time_axis = time_steps(obj)
     # Apply sign based on edge direction (negative for Node → Transformation/Storage)
     flow_sign = isa(obj, AbstractEdge) ? get_flow_sign(obj) : 1.0
     if isempty(obj_asset_map)

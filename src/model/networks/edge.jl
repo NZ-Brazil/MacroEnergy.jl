@@ -404,17 +404,17 @@ function operation_model!(e::Edge, model::Model)
     if e.unidirectional
         e.flow = @variable(
             model,
-            [t in time_interval(e)],
+            [t in time_steps(e)],
             lower_bound = 0.0,
             base_name = "vFLOW_$(id(e))_period$(period_index(e))"
         )
     else
-        e.flow = @variable(model, [t in time_interval(e)], base_name = "vFLOW_$(id(e))_period$(period_index(e))")
+        e.flow = @variable(model, [t in time_steps(e)], base_name = "vFLOW_$(id(e))_period$(period_index(e))")
     end
 
     update_balances!(e, model)
 
-    for t in time_interval(e)
+    for t in time_steps(e)
         w = current_subperiod(e,t)
         vom_cost = variable_om_cost(e)
         if vom_cost > 0
@@ -576,28 +576,28 @@ function operation_model!(e::EdgeWithUC, model::Model)
 
     e.flow = @variable(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         lower_bound = 0.0,
         base_name = "vFLOW_$(id(e))_period$(period_index(e))"
     )
 
     e.ucommit = @variable(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         lower_bound = 0.0,
         base_name = "vCOMMIT_$(id(e))_period$(period_index(e))"
     )
 
     e.ustart = @variable(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         lower_bound = 0.0,
         base_name = "vSTART_$(id(e))_period$(period_index(e))"
     )
 
     e.ushut = @variable(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         lower_bound = 0.0,
         base_name = "vSHUT_$(id(e))_period$(period_index(e))"
     )
@@ -606,7 +606,7 @@ function operation_model!(e::EdgeWithUC, model::Model)
 
     update_startup_fuel_balance!(e)
 
-    for t in time_interval(e)
+    for t in time_steps(e)
 
         w = current_subperiod(e,t)
         vom_cost = variable_om_cost(e)
@@ -643,15 +643,15 @@ function operation_model!(e::EdgeWithUC, model::Model)
     @constraints(
         model,
         begin
-            [t in time_interval(e)], ucommit(e, t) <= capacity(e) / capacity_size(e)
-            [t in time_interval(e)], ustart(e, t) <= capacity(e) / capacity_size(e)
-            [t in time_interval(e)], ushut(e, t) <= capacity(e) / capacity_size(e)
+            [t in time_steps(e)], ucommit(e, t) <= capacity(e) / capacity_size(e)
+            [t in time_steps(e)], ustart(e, t) <= capacity(e) / capacity_size(e)
+            [t in time_steps(e)], ushut(e, t) <= capacity(e) / capacity_size(e)
         end
     )
 
     @constraint(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         ucommit(e, t) - ucommit(e, timestepbefore(t, 1, subperiods(e))) ==
         ustart(e, t) - ushut(e, t)
     )
@@ -737,23 +737,23 @@ function update_balance_start!(e::AbstractEdge, model::Model)
 
     if e.unidirectional == true
 
-        effective_flow = @expression(model, [t in time_interval(e)], flow(e, t))
+        effective_flow = @expression(model, [t in time_steps(e)], flow(e, t))
 
     elseif e.unidirectional == false && lossy_edge(e)
-        flow_pos = @variable(model, [t in time_interval(e)], lower_bound = 0.0, base_name = "vFLOWPOS_$(id(e))_period$(period_index(e))")
-        flow_neg = @variable(model, [t in time_interval(e)], lower_bound = 0.0, base_name = "vFLOWNEG_$(id(e))_period$(period_index(e))")
+        flow_pos = @variable(model, [t in time_steps(e)], lower_bound = 0.0, base_name = "vFLOWPOS_$(id(e))_period$(period_index(e))")
+        flow_neg = @variable(model, [t in time_steps(e)], lower_bound = 0.0, base_name = "vFLOWNEG_$(id(e))_period$(period_index(e))")
 
-        @constraint(model, [t in time_interval(e)], flow_pos[t] - flow_neg[t] == flow(e, t))
+        @constraint(model, [t in time_steps(e)], flow_pos[t] - flow_neg[t] == flow(e, t))
 
         if isa(e, EdgeWithUC)
-            @constraint(model, [t in time_interval(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t))
         else
-            @constraint(model, [t in time_interval(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e))
         end
 
-        effective_flow = @expression(model, [t in time_interval(e)], flow_pos[t] - (1 - loss_fraction(e,t)) * flow_neg[t])
+        effective_flow = @expression(model, [t in time_steps(e)], flow_pos[t] - (1 - loss_fraction(e,t)) * flow_neg[t])
     elseif e.unidirectional == false && !lossy_edge(e)
-        effective_flow = @expression(model, [t in time_interval(e)], flow(e, t))
+        effective_flow = @expression(model, [t in time_steps(e)], flow(e, t))
     end
 
     update_balance!(e, v, effective_flow, -1)
@@ -764,23 +764,23 @@ function update_balance_end!(e::AbstractEdge, model::Model)
     v = end_vertex(e)
 
     if e.unidirectional == true
-        effective_flow = @expression(model, [t in time_interval(e)], (1-loss_fraction(e,t)) * flow(e, t))
+        effective_flow = @expression(model, [t in time_steps(e)], (1-loss_fraction(e,t)) * flow(e, t))
     elseif e.unidirectional == false && lossy_edge(e)
     
-        flow_pos = @variable(model, [t in time_interval(e)], lower_bound = 0.0, base_name = "vFLOWPOS_$(id(e))_period$(period_index(e))")
-        flow_neg = @variable(model, [t in time_interval(e)], lower_bound = 0.0, base_name = "vFLOWNEG_$(id(e))_period$(period_index(e))")
+        flow_pos = @variable(model, [t in time_steps(e)], lower_bound = 0.0, base_name = "vFLOWPOS_$(id(e))_period$(period_index(e))")
+        flow_neg = @variable(model, [t in time_steps(e)], lower_bound = 0.0, base_name = "vFLOWNEG_$(id(e))_period$(period_index(e))")
 
-        @constraint(model, [t in time_interval(e)], flow_pos[t] - flow_neg[t] == flow(e, t))
+        @constraint(model, [t in time_steps(e)], flow_pos[t] - flow_neg[t] == flow(e, t))
 
         if isa(e, EdgeWithUC)
-            @constraint(model, [t in time_interval(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t))
         else
-            @constraint(model, [t in time_interval(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e))
         end
 
-        effective_flow = @expression(model, [t in time_interval(e)], (1 - loss_fraction(e,t)) * flow_pos[t] - flow_neg[t])
+        effective_flow = @expression(model, [t in time_steps(e)], (1 - loss_fraction(e,t)) * flow_pos[t] - flow_neg[t])
     elseif e.unidirectional == false && !lossy_edge(e)
-        effective_flow = @expression(model, [t in time_interval(e)], flow(e, t))
+        effective_flow = @expression(model, [t in time_steps(e)], flow(e, t))
     end
 
     update_balance!(e, v, effective_flow, 1)
