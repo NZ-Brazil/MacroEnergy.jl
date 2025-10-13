@@ -519,8 +519,36 @@ EdgeWithUC(
 ) = make_edge_UC(id, data, time_data, commodity, start_vertex, end_vertex)
 
 ######### EdgeWithUC interface #########
-min_down_time(e::EdgeWithUC) = e.min_down_time;
-min_up_time(e::EdgeWithUC) = e.min_up_time;
+"""
+    rescale_data(edge::AbstractEdge, field_name::Symbol, resolution::AbstractResolution)
+
+Convert a time-based parameter from reference timesteps to model timesteps.
+For example, if `min_up_time = 6` reference hours and `block_length = 3` hours/timestep,
+this returns `2` model timesteps.
+"""
+function rescale_data(edge::AbstractEdge, field_name::Symbol, resolution::AbstractResolution)
+    input_data = getfield(edge, field_name)
+    
+    if isa(resolution, UniformResolution)
+        block_length = resolution.block_length
+        
+        # Check if input_data is divisible by block_length
+        if !iszero(input_data % block_length)
+            error("$(field_name) = $(input_data) is not divisible by block_length $(block_length) for edge $(edge.id). " *
+                  "Please ensure $(field_name) is a multiple of the time resolution.")
+        end
+        
+        return div(input_data, block_length)
+        
+    elseif isa(resolution, FlexibleResolution)
+        error("$(field_name) = $(input_data) cannot be rescaled for edge $(edge.id) with flexible resolution. " *
+              "Time-dependent constraints like min_up_time and min_down_time require uniform resolution.")
+    else
+        error("Unknown resolution type $(typeof(resolution)) for edge $(edge.id).")
+    end
+end
+min_up_time(e::EdgeWithUC) = rescale_data(e, :min_up_time, e.timedata.resolution)
+min_down_time(e::EdgeWithUC) = rescale_data(e, :min_down_time, e.timedata.resolution)
 startup_cost(e::EdgeWithUC) = e.startup_cost;
 startup_fuel_consumption(e::EdgeWithUC) = e.startup_fuel_consumption;
 startup_fuel_balance_id(e::EdgeWithUC) = e.startup_fuel_balance_id;
