@@ -48,6 +48,7 @@ function load!(system::System, data::AbstractDict{Symbol,Any})::Nothing
                 data[:instance_data],
                 system,
             )
+            isa(asset_instance, AbstractAsset) && update_time_intervals_in_balance_equations!(asset_instance)
             add!(system, asset_instance)
 
         elseif isa(data[:instance_data], AbstractVector{<:AbstractDict{Symbol,Any}})

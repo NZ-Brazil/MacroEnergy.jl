@@ -164,7 +164,7 @@ edges = get_edges(thermal_plant)
 """
 get_edges(asset::AbstractAsset; return_ids_map::Bool=false) = return_ids_map ? get_macro_objs_with_map(asset, AbstractEdge) : get_macro_objs(asset, AbstractEdge)
 get_edges(assets::Vector{<:AbstractAsset}; return_ids_map::Bool=false) = return_ids_map ? get_macro_objs_with_map(assets, AbstractEdge) : get_macro_objs(assets, AbstractEdge)
-
+get_transformations(asset::AbstractAsset) = get_macro_objs(asset, Transformation)
 get_storages(asset::AbstractAsset; return_ids_map::Bool=false) = return_ids_map ? get_macro_objs_with_map(asset, AbstractStorage) : get_macro_objs(asset, AbstractStorage)
 
 # The following functions are used to extract the edges with capacity variables from a Vector of Assets or a single Asset.

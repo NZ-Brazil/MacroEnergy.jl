@@ -80,6 +80,7 @@ demand_data = balance_data(elec_node, :demand)
 ```
 """
 balance_data(v::AbstractVertex, i::Symbol) = v.balance_data[i]
+balance_data(v::AbstractVertex) = v.balance_data
 
 """
     get_balance(v::AbstractVertex, i::Symbol)
