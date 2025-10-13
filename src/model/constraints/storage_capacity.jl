@@ -14,13 +14,13 @@ Add a storage capacity constraint to the storage `g`. The functional form of the
     \text{storage\_level(g, t)} \leq \text{capacity(g)}
 \end{aligned}
 ```
-for each time `t` in `time_interval(g)` for the storage `g`.
+for each time `t` in `time_steps(g)` for the storage `g`.
 """
 function add_model_constraint!(ct::StorageCapacityConstraint, g::AbstractStorage, model::Model)
 
     ct.constraint_ref = @constraint(
         model,
-        [t in time_interval(g)],
+        [t in time_steps(g)],
         storage_level(g, t) <= capacity(g)
     )
 

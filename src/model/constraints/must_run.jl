@@ -14,7 +14,7 @@ Add a must run constraint to the edge `e`. The functional form of the constraint
     \text{flow(e, t)} = \text{availability(e, t)} \times \text{capacity(e)}
 \end{aligned}
 ```
-for each time `t` in `time_interval(e)` for the edge `e`.
+for each time `t` in `time_steps(e)` for the edge `e`.
 
 !!! note "Must run constraint"
     This constraint is available only for unidirectional edges.
@@ -24,7 +24,7 @@ function add_model_constraint!(ct::MustRunConstraint, e::Edge, model::Model)
 
         ct.constraint_ref = @constraint(
             model,
-            [t in time_interval(e)],
+            [t in time_steps(e)],
             flow(e, t) == availability(e, t) * capacity(e)
         )
     else

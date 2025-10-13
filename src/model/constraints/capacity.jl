@@ -23,7 +23,7 @@ If the edge is bidirectional, the constraint is:
 \end{aligned}
 ```
 
-for each time `t` in `time_interval(e)` for the edge `e` and each `i` in `{0, 1}`. The function `availability` returns the time series of the capacity factor of the edge at time `t`.
+for each time `t` in `time_steps(e)` for the edge `e` and each `i` in `{0, 1}`. The function `availability` returns the time series of the capacity factor of the edge at time `t`.
 """
 function add_model_constraint!(ct::CapacityConstraint, e::Edge, model::Model)
 
@@ -31,13 +31,13 @@ function add_model_constraint!(ct::CapacityConstraint, e::Edge, model::Model)
 
         ct.constraint_ref = @constraint(
             model,
-            [t in time_interval(e)],
+            [t in time_steps(e)],
             flow(e, t) <= availability(e, t) * capacity(e)
         )
     else
         ct.constraint_ref = @constraint(
             model,
-            [i in [-1, 1], t in time_interval(e)],
+            [i in [-1, 1], t in time_steps(e)],
             i * flow(e, t) <= availability(e, t) * capacity(e)
         )
     end
@@ -64,7 +64,7 @@ If the edge is bidirectional, the constraint is:
 \end{aligned}
 ```
 
-for each time `t` in `time_interval(e)` for the edge `e` and each `i` in `[-1, 1]`. The function `availability` returns the time series of the availability of the edge at time `t`.
+for each time `t` in `time_steps(e)` for the edge `e` and each `i` in `[-1, 1]`. The function `availability` returns the time series of the availability of the edge at time `t`.
 """
 function add_model_constraint!(ct::CapacityConstraint, e::EdgeWithUC, model::Model)
 
@@ -72,13 +72,13 @@ function add_model_constraint!(ct::CapacityConstraint, e::EdgeWithUC, model::Mod
 
         ct.constraint_ref = @constraint(
             model,
-            [t in time_interval(e)],
+            [t in time_steps(e)],
             flow(e, t) <= availability(e, t) * capacity_size(e) * ucommit(e, t)
         )
     else
         ct.constraint_ref = @constraint(
             model,
-            [i in [-1, 1], t in time_interval(e)],
+            [i in [-1, 1], t in time_steps(e)],
             i * flow(e, t) <= availability(e, t) * capacity_size(e) * ucommit(e, t)
         )
     end

@@ -213,7 +213,7 @@ function get_all_balance_constraints(system::System)
             for c in n.constraints
                 if isa(c, BalanceConstraint)
                     for i in balance_ids(n)
-                        for t in time_interval(n)
+                        for t in time_steps(g)
                             push!(balance_constraints, c.constraint_ref[i,t])
                         end
                     end

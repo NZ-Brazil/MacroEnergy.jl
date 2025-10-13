@@ -21,17 +21,17 @@ On the other hand, the ramping down limit constraint is:
     \text{flow(e, t-1)} - \text{flow(e, t)} + \text{regulation\_term(e, t)} + \text{reserves\_term(e, t)} - \text{ramp\_down\_fraction(e)} \times \text{capacity(e)} \leq 0
 \end{aligned}
 ```
-for each time `t` in `time_interval(e)` for the edge `e`. The function [`timestepbefore`](@ref) is used to perform the time wrapping within the subperiods and get the correct time step before `t`.
+for each time `t` in `time_steps(e)` for the edge `e`. The function [`timestepbefore`](@ref) is used to perform the time wrapping within the subperiods and get the correct time step before `t`.
 """
 function add_model_constraint!(ct::RampingLimitConstraint, e::Edge, model::Model)
 
     #### For now these are set to zero because we are not modeling reserves
-    reserves_term = @expression(model, [t in time_interval(e)], 0 * model[:vREF])
-    regulation_term = @expression(model, [t in time_interval(e)], 0 * model[:vREF])
+    reserves_term = @expression(model, [t in time_steps(e)], 0 * model[:vREF])
+    regulation_term = @expression(model, [t in time_steps(e)], 0 * model[:vREF])
 
     eRampUp = @expression(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         flow(e, t) - flow(e, timestepbefore(t, 1, subperiods(e))) +
         regulation_term[t] +
         reserves_term[t] - ramp_up_fraction(e) * capacity(e)
@@ -39,7 +39,7 @@ function add_model_constraint!(ct::RampingLimitConstraint, e::Edge, model::Model
 
     eRampDown = @expression(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         flow(e, timestepbefore(t, 1, subperiods(e))) - flow(e, t) - regulation_term[t] +
         reserves_term[timestepbefore(t, 1, subperiods(e))] -
         ramp_down_fraction(e) * capacity(e)
@@ -49,7 +49,7 @@ function add_model_constraint!(ct::RampingLimitConstraint, e::Edge, model::Model
 
     ct.constraint_ref = @constraint(
         model,
-        [s in [:RampUp, :RampDown], t in time_interval(e)],
+        [s in [:RampUp, :RampDown], t in time_steps(e)],
         ramp_expr_dict[s][t] <= 0
     )
 
@@ -75,17 +75,17 @@ On the other hand, the ramping down limit constraint is:
 \end{aligned}
 ```
 
-for each time `t` in `time_interval(e)` for the edge `e`. The function [`timestepbefore`](@ref) is used to perform the time wrapping within the subperiods and get the correct time step before `t`.
+for each time `t` in `time_steps(e)` for the edge `e`. The function [`timestepbefore`](@ref) is used to perform the time wrapping within the subperiods and get the correct time step before `t`.
 """
 function add_model_constraint!(ct::RampingLimitConstraint, e::EdgeWithUC, model::Model)
 
     #### For now these are set to zero because we are not modeling reserves
-    reserves_term = @expression(model, [t in time_interval(e)], 0 * model[:vREF])
-    regulation_term = @expression(model, [t in time_interval(e)], 0 * model[:vREF])
+    reserves_term = @expression(model, [t in time_steps(e)], 0 * model[:vREF])
+    regulation_term = @expression(model, [t in time_steps(e)], 0 * model[:vREF])
 
     eRampUp = @expression(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         flow(e, t) - flow(e, timestepbefore(t, 1, subperiods(e))) +
         regulation_term[t] +
         reserves_term[t] - (
@@ -98,7 +98,7 @@ function add_model_constraint!(ct::RampingLimitConstraint, e::EdgeWithUC, model:
 
     eRampDown = @expression(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         flow(e, timestepbefore(t, 1, subperiods(e))) - flow(e, t) - regulation_term[t] +
         reserves_term[timestepbefore(t, 1, subperiods(e))] - (
             ramp_down_fraction(e) * capacity_size(e) * (ucommit(e, t) - ustart(e, t)) -
@@ -113,7 +113,7 @@ function add_model_constraint!(ct::RampingLimitConstraint, e::EdgeWithUC, model:
 
     ct.constraint_ref = @constraint(
         model,
-        [s in [:RampUp, :RampDown], t in time_interval(e)],
+        [s in [:RampUp, :RampDown], t in time_steps(e)],
         ramp_expr_dict[s][t] <= 0
     )
     return nothing

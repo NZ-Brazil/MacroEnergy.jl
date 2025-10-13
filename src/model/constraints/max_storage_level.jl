@@ -14,13 +14,13 @@ Add a max storage level constraint to the storage `g`. The functional form of th
     \text{storage\_level(g, t)} \leq \text{max\_storage\_level(g)} \times \text{capacity(g)}
 \end{aligned}
 ```
-for each time `t` in `time_interval(g)` for the storage `g`.
+for each time `t` in `time_steps(g)` for the storage `g`.
 """
 function add_model_constraint!(ct::MaxStorageLevelConstraint, g::AbstractStorage, model::Model)
 
     ct.constraint_ref = @constraint(
         model,
-        [t in time_interval(g)],
+        [t in time_steps(g)],
         storage_level(g, t) <= max_storage_level(g) * capacity(g)
     )
 

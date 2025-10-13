@@ -225,7 +225,7 @@ function get_optimal_flow(
     scaling::Float64=1.0,
     obj_asset_map::Dict{Symbol,Base.RefValue{<:AbstractAsset}}=Dict{Symbol,Base.RefValue{<:AbstractAsset}}()
 ) where {T<:Union{AbstractEdge,Storage,Node}}
-    time_axis = time_interval(obj)
+    time_axis = time_steps(obj)
     if isempty(obj_asset_map)
         return DataFrame(
             case_name = fill(missing, length(time_axis)),
