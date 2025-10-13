@@ -6,7 +6,7 @@ macro AbstractEdgeBaseAttributes()
         timedata::TimeData
         start_vertex::AbstractVertex
         end_vertex::AbstractVertex
-        availability::Vector{Float64} = Float64[]
+        availability::MacroTimeSeries = MacroTimeSeries()
         can_expand::Bool = $edge_defaults[:can_expand]
         can_retire::Bool = $edge_defaults[:can_retire]
         can_retrofit::Bool = $edge_defaults[:can_retrofit]
@@ -155,6 +155,10 @@ function make_edge(
         if haskey(filtered_data, key)
             delete!(filtered_data, key)
         end
+    end
+    # Time series
+    if haskey(filtered_data, :availability) && isa(data[:availability], Vector{Float64})
+        filtered_data[:availability] = MacroTimeSeries(filtered_data[:availability], time_data.resolution)
     end
     if haskey(filtered_data,:loss_fraction) && !isa(filtered_data[:loss_fraction], Vector{Float64})
         filtered_data[:loss_fraction] = [filtered_data[:loss_fraction]];
@@ -516,6 +520,12 @@ function make_edge_UC(
             delete!(filtered_data, key)
         end
     end
+
+    # Time series
+    if haskey(filtered_data, :availability) && isa(data[:availability], Vector{Float64})
+        filtered_data[:availability] = MacroTimeSeries(filtered_data[:availability], time_data.resolution)
+    end
+
     _edge = EdgeWithUC{commodity}(;
         id = id,
         timedata = time_data,
