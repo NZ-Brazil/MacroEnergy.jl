@@ -192,3 +192,5 @@ function edges_with_capacity_variables(asset::AbstractAsset; return_ids_map::Boo
         return AbstractEdge[edge for edge in get_edges(asset) if has_capacity(edge)]
     end
 end
+
+get_transformations(asset::AbstractAsset) = get_macro_objs(asset, Transformation)

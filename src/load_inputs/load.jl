@@ -40,7 +40,9 @@ function load!(system::System, data::AbstractDict{Symbol,Any})::Nothing
                 make_retrofit_options(system, data) # Make retrofitting assets for assets with retrofit_options
             end
 
-            add!(system, make(data[:instance_data][:type], data[:instance_data], system))
+            component = make(data[:instance_data][:type], data[:instance_data], system)
+            isa(component, AbstractAsset) && update_time_intervals_in_balance_equations!(component)
+            add!(system, component)
 
         elseif isa(data[:instance_data], AbstractVector{<:AbstractDict{Symbol,Any}})
             load!(system, expand_instances(data))
