@@ -32331,20 +32331,9 @@
         }
     ],
     "time_data": {
-        "HoursPerSubperiod": {
-            "Biomass_Herb": 168,
-            "CO2Captured": 168,
-            "Hydrogen": 168,
-            "NaturalGas": 168,
-            "Biomass_Wood": 168,
-            "Biomass": 168,
-            "Fossil_NaturalGas": 168,
-            "Uranium": 168,
-            "Electricity": 168,
-            "CO2": 168
-        },
+        "TimeStepsPerSubperiod": 168,
         "NumberOfSubperiods": 3,
-        "HoursPerTimeStep": {
+        "TimeResolution": {
             "Biomass_Herb": 1,
             "CO2Captured": 1,
             "Hydrogen": 1,

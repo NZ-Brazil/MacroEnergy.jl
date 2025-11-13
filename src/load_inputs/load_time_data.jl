@@ -106,7 +106,7 @@ function validate_time_data(
     validate_commodities(keys(time_data[:TimeResolution]), macro_commodities)
 end
 
-function validate_time_resolution(time_resolution::Dict{Symbol,Any}, time_steps_per_subperiod::Int)
+function validate_time_resolution(time_resolution::Dict{Symbol,<:Any}, time_steps_per_subperiod::Int)
 
     for resolution in values(time_resolution)
         if isa(resolution, Vector)
@@ -130,6 +130,9 @@ function validate_time_resolution(time_resolution::Dict{Symbol,Any}, time_steps_
 end
 
 function can_span_subperiods(block_lengths::Vector{Int}, target::Int)
+    isempty(block_lengths) && return error("Block lengths cannot be empty")
+    target > 0 || return error("Target must be positive")
+
     remaining_blocks = copy(block_lengths)
     
     while !isempty(remaining_blocks)
@@ -179,9 +182,12 @@ end
 
 function create_commodity_timedata(
     sym::Symbol,
-    type::DataType,
+    type::DataType, #TODO: remove this parameter
     time_data::AbstractDict{Symbol,Any}
 )
+    # ReferenceClock = 1 by default
+    reference_clock = get(time_data, :ReferenceClock, 1)
+
     number_of_subperiods = time_data[:NumberOfSubperiods];
 
     timesteps_per_subperiod = time_data[:TimeStepsPerSubperiod]
@@ -190,7 +196,7 @@ function create_commodity_timedata(
 
     period_length = number_of_subperiods * timesteps_per_subperiod;
 
-    timestep_resolution = get_resolution(time_data[:TimeResolution][sym], time_data[:ReferenceClock], period_length)
+    timestep_resolution = get_resolution(time_data[:TimeResolution][sym], reference_clock, period_length)
 
     validate_temporal_resolution(period_length, timestep_resolution)
 
@@ -212,7 +218,11 @@ function create_commodity_timedata(
     )
 end
 
-function get_resolution(time_resolution_input::Union{Int, Vector{Int}}, reference_timestep::Real=1, period_length::Int=8760)
+function get_resolution(
+    time_resolution_input::Union{Int, Vector{Int}}, 
+    reference_timestep::Real=1,
+    period_length::Int=8760
+)
     reference_timestep !== 1 && @error "Reference timestep is not 1, this is not supported yet"
     TimeResolution(time_resolution_input, period_length)
 end
@@ -239,7 +249,7 @@ and NumberOfSubperiods = 52, this creates 52 subperiods of 7 model timesteps eac
 # Returns
 Vector{UnitRange{Int}}: Each subperiod as a range of model timesteps (e.g., [1:7, 8:14, ...])
 """
-function create_subperiods(time_data::AbstractDict{Symbol,Any}, resolution::UniformResolution)
+function create_subperiods(time_data::AbstractDict{Symbol,<:Any}, resolution::UniformResolution)
     number_of_subperiods = time_data[:NumberOfSubperiods]
     reference_timesteps_per_subperiod = time_data[:TimeStepsPerSubperiod]
     block_length = resolution.block_length
@@ -273,7 +283,7 @@ the first subperiod might span model blocks 1:6.
 # Returns
 Vector{UnitRange{Int}}: Each subperiod as a range of model block indices
 """
-function create_subperiods(time_data::AbstractDict{Symbol,Any}, resolution::FlexibleResolution)
+function create_subperiods(time_data::AbstractDict{Symbol,<:Any}, resolution::FlexibleResolution)
     number_of_subperiods = time_data[:NumberOfSubperiods]
     reference_timesteps_per_subperiod = time_data[:TimeStepsPerSubperiod]
     

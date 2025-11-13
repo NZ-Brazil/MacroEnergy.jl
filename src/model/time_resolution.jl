@@ -29,6 +29,20 @@ end
 # Default constructor
 UniformResolution() = UniformResolution(1, 0)
 
+# Equality for UniformResolution
+function Base.:(==)(a::UniformResolution, b::UniformResolution)
+    return all(getproperty(a, prop) == getproperty(b, prop) for prop in propertynames(a))
+end
+
+# Hash for UniformResolution
+function Base.hash(a::UniformResolution, h::UInt)
+    ht = hash(UniformResolution, h)
+    for prop in propertynames(a)
+        ht = hash(getproperty(a, prop), ht)
+    end
+    return ht
+end
+
 # Flexible resolution: e.g., [1,3,4,6,7], where each number is the length of the block in reference timesteps
 Base.@kwdef struct FlexibleResolution <: AbstractResolution
     block_lengths::Vector{Int}
@@ -38,6 +52,8 @@ Base.@kwdef struct FlexibleResolution <: AbstractResolution
     period_length::Int
 
     function FlexibleResolution(block_lengths::Vector{Int}, period_length::Int)
+        isempty(block_lengths) && return error("Block lengths cannot be empty")
+        period_length > 0 || return error("Period length must be positive")
         @assert all(block_lengths .> 0) "All block lengths must be positive"
 
         first_steps_in_time_interval = cumsum([1; block_lengths[1:end-1]])
@@ -56,6 +72,20 @@ Base.@kwdef struct FlexibleResolution <: AbstractResolution
         
         new(block_lengths, first_steps_in_time_interval, time_steps, time_interval, period_length)
     end
+end
+
+# Equality for FlexibleResolution
+function Base.:(==)(a::FlexibleResolution, b::FlexibleResolution)
+    return all(getproperty(a, prop) == getproperty(b, prop) for prop in propertynames(a))
+end
+
+# Hash for FlexibleResolution
+function Base.hash(a::FlexibleResolution, h::UInt)
+    ht = hash(FlexibleResolution, h)
+    for prop in propertynames(a)
+        ht = hash(getproperty(a, prop), ht)
+    end
+    return ht
 end
 
 TimeResolution(time_resolution_input::Int, period_length::Int) = UniformResolution(time_resolution_input, period_length)
