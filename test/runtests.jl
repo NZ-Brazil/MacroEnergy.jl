@@ -25,5 +25,9 @@ with_logger(test_logger) do
     Test.@testset verbose = true "Myopic Functionality" begin
         include("test_myopic.jl")
     end
+
+    Test.@testset verbose = true "Multi-Resolution Time" begin
+        include("test_multi_resolution.jl")
+    end
     return nothing
 end

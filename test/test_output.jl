@@ -44,6 +44,7 @@ import MacroEnergy:
     Storage,
     Transformation,
     Edge,
+    UniformResolution,
     filter_edges_by_commodity!
 
 
@@ -52,35 +53,38 @@ function test_writing_output()
     # Mock objects to use in tests
     node1 = Node{Electricity}(;
         id=:node1,
-        timedata=TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         max_nsd=[0.0, 1.0, 2.0]
     )
     node2 = Node{Electricity}(;
         id=:node2,
-        timedata=TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         max_nsd=[3.0, 4.0, 5.0]
     )
 
     storage = Storage{Electricity}(;
         id=:storage1,
-        timedata=TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         new_capacity=100.0,
         storage_level=[1.0, 2.0, 3.0]
@@ -88,12 +92,13 @@ function test_writing_output()
 
     transformation = Transformation(;
         id=:transformation1,
-        timedata=TimeData{Electricity}(;
-            time_interval=1:100,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         )
     )
 
@@ -101,12 +106,13 @@ function test_writing_output()
         id=:edge1,
         start_vertex=node1,
         end_vertex=node2,
-        timedata=TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         capacity=100.0,
         flow=[1.0, 2.0, 3.0]
@@ -116,12 +122,13 @@ function test_writing_output()
         id=:edge2,
         start_vertex=node1,
         end_vertex=storage,
-        timedata=TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         capacity=101.0,
         flow=[4.0, 5.0, 6.0]
@@ -132,12 +139,13 @@ function test_writing_output()
         start_vertex=node1,
         end_vertex=transformation,
         has_capacity=true,
-        timedata=TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         capacity=102.0,
         flow=[7.0, 8.0, 9.0]
@@ -147,12 +155,13 @@ function test_writing_output()
         id=:edge4,
         start_vertex=storage,
         end_vertex=node2,
-        timedata=TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         capacity=103.0,
         flow=[10.0, 11.0, 12.0]
@@ -162,12 +171,13 @@ function test_writing_output()
         id=:edge5,
         start_vertex=transformation,
         end_vertex=node2,
-        timedata=TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         capacity=104.0,
         flow=[13.0, 14.0, 15.0]
@@ -177,12 +187,13 @@ function test_writing_output()
         id=:edge6,
         start_vertex=storage,
         end_vertex=transformation,
-        timedata=TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+            timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         capacity=105.0,
         flow=[16.0, 17.0, 18.0]
@@ -192,12 +203,13 @@ function test_writing_output()
         id=:edge3ng,
         start_vertex=transformation,
         end_vertex=node1,
-        timedata=TimeData{NaturalGas}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         capacity=102.0,
         flow=[7.0, 8.0, 9.0]
@@ -207,12 +219,13 @@ function test_writing_output()
         id=:edge3co2,
         start_vertex=transformation,
         end_vertex=node1,
-        timedata=TimeData{CO2}(;
-            time_interval=1:3,
-            hours_per_timestep=10,
+        timedata=TimeData(;
+            resolution=UniformResolution(10, 30),
+            period_index=1,
             subperiods=[1:10, 11:20, 21:30],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         capacity=102.0,
         flow=[7.0, 8.0, 9.0]

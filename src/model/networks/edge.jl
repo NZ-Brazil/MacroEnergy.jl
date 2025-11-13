@@ -496,7 +496,7 @@ function make_edge_UC(
     end
 
     # Time series
-    if haskey(filtered_data, :availability) && isa(data[:availability], Vector{Float64})
+    if haskey(filtered_data, :availability) && isa(data[:availability], Vector{T} where {T<:Real})
         filtered_data[:availability] = MacroTimeSeries(filtered_data[:availability], time_data.resolution)
     end
 

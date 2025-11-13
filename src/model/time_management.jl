@@ -10,7 +10,7 @@ Base.@kwdef mutable struct TimeData <: AbstractTimeData
 end
 
 """
-Build lookup table for timestep-to-subperiod mapping (optimization).
+Build lookup table for timestep-to-subperiod mapping.
 Call this after subperiods are finalized.
 """
 function build_timestep_lookup!(timedata::TimeData)

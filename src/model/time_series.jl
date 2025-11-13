@@ -27,7 +27,7 @@ MacroTimeSeries(data::Vector{T}, resolution::R) where {T, R} = MacroTimeSeries(d
 function validate_data_resolution_match(data::Vector, resolution::AbstractResolution)
     steps = time_steps(resolution)
     if length(data)!== 1 && (length(data) != length(steps))
-        @error "Data length $(length(data)) doesn't match expected length $(length(steps)) for resolution $(resolution)"
+        error("Data length $(length(data)) doesn't match expected length $(length(steps)) for resolution $(resolution)")
     end
 end
 

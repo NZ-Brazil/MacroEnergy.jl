@@ -71,10 +71,10 @@ function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodit
         end
     end
     # Time series
-    if haskey(data, :demand) && isa(data[:demand], Vector{Float64})
+    if haskey(data, :demand) && isa(data[:demand], Vector{T} where {T<:Real})
         data[:demand] = MacroTimeSeries(data[:demand], time_data.resolution)
     end
-    if haskey(data, :price) && isa(data[:price], Vector{Float64})
+    if haskey(data, :price) && isa(data[:price], Vector{T} where {T<:Real})
         data[:price] = MacroTimeSeries(data[:price], time_data.resolution)
     end
 
