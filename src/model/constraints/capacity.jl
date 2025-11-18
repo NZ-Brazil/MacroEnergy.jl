@@ -33,13 +33,13 @@ function add_model_constraint!(ct::CapacityConstraint, e::Edge, model::Model)
             ct.constraint_ref = @constraint(
                 model,
                 [t in time_steps(e)],
-                flow(e, t) <= availability(e, t) * capacity(e)
+                flow(e, t) <= availability(e, t) * capacity(e) * time_interval_length(t,time_resolution(e))
             )
         else
             ct.constraint_ref = @constraint(
                 model,
                 [i in [-1, 1], t in time_steps(e)],
-                i * flow(e, t) <= availability(e, t) * capacity(e)
+                i * flow(e, t) <= availability(e, t) * capacity(e) * time_interval_length(t,time_resolution(e))
             )
         end
     else
@@ -75,7 +75,7 @@ function add_model_constraint!(ct::CapacityConstraint, e::EdgeWithUC, model::Mod
     ct.constraint_ref = @constraint(
         model,
         [t in time_steps(e)],
-        flow(e, t) <= availability(e, t) * capacity_size(e) * ucommit(e, t)
+        flow(e, t) <= availability(e, t) * capacity_size(e) * ucommit(e, t) * time_interval_length(t,time_resolution(e))
     )
 
     return nothing

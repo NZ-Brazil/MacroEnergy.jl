@@ -774,9 +774,9 @@ function update_balance_start!(e::AbstractEdge, model::Model)
         @constraint(model, [t in time_steps(e)], flow_pos[t] - flow_neg[t] == flow(e, t))
 
         if isa(e, EdgeWithUC)
-            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t) * time_interval_length(t,time_resolution(e)))
         else
-            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e) * time_interval_length(t,time_resolution(e)))
         end
 
         effective_flow = @expression(model, [t in time_steps(e)], flow_pos[t] - (1 - loss_fraction(e,t)) * flow_neg[t])
@@ -801,9 +801,9 @@ function update_balance_end!(e::AbstractEdge, model::Model)
         @constraint(model, [t in time_steps(e)], flow_pos[t] - flow_neg[t] == flow(e, t))
 
         if isa(e, EdgeWithUC)
-            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t) * time_interval_length(t,time_resolution(e)))
         else
-            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e) * time_interval_length(t,time_resolution(e)))
         end
 
         effective_flow = @expression(model, [t in time_steps(e)], (1 - loss_fraction(e,t)) * flow_pos[t] - flow_neg[t])

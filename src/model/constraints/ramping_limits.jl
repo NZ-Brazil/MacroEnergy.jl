@@ -34,7 +34,8 @@ function add_model_constraint!(ct::RampingLimitConstraint, e::Edge, model::Model
         [t in time_steps(e)],
         flow(e, t) - flow(e, timestepbefore(t, 1, subperiods(e))) +
         regulation_term[t] +
-        reserves_term[t] - ramp_up_fraction(e) * capacity(e)
+        reserves_term[t] - 
+        ramp_up_fraction(e) * capacity(e) * time_interval_length(t,time_resolution(e))
     )
 
     eRampDown = @expression(
@@ -42,7 +43,7 @@ function add_model_constraint!(ct::RampingLimitConstraint, e::Edge, model::Model
         [t in time_steps(e)],
         flow(e, timestepbefore(t, 1, subperiods(e))) - flow(e, t) - regulation_term[t] +
         reserves_term[timestepbefore(t, 1, subperiods(e))] -
-        ramp_down_fraction(e) * capacity(e)
+        ramp_down_fraction(e) * capacity(e) * time_interval_length(t,time_resolution(e))
     )
 
     ramp_expr_dict = Dict(:RampUp => eRampUp, :RampDown => eRampDown)
@@ -88,11 +89,11 @@ function add_model_constraint!(ct::RampingLimitConstraint, e::EdgeWithUC, model:
         [t in time_steps(e)],
         flow(e, t) - flow(e, timestepbefore(t, 1, subperiods(e))) +
         regulation_term[t] +
-        reserves_term[t] - (
+        reserves_term[t] - time_interval_length(t,time_resolution(e))* (
             ramp_up_fraction(e) * capacity_size(e) * (ucommit(e, t) - ustart(e, t)) +
             min(availability(e, t), max(min_flow_fraction(e), ramp_up_fraction(e))) *
-            capacity_size(e) *
-            ustart(e, t) - min_flow_fraction(e) * capacity_size(e) * ushut(e, t)
+            capacity_size(e) * ustart(e, t) - 
+            min_flow_fraction(e) * capacity_size(e) * ushut(e, t)
         )
     )
 
@@ -100,12 +101,11 @@ function add_model_constraint!(ct::RampingLimitConstraint, e::EdgeWithUC, model:
         model,
         [t in time_steps(e)],
         flow(e, timestepbefore(t, 1, subperiods(e))) - flow(e, t) - regulation_term[t] +
-        reserves_term[timestepbefore(t, 1, subperiods(e))] - (
+        reserves_term[timestepbefore(t, 1, subperiods(e))] - time_interval_length(t,time_resolution(e)) * (
             ramp_down_fraction(e) * capacity_size(e) * (ucommit(e, t) - ustart(e, t)) -
             min_flow_fraction(e) * capacity_size(e) * ustart(e, t) +
             min(availability(e, t), max(min_flow_fraction(e), ramp_down_fraction(e))) *
-            capacity_size(e) *
-            ushut(e, t)
+            capacity_size(e) * ushut(e, t)
         )
     )
 

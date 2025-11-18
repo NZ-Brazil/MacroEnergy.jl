@@ -31,7 +31,7 @@ function add_model_constraint!(
     ct.constraint_ref = @constraint(
         model,
         [t in time_steps(g)],
-        flow(e_discharge, t) + flow(e_charge, t) <= capacity(e_discharge)
+        flow(e_discharge, t) + flow(e_charge, t) <= capacity(e_discharge) * time_interval_length(t,time_resolution(e_discharge))
     )
 
     return nothing
