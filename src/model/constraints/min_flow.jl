@@ -23,7 +23,7 @@ function add_model_constraint!(ct::MinFlowConstraint, e::Edge, model::Model)
         ct.constraint_ref = @constraint(
             model,
             [t in time_steps(e)],
-            flow(e, t) >= min_flow_fraction(e) * capacity(e)
+            flow(e, t) >= min_flow_fraction(e) * capacity(e) * time_interval_length(t,time_resolution(e))
         )
     else
         warning("Min flow constraints are available only for unidirectional edges")
@@ -51,7 +51,7 @@ function add_model_constraint!(ct::MinFlowConstraint, e::EdgeWithUC, model::Mode
         ct.constraint_ref = @constraint(
             model,
             [t in time_steps(e)],
-            flow(e, t) >= min_flow_fraction(e) * capacity_size(e) * ucommit(e, t)
+            flow(e, t) >= min_flow_fraction(e) * capacity_size(e) * ucommit(e, t) * time_interval_length(t,time_resolution(e))
         )
     else
         warning("Min flow constraints are available only for unidirectional edges")

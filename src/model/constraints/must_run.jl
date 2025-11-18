@@ -25,7 +25,7 @@ function add_model_constraint!(ct::MustRunConstraint, e::Edge, model::Model)
         ct.constraint_ref = @constraint(
             model,
             [t in time_steps(e)],
-            flow(e, t) == availability(e, t) * capacity(e)
+            flow(e, t) == availability(e, t) * capacity(e) * time_interval_length(t,time_resolution(e))
         )
     else
          @warn "MustRunConstraint required for an edge that is not unidirectional so Macro will not create this constraint"

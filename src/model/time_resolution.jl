@@ -43,6 +43,8 @@ function Base.hash(a::UniformResolution, h::UInt)
     return ht
 end
 
+time_interval_length(step::Int, r::UniformResolution) = r.block_length
+
 # Flexible resolution: e.g., [1,3,4,6,7], where each number is the length of the block in reference timesteps
 Base.@kwdef struct FlexibleResolution <: AbstractResolution
     block_lengths::Vector{Int}
@@ -87,6 +89,8 @@ function Base.hash(a::FlexibleResolution, h::UInt)
     end
     return ht
 end
+
+time_interval_length(step::Int, r::FlexibleResolution) = r.block_lengths[step]
 
 TimeResolution(time_resolution_input::Int, period_length::Int) = UniformResolution(time_resolution_input, period_length)
 TimeResolution(time_resolution_input::Vector{Int}, period_length::Int=8760) = FlexibleResolution(time_resolution_input, period_length)

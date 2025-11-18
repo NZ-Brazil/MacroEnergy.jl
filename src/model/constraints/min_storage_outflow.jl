@@ -29,7 +29,7 @@ function add_model_constraint!(ct::MinStorageOutflowConstraint, g::AbstractStora
         ct.constraint_ref = @constraint(
             model,
             [t in time_steps(g)],
-            flow(spillage_edge, t) + flow(discharge_edge,t) >= min_outflow_fraction(g) * capacity(discharge_edge)
+            flow(spillage_edge, t) + flow(discharge_edge,t) >= min_outflow_fraction(g) * capacity(discharge_edge) * time_interval_length(t,time_resolution(discharge_edge))
         )
         
     else
