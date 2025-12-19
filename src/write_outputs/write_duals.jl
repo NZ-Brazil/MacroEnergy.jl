@@ -144,13 +144,22 @@ function write_balance_duals(
         push!(node_ids, id(node))
 
         # Compute subperiod weights for rescaling
-        weights = Float64[subperiod_weight(node, current_subperiod(node, t)) for t in time_interval(node)]
+        weights = Float64[subperiod_weight(node, current_subperiod(node, t)) for t in time_steps(node)]
 
         # Rescale dual values by subperiod weights
         push!(balance_duals, duals_dict[:demand] ./ (weights .* scaling))
     end
 
-    df = DataFrame(balance_duals, node_ids, copycols=false)
+    # Find the maximum length across all dual vectors
+    max_length = maximum(length.(balance_duals); init=0)
+
+    # This is a temporary solution to avoid errors when writing the dataframe
+    # TODO: remove this once we have a better solution
+    padded_duals = [
+        [v; fill(missing, max_length - length(v))] 
+        for v in balance_duals
+    ]    
+    df = DataFrame(padded_duals, node_ids, copycols=false)
     write_dataframe(file_path, df)
     @debug "Wrote $(nrow(df)) time steps and $(length(node_ids)) nodes for balance constraints to CSV file: $file_path"
 
