@@ -505,7 +505,7 @@ function populate_constraint_duals_from_subproblems!(period::System, constraint_
         end
         # verify the constraint duals have all time indices
         for dual_values in values(constraint.constraint_dual)
-            @assert length(dual_values) == length(time_interval(node))
+            @assert length(dual_values) == length(time_steps(node))
         end
     end
     
@@ -595,7 +595,7 @@ function collect_local_constraint_duals(
             # For each balance equation, store duals as time_idx => value
             for (balance_id, dual_values) in duals_dict
                 # Convert vector to dict mapping time indices to values
-                time_indices = collect(time_interval(node))
+                time_indices = collect(time_steps(node))
                 dual_dict = Dict(time_indices[i] => dual_values[i] for i in eachindex(time_indices))
                 
                 # Merge time dictionaries (different subproblems have different time indices)
