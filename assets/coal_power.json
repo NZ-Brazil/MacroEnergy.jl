@@ -1,0 +1,246 @@
+{
+    "CoalPower": {
+        "type": "ThermalPower",
+            "global_data": {
+            "nodes": {},
+            "transforms": {
+                "timedata": "Coal",
+                "constraints": {
+                        "BalanceConstraint": true
+                }
+            },
+            "edges" : {
+                "elec_edge":{
+                            "commodity": "Electricity",
+                            "unidirectional": true,
+                            "has_capacity": true,
+                            "uc": true,
+                            "integer_decisions": false,
+                            "constraints": {
+                                "CapacityConstraint": true,
+                                "RampingLimitConstraint": true,
+                                "MinFlowConstraint": true,
+                                "MinUpTimeConstraint": true,
+                                "MinDownTimeConstraint": true
+                            }
+                        },
+                "fuel_edge": {
+                            "commodity": "Coal",
+                            "unidirectional": true,
+                            "has_capacity": false
+                        },
+                "co2_edge": {
+                        "commodity": "CO2",
+                        "unidirectional": true,
+                        "has_capacity": false,
+                        "end_vertex": "co2_sink"
+                    }
+                }
+            },
+            "instance_data": [
+                {
+                    "id": "Jorge_Lacerda_I_e_II",
+                    "transforms":{
+                        "emission_rate": 1.037,
+                        "fuel_consumption": 3.2
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_S",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 190,
+                            "investment_cost": 0.0,
+                            "fixed_om_cost": 5.9,
+                            "variable_om_cost": 6.4,
+                            "capacity_size": 1.0,
+                            "startup_cost": 100,
+                            "startup_fuel_consumption": 0.586,                            
+                            "min_up_time": 168,
+                            "min_down_time": 168,
+                            "ramp_up_fraction": 0.1,
+                            "ramp_down_fraction": 0.1,
+                            "min_flow_fraction":0.5
+                        },
+                        "fuel_edge": {
+                            "start_vertex": "coal"
+                        }
+                    }
+                },
+                {
+                    "id": "Jorge_Lacerda_III",
+                    "transforms":{
+                        "emission_rate": 1.067,
+                        "fuel_consumption": 3.1
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_S",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 220,
+                            "investment_cost": 0.0,
+                            "fixed_om_cost": 5.9,
+                            "variable_om_cost": 6.4,
+                            "capacity_size": 1.0,
+                            "startup_cost": 100,
+                            "startup_fuel_consumption": 0.586,                            
+                            "min_up_time": 168,
+                            "min_down_time": 168,
+                            "ramp_up_fraction": 0.1,
+                            "ramp_down_fraction": 0.1,
+                            "min_flow_fraction":0.5
+                        },
+                        "fuel_edge": {
+                            "start_vertex": "coal"
+                        }
+                    }
+                },
+                {
+                    "id": "Jorge_Lacerda_IV",
+                    "transforms":{
+                        "emission_rate": 0.901,
+                        "fuel_consumption": 2.5852
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_S",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 330,
+                            "investment_cost": 0.0,
+                            "fixed_om_cost": 5.9,
+                            "variable_om_cost": 6.4,
+                            "capacity_size": 1.0,
+                           "startup_cost": 100,
+                            "startup_fuel_consumption": 0.586,                            
+                            "min_up_time": 168,
+                            "min_down_time": 168,
+                            "ramp_up_fraction": 0.1,
+                            "ramp_down_fraction": 0.1,
+                            "min_flow_fraction":0.5454
+                        },
+                        "fuel_edge": {
+                            "start_vertex": "coal"
+                        }
+                    }
+                },
+                {
+                    "id": "Candiota_III",
+                    "transforms":{
+                        "emission_rate": 1.205,
+                        "fuel_consumption": 3.2
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_S",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 350,
+                            "investment_cost": 0.0,
+                            "fixed_om_cost": 5.9,
+                            "variable_om_cost": 6.4,
+                            "capacity_size": 1.0,
+                            "startup_cost": 100,
+                            "startup_fuel_consumption": 0.586,                            
+                            "min_up_time": 168,
+                            "min_down_time": 168,
+                            "ramp_up_fraction": 0.1,
+                            "ramp_down_fraction": 0.1,
+                            "min_flow_fraction":0.5
+                        },
+                        "fuel_edge": {
+                            "start_vertex": "coal"
+                        }
+                    }
+                },
+                {
+                    "id": "Porto_do_Pecem_I",
+                    "transforms":{
+                        "emission_rate": 0.955,
+                        "fuel_consumption": 2.4
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_NE",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 720,
+                            "investment_cost": 0.0,
+                            "fixed_om_cost": 5.9,
+                            "variable_om_cost": 6.4,
+                            "capacity_size": 1.0,
+                            "startup_cost": 100,
+                            "startup_fuel_consumption": 0.586,                            
+                            "min_up_time": 168,
+                            "min_down_time": 168,
+                            "ramp_up_fraction": 0.1,
+                            "ramp_down_fraction": 0.1,
+                            "min_flow_fraction":0.3
+                        },
+                        "fuel_edge": {
+                            "start_vertex": "coal"
+                        }
+                    }
+                },
+                {
+                    "id": "Porto_do_Pecem_II",
+                    "transforms":{
+                        "emission_rate": 0.918,
+                        "fuel_consumption": 2.4
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_NE",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 365,
+                            "investment_cost": 0.0,
+                            "fixed_om_cost": 5.9,
+                            "variable_om_cost": 6.4,
+                            "capacity_size": 1.0,
+                            "startup_cost": 100,
+                            "startup_fuel_consumption": 0.586,                            
+                            "min_up_time": 168,
+                            "min_down_time": 168,
+                            "ramp_up_fraction": 0.1,
+                            "ramp_down_fraction": 0.1,
+                            "min_flow_fraction":0.3
+                        },
+                        "fuel_edge": {
+                            "start_vertex": "coal"
+                        }
+                    }
+                },
+                {
+                    "id": "Porto_do_Itaqui",
+                    "transforms":{
+                        "emission_rate": 0.981,
+                        "fuel_consumption": 2.4
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_NE",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 360,
+                            "investment_cost": 0.0,
+                            "fixed_om_cost": 5.9,
+                            "variable_om_cost": 6.4,
+                            "capacity_size": 1.0,
+                           "startup_cost": 100,
+                            "startup_fuel_consumption": 0.586,                            
+                            "min_up_time": 168,
+                            "min_down_time": 168,
+                            "ramp_up_fraction": 0.1,
+                            "ramp_down_fraction": 0.1,
+                            "min_flow_fraction":0.3
+                        },
+                        "fuel_edge": {
+                            "start_vertex": "coal"
+                        }
+                    }
+                }
+            ]
+    }
+}

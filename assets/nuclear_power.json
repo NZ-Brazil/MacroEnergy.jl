@@ -1,0 +1,117 @@
+{
+    "NuclearPower": {
+        "type": "ThermalPower",
+            "global_data": {
+            "nodes": {},
+            "transforms": {
+                "timedata": "Uranium",
+                "constraints": {
+                        "BalanceConstraint": true
+                }
+            },
+            "edges" : {
+                "elec_edge":{
+                            "commodity": "Electricity",
+                            "unidirectional": true,
+                            "has_capacity": true,
+                            "uc": true,
+                            "integer_decisions": false,
+                            "constraints": {
+                                "CapacityConstraint": true,
+                                "RampingLimitConstraint": true,
+                                "MinFlowConstraint": true,
+                                "MinUpTimeConstraint": true,
+                                "MinDownTimeConstraint": true
+                            }
+                        },
+                "fuel_edge": {
+                            "commodity": "Uranium",
+                            "unidirectional": true,
+                            "has_capacity": false,
+                             "start_vertex": "uranium_source"
+                        },
+                "co2_edge": {
+                        "commodity": "CO2",
+                        "unidirectional": true,
+                        "has_capacity": false,
+                        "end_vertex": "co2_sink"
+                    }
+                }
+            },
+            "instance_data": [
+                {
+                    "id": "Angra_1",
+                    "transforms":{
+                        "fuel_consumption": 3.064351108
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_S",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 657,
+                            "fixed_om_cost": 264367.8,
+                            "variable_om_cost": 7.0,
+                            "capacity_size": 1051.009,
+                            "min_flow_fraction": 1,
+                            "startup_cost": 1000,
+                            "min_up_time": 36,
+                            "min_down_time": 36,
+                            "ramp_up_fraction": 0.25,
+                            "ramp_down_fraction": 0.25,
+                            "startup_fuel_consumption": 0.0
+                        }
+                    }
+                },
+                {
+                    "id": "Angra_2",
+                    "transforms":{
+                        "fuel_consumption": 3.064351108
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_S",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 1350,
+                            "fixed_om_cost": 264367.8,
+                            "variable_om_cost": 7.0,
+                            "capacity_size": 1051.009,
+                            "min_flow_fraction": 1,
+                            "startup_cost": 1000,
+                            "min_up_time": 36,
+                            "min_down_time": 36,
+                            "ramp_up_fraction": 0.25,
+                            "ramp_down_fraction": 0.25,
+                            "startup_fuel_consumption": 0.0
+                        }
+                    }
+                },
+                {
+                    "id": "Nuclear_0",
+                    "transforms":{
+                        "fuel_consumption": 3.064058037
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_S",
+                            "can_retire": true,
+                            "can_expand": true,
+                            "existing_capacity": 0.0,
+                            "investment_cost": 510502.5, 
+                            "fixed_om_cost": 264367.8,
+                            "variable_om_cost": 7.0,
+                            "capacity_size": 1000,
+                            "min_flow_fraction": 1,
+                            "startup_cost": 1000,
+                            "min_up_time": 36,
+                            "min_down_time": 36,
+                            "ramp_up_fraction": 0.25,
+                            "ramp_down_fraction": 0.25,
+                            "startup_fuel_consumption": 0.0
+                        }
+                    }
+                }
+            ]    
+        }
+}

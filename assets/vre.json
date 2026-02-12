@@ -1,0 +1,392 @@
+{
+  "VRE": {
+    "type": "VRE",
+    "global_data": {
+      "transforms": {
+        "timedata": "Electricity"
+      },
+      "edges": {
+        "edge": {
+          "unidirectional": true,
+          "has_capacity": true,
+          "commodity": "Electricity"
+        }
+      }
+    },
+    "instance_data": [
+      {
+        "id": "wind_0_MW",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_MW",
+          "availability": { "timeseries": { "header": "wind_0_MW", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_0_N",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_N",
+          "availability": { "timeseries": { "header": "wind_0_N", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_0_NE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_NE",
+          "availability": { "timeseries": { "header": "wind_0_NE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_0_S",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_S",
+          "availability": { "timeseries": { "header": "wind_0_S", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_0_SE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_SE",
+          "availability": { "timeseries": { "header": "wind_0_SE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+
+      {
+        "id": "wind_1_MW",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_MW",
+          "availability": { "timeseries": { "header": "wind_1_MW", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_1_N",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_N",
+          "availability": { "timeseries": { "header": "wind_1_N", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_1_NE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_NE",
+          "availability": { "timeseries": { "header": "wind_1_NE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_1_S",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_S",
+          "availability": { "timeseries": { "header": "wind_1_S", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_1_SE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_SE",
+          "availability": { "timeseries": { "header": "wind_1_SE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+
+
+      {
+        "id": "wind_2_MW",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_MW",
+          "availability": { "timeseries": { "header": "wind_2_MW", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_2_N",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_N",
+          "availability": { "timeseries": { "header": "wind_2_N", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_2_NE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_NE",
+          "availability": { "timeseries": { "header": "wind_2_NE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "wind_2_SE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 97200, "fixed_om_cost": 43205, "variable_om_cost": 0.1,
+          "capacity_size": 1,
+          "end_vertex": "elec_SE",
+          "availability": { "timeseries": { "header": "wind_2_SE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+
+
+      {
+        "id": "solar_pv_0_MW",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_MW",
+          "availability": { "timeseries": { "header": "solar_pv_0_MW", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_0_N",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_N",
+          "availability": { "timeseries": { "header": "solar_pv_0_N", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_0_NE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_NE",
+          "availability": { "timeseries": { "header": "solar_pv_0_NE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_0_SE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_SE",
+          "availability": { "timeseries": { "header": "solar_pv_0_SE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+
+
+      {
+        "id": "solar_pv_1_MW",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_MW",
+          "availability": { "timeseries": { "header": "solar_pv_1_MW", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_1_N",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_N",
+          "availability": { "timeseries": { "header": "solar_pv_1_N", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_1_NE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_NE",
+          "availability": { "timeseries": { "header": "solar_pv_1_NE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_1_S",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_S",
+          "availability": { "timeseries": { "header": "solar_pv_1_S", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_1_SE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_SE",
+          "availability": { "timeseries": { "header": "solar_pv_1_SE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+
+      {
+        "id": "solar_pv_2_MW",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_MW",
+          "availability": { "timeseries": { "header": "solar_pv_2_MW", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_2_N",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_N",
+          "availability": { "timeseries": { "header": "solar_pv_2_N", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_2_NE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_NE",
+          "availability": { "timeseries": { "header": "solar_pv_2_NE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_2_S",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_S",
+          "availability": { "timeseries": { "header": "solar_pv_2_S", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      },
+      {
+        "id": "solar_pv_2_SE",
+        "edges": { "edge": {
+          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": -1,
+          "constraints": { "CapacityConstraint": true },
+          "commodity": "Electricity",
+          "investment_cost": 85300, "fixed_om_cost": 18760, "variable_om_cost": 0,
+          "capacity_size": 1,
+          "end_vertex": "elec_SE",
+          "availability": { "timeseries": { "header": "solar_pv_2_SE", "path": "system/vre_availability.csv" }},
+          "existing_capacity": 0
+        }}
+      }
+
+    ]
+  }
+}

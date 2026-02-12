@@ -1,0 +1,212 @@
+{
+  "nodes": [
+    {
+      "type": "Electricity",
+      "global_data": {
+        "constraints": {
+          "MaxNonServedDemandConstraint": true,
+          "MaxNonServedDemandPerSegmentConstraint": true,
+          "BalanceConstraint": true
+        },
+        "max_nsd": [1, 0.04, 0.024, 0.003],
+        "time_interval": "Electricity",
+        "price_nsd": [50000, 45000, 27500.000000000004, 10000]
+      },
+      "instance_data": [
+        {
+          "id": "elec_NE",
+          "demand": {
+            "timeseries": {
+              "header": "elec_demand_NE",
+              "path": "system/demand.csv"
+            }
+          }
+        },
+        {
+          "id": "elec_N",
+          "demand": {
+            "timeseries": {
+              "header": "elec_demand_N",
+              "path": "system/demand.csv"
+            }
+          }
+        },
+        {
+          "id": "elec_MW",
+          "demand": {
+            "timeseries": {
+              "header": "elec_demand_MW",
+              "path": "system/demand.csv"
+            }
+          }
+        },
+        {
+          "id": "elec_SE",
+          "demand": {
+            "timeseries": {
+              "header": "elec_demand_SE",
+              "path": "system/demand.csv"
+            }
+          }
+        },
+        {
+          "id": "elec_S",
+          "demand": {
+            "timeseries": {
+              "header": "elec_demand_S",
+              "path": "system/demand.csv"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "NaturalGas",
+      "global_data": {
+        "time_interval": "NaturalGas"
+      },
+      "instance_data": [
+        {
+          "id": "MW_NG",
+          "price": {
+            "timeseries": {
+              "header": "MW_NG",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "NE_NG",
+          "price": {
+            "timeseries": {
+              "header": "NE_NG",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "SE_NG",
+          "price": {
+            "timeseries": {
+              "header": "SE_NG",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "N_NG",
+          "price": {
+            "timeseries": {
+              "header": "N_NG",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "S_NG",
+          "price": {
+            "timeseries": {
+              "header": "S_NG",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Uranium",
+      "global_data": {
+        "time_interval": "Uranium"
+      },
+      "instance_data": [
+        {
+          "id": "uranium_source",
+          "price": [
+            2.79796
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Coal",
+      "global_data": {
+        "time_interval": "Coal"
+      },
+      "instance_data": [
+        {
+          "id": "coal",
+          "price": [
+            5.34841
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CO2",
+      "global_data": {
+        "time_interval": "CO2",
+        "price_unmet_policy": {
+          "CO2CapConstraint": 150
+        }
+      },
+      "instance_data": [
+        {
+          "id": "co2_sink_1",
+          "constraints": {
+            "CO2CapConstraint": true
+          },
+          "rhs_policy": {
+            "CO2CapConstraint": 18000
+          }
+        },
+        {
+          "id": "co2_sink_4",
+          "constraints": {
+            "CO2CapConstraint": true
+          },
+          "rhs_policy": {
+            "CO2CapConstraint": 18000
+          }
+        },
+        {
+          "id": "co2_sink_5",
+          "constraints": {
+            "CO2CapConstraint": true
+          },
+          "rhs_policy": {
+            "CO2CapConstraint": 18000
+          }
+        },
+        {
+          "id": "co2_sink_2",
+          "constraints": {
+            "CO2CapConstraint": true
+          },
+          "rhs_policy": {
+            "CO2CapConstraint": 25000
+          }
+        },
+        {
+          "id": "co2_sink_3",
+          "constraints": {
+            "CO2CapConstraint": true
+          },
+          "rhs_policy": {
+            "CO2CapConstraint": 25000
+          }
+        }
+      ]
+    },
+    {
+      "type": "Electricity",
+      "global_data": {
+        "time_interval": "Electricity"
+      },
+      "instance_data": [
+        {
+          "id": "water_node"
+        }
+      ]
+    }
+  ]
+}
