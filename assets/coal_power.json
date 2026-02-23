@@ -52,7 +52,7 @@
                             "existing_capacity": 190,
                             "investment_cost": 0.0,
                             "fixed_om_cost": 5.9,
-                            "variable_om_cost": 6.4,
+                            "variable_om_cost": 7.5256,
                             "capacity_size": 1.0,
                             "startup_cost": 100,
                             "startup_fuel_consumption": 0.586,                            
@@ -63,7 +63,7 @@
                             "min_flow_fraction":0.5
                         },
                         "fuel_edge": {
-                            "start_vertex": "coal"
+                            "start_vertex": "coal_S"
                         }
                     }
                 },
@@ -81,7 +81,7 @@
                             "existing_capacity": 220,
                             "investment_cost": 0.0,
                             "fixed_om_cost": 5.9,
-                            "variable_om_cost": 6.4,
+                            "variable_om_cost": 7.5256,
                             "capacity_size": 1.0,
                             "startup_cost": 100,
                             "startup_fuel_consumption": 0.586,                            
@@ -92,7 +92,7 @@
                             "min_flow_fraction":0.5
                         },
                         "fuel_edge": {
-                            "start_vertex": "coal"
+                            "start_vertex": "coal_S"
                         }
                     }
                 },
@@ -110,7 +110,7 @@
                             "existing_capacity": 330,
                             "investment_cost": 0.0,
                             "fixed_om_cost": 5.9,
-                            "variable_om_cost": 6.4,
+                            "variable_om_cost": 7.5256,
                             "capacity_size": 1.0,
                            "startup_cost": 100,
                             "startup_fuel_consumption": 0.586,                            
@@ -121,7 +121,7 @@
                             "min_flow_fraction":0.5454
                         },
                         "fuel_edge": {
-                            "start_vertex": "coal"
+                            "start_vertex": "coal_S"
                         }
                     }
                 },
@@ -139,7 +139,7 @@
                             "existing_capacity": 350,
                             "investment_cost": 0.0,
                             "fixed_om_cost": 5.9,
-                            "variable_om_cost": 6.4,
+                            "variable_om_cost": 7.5256,
                             "capacity_size": 1.0,
                             "startup_cost": 100,
                             "startup_fuel_consumption": 0.586,                            
@@ -150,7 +150,7 @@
                             "min_flow_fraction":0.5
                         },
                         "fuel_edge": {
-                            "start_vertex": "coal"
+                            "start_vertex": "coal_S"
                         }
                     }
                 },
@@ -168,7 +168,7 @@
                             "existing_capacity": 720,
                             "investment_cost": 0.0,
                             "fixed_om_cost": 5.9,
-                            "variable_om_cost": 6.4,
+                            "variable_om_cost": 7.2,
                             "capacity_size": 1.0,
                             "startup_cost": 100,
                             "startup_fuel_consumption": 0.586,                            
@@ -179,7 +179,7 @@
                             "min_flow_fraction":0.3
                         },
                         "fuel_edge": {
-                            "start_vertex": "coal"
+                            "start_vertex": "coal_NE"
                         }
                     }
                 },
@@ -197,7 +197,7 @@
                             "existing_capacity": 365,
                             "investment_cost": 0.0,
                             "fixed_om_cost": 5.9,
-                            "variable_om_cost": 6.4,
+                            "variable_om_cost": 7.2,
                             "capacity_size": 1.0,
                             "startup_cost": 100,
                             "startup_fuel_consumption": 0.586,                            
@@ -208,7 +208,7 @@
                             "min_flow_fraction":0.3
                         },
                         "fuel_edge": {
-                            "start_vertex": "coal"
+                            "start_vertex": "coal_NE"
                         }
                     }
                 },
@@ -226,7 +226,7 @@
                             "existing_capacity": 345,
                             "investment_cost": 0.0,
                             "fixed_om_cost": 5.9,
-                            "variable_om_cost": 6.4,
+                            "variable_om_cost": 7.5256,
                             "capacity_size": 1.0,
                             "startup_cost": 100,
                             "startup_fuel_consumption": 0.586,                            
@@ -237,7 +237,7 @@
                             "min_flow_fraction":0.3
                         },
                         "fuel_edge": {
-                            "start_vertex": "coal"
+                            "start_vertex": "coal_S"
                         }
                     }
                 },
@@ -255,7 +255,7 @@
                             "existing_capacity": 360,
                             "investment_cost": 0.0,
                             "fixed_om_cost": 5.9,
-                            "variable_om_cost": 6.4,
+                            "variable_om_cost": 7.2,
                             "capacity_size": 1.0,
                            "startup_cost": 100,
                             "startup_fuel_consumption": 0.586,                            
@@ -266,7 +266,7 @@
                             "min_flow_fraction":0.3
                         },
                         "fuel_edge": {
-                            "start_vertex": "coal"
+                            "start_vertex": "coal_NE"
                         }
                     }
                 }
