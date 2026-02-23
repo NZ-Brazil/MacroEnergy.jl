@@ -15,6 +15,7 @@
       "instance_data": [
         {
           "id": "elec_NE",
+          "location": "NE",
           "demand": {
             "timeseries": {
               "header": "elec_demand_NE",
@@ -24,6 +25,7 @@
         },
         {
           "id": "elec_N",
+          "location": "N",
           "demand": {
             "timeseries": {
               "header": "elec_demand_N",
@@ -33,6 +35,7 @@
         },
         {
           "id": "elec_MW",
+          "location": "MW",
           "demand": {
             "timeseries": {
               "header": "elec_demand_MW",
@@ -42,6 +45,7 @@
         },
         {
           "id": "elec_SE",
+          "location": "SE",
           "demand": {
             "timeseries": {
               "header": "elec_demand_SE",
@@ -51,6 +55,7 @@
         },
         {
           "id": "elec_S",
+          "location": "S",
           "demand": {
             "timeseries": {
               "header": "elec_demand_S",
@@ -68,6 +73,7 @@
       "instance_data": [
         {
           "id": "MW_NG",
+          "location": "MW",
           "price": {
             "timeseries": {
               "header": "MW_NG",
@@ -77,6 +83,7 @@
         },
         {
           "id": "NE_NG",
+          "location": "NE",
           "price": {
             "timeseries": {
               "header": "NE_NG",
@@ -86,6 +93,7 @@
         },
         {
           "id": "SE_NG",
+          "location": "SE",
           "price": {
             "timeseries": {
               "header": "SE_NG",
@@ -95,6 +103,7 @@
         },
         {
           "id": "N_NG",
+          "location": "N",
           "price": {
             "timeseries": {
               "header": "N_NG",
@@ -104,6 +113,7 @@
         },
         {
           "id": "S_NG",
+          "location": "NE",
           "price": {
             "timeseries": {
               "header": "S_NG",
@@ -127,19 +137,44 @@
         }
       ]
     },
-    {
+ {
       "type": "Coal",
       "global_data": {
         "time_interval": "Coal"
       },
       "instance_data": [
+       {
+          "id": "coal_NE",
+          "location": "NE",
+          "price": {
+            "timeseries": {
+              "header": "coal_NE",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
         {
-          "id": "coal",
-          "price": [
-            5.34841
-          ]
+          "id": "coal_S",
+          "location": "S",
+          "price": {
+            "timeseries": {
+              "header": "coal_S",
+              "path": "system/fuel_prices.csv"
+            }
+          }
         }
       ]
+    },
+    {
+            "type": "Electricity",
+            "global_data": {
+                "time_interval": "Electricity"
+            },
+            "instance_data": [
+                {
+                    "id": "hydro_source"
+                }
+            ]
     },
     {
       "type": "CO2",
@@ -157,56 +192,9 @@
           },
           "rhs_policy": {
             "CO2CapConstraint": 18000
-          }
-        },
-        {
-          "id": "co2_sink_4",
-          "constraints": {
-            "CO2CapConstraint": true
-          },
-          "rhs_policy": {
-            "CO2CapConstraint": 18000
-          }
-        },
-        {
-          "id": "co2_sink_5",
-          "constraints": {
-            "CO2CapConstraint": true
-          },
-          "rhs_policy": {
-            "CO2CapConstraint": 18000
-          }
-        },
-        {
-          "id": "co2_sink_2",
-          "constraints": {
-            "CO2CapConstraint": true
-          },
-          "rhs_policy": {
-            "CO2CapConstraint": 25000
-          }
-        },
-        {
-          "id": "co2_sink_3",
-          "constraints": {
-            "CO2CapConstraint": true
-          },
-          "rhs_policy": {
-            "CO2CapConstraint": 25000
-          }
+                    }
+                }
+            ]
         }
-      ]
-    },
-    {
-      "type": "Electricity",
-      "global_data": {
-        "time_interval": "Electricity"
-      },
-      "instance_data": [
-        {
-          "id": "water_node"
-        }
-      ]
-    }
-  ]
+    ]
 }
