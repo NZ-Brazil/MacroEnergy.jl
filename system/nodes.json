@@ -34,16 +34,6 @@
           }
         },
         {
-          "id": "elec_MW",
-          "location": "MW",
-          "demand": {
-            "timeseries": {
-              "header": "elec_demand_MW",
-              "path": "system/demand.csv"
-            }
-          }
-        },
-        {
           "id": "elec_SE",
           "location": "SE",
           "demand": {
@@ -198,3 +188,4 @@
         }
     ]
 }
+
