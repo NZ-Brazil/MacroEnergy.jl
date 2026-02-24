@@ -62,16 +62,6 @@
       },
       "instance_data": [
         {
-          "id": "MW_NG",
-          "location": "MW",
-          "price": {
-            "timeseries": {
-              "header": "MW_NG",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
           "id": "NE_NG",
           "location": "NE",
           "price": {
@@ -188,4 +178,5 @@
         }
     ]
 }
+
 
