@@ -62,41 +62,62 @@
       },
       "instance_data": [
         {
-          "id": "NE_NG",
-          "location": "NE",
-          "price": {
-            "timeseries": {
-              "header": "NE_NG",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "SE_NG",
+          "id": "natgas",
           "location": "SE",
           "price": {
             "timeseries": {
-              "header": "SE_NG",
+              "header": "natgas",
               "path": "system/fuel_prices.csv"
             }
           }
         },
         {
-          "id": "N_NG",
-          "location": "N",
-          "price": {
-            "timeseries": {
-              "header": "N_NG",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "S_NG",
+          "id": "natgas_LNG",
           "location": "NE",
           "price": {
             "timeseries": {
-              "header": "S_NG",
+              "header": "natgas_LNG",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "natgas_LNG_100_flexible",
+          "location": "SE",
+          "price": {
+            "timeseries": {
+              "header": "natgas_LNG_100_flexible",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "natgas_LNG_50_inflexible",
+          "location": "N",
+          "price": {
+            "timeseries": {
+              "header": "natgas_LNG_50_inflexible",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        ,
+        {
+          "id": "natgas_NG_70_inflexible",
+          "location": "N",
+          "price": {
+            "timeseries": {
+              "header": "natgas_LNG_70_inflexible",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        }
+        {
+          "id": "natgas_NG_100_inflexible",
+          "location": "NE",
+          "price": {
+            "timeseries": {
+              "header": "natgas_NG_100_inflexible",
               "path": "system/fuel_prices.csv"
             }
           }
@@ -178,5 +199,6 @@
         }
     ]
 }
+
 
 
