@@ -32,9 +32,9 @@
             "investment_cost": 12060
           }
         }
-      },
+      },    
       {
-        "id": "N_to_MW",
+        "id": "N_to_SE",
         "edges": {
           "transmission_edge": {
             "can_retire": false,
@@ -45,59 +45,17 @@
               "MaxNewCapacityConstraint": true
             },
             "start_vertex": "elec_N",
-            "end_vertex": "elec_MW",
-            "loss_fraction": 0.012305837,
-            "max_capacity": 1000000000,
-            "max_new_capacity": 1000000000,
-            "existing_capacity": 3000,
-            "investment_cost": 12060
-          }
-        }
-      },
-      {
-        "id": "MW_to_NE",
-        "edges": {
-          "transmission_edge": {
-            "can_retire": false,
-            "can_expand": true,
-            "constraints": {
-              "CapacityConstraint": true,
-              "MaxCapacityConstraint": true,
-              "MaxNewCapacityConstraint": true
-            },
-            "start_vertex": "elec_MW",
-            "end_vertex": "elec_NE",
-            "loss_fraction": 0.012305837,
-            "max_capacity": 1000000000,
-            "max_new_capacity": 1000000000,
-            "existing_capacity": 3000,
-            "investment_cost": 12060
-          }
-        }
-      },
-      {
-        "id": "MW_to_SE",
-        "edges": {
-          "transmission_edge": {
-            "can_retire": false,
-            "can_expand": true,
-            "constraints": {
-              "CapacityConstraint": true,
-              "MaxCapacityConstraint": true,
-              "MaxNewCapacityConstraint": true
-            },
-            "start_vertex": "elec_MW",
             "end_vertex": "elec_SE",
             "loss_fraction": 0.012305837,
             "max_capacity": 1000000000,
             "max_new_capacity": 1000000000,
-            "existing_capacity": 2500,
+            "existing_capacity": 3000,
             "investment_cost": 12060
           }
         }
       },
       {
-        "id": "MW_to_S",
+        "id": "NE_to_N",
         "edges": {
           "transmission_edge": {
             "can_retire": false,
@@ -107,12 +65,12 @@
               "MaxCapacityConstraint": true,
               "MaxNewCapacityConstraint": true
             },
-            "start_vertex": "elec_MW",
-            "end_vertex": "elec_S",
+            "start_vertex": "elec_NE",
+            "end_vertex": "elec_N",
             "loss_fraction": 0.012305837,
             "max_capacity": 1000000000,
             "max_new_capacity": 1000000000,
-            "existing_capacity": 10,
+            "existing_capacity": 2500,
             "investment_cost": 12060
           }
         }
@@ -139,6 +97,48 @@
         }
       },
       {
+        "id": "SE_to_N",
+        "edges": {
+          "transmission_edge": {
+            "can_retire": false,
+            "can_expand": true,
+            "constraints": {
+              "CapacityConstraint": true,
+              "MaxCapacityConstraint": true,
+              "MaxNewCapacityConstraint": true
+            },
+            "start_vertex": "elec_SE",
+            "end_vertex": "elec_N",
+            "loss_fraction": 0.012305837,
+            "max_capacity": 1000000000,
+            "max_new_capacity": 1000000000,
+            "existing_capacity": 3000,
+            "investment_cost": 12060
+          }
+        }
+      },
+      {
+        "id": "SE_to_NE",
+        "edges": {
+          "transmission_edge": {
+            "can_retire": false,
+            "can_expand": true,
+            "constraints": {
+              "CapacityConstraint": true,
+              "MaxCapacityConstraint": true,
+              "MaxNewCapacityConstraint": true
+            },
+            "start_vertex": "elec_SE",
+            "end_vertex": "elec_NE",
+            "loss_fraction": 0.012305837,
+            "max_capacity": 1000000000,
+            "max_new_capacity": 1000000000,
+            "existing_capacity": 2500,
+            "investment_cost": 12060
+          }
+        }
+      },
+      {
         "id": "SE_to_S",
         "edges": {
           "transmission_edge": {
@@ -151,6 +151,27 @@
             },
             "start_vertex": "elec_SE",
             "end_vertex": "elec_S",
+            "loss_fraction": 0.012305837,
+            "max_capacity": 1000000000,
+            "max_new_capacity": 1000000000,
+            "existing_capacity": 10,
+            "investment_cost": 12060
+          }
+        }
+      },
+      {
+        "id": "S_to_SE",
+        "edges": {
+          "transmission_edge": {
+            "can_retire": false,
+            "can_expand": true,
+            "constraints": {
+              "CapacityConstraint": true,
+              "MaxCapacityConstraint": true,
+              "MaxNewCapacityConstraint": true
+            },
+            "start_vertex": "elec_S",
+            "end_vertex": "elec_SE",
             "loss_fraction": 0.012305837,
             "max_capacity": 1000000000,
             "max_new_capacity": 1000000000,
