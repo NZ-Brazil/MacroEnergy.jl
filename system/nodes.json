@@ -63,7 +63,7 @@
       "instance_data": [
         {
           "id": "natgas",
-          "location": "SE",
+          "location": "Brazil",
           "price": {
             "timeseries": {
               "header": "natgas",
@@ -73,7 +73,7 @@
         },
         {
           "id": "natgas_LNG",
-          "location": "NE",
+          "location": "Brazil",
           "price": {
             "timeseries": {
               "header": "natgas_LNG",
@@ -83,7 +83,7 @@
         },
         {
           "id": "natgas_LNG_100_flexible",
-          "location": "SE",
+          "location": "Brazil",
           "price": {
             "timeseries": {
               "header": "natgas_LNG_100_flexible",
@@ -93,7 +93,7 @@
         },
         {
           "id": "natgas_LNG_50_inflexible",
-          "location": "N",
+          "location": "Brazil",
           "price": {
             "timeseries": {
               "header": "natgas_LNG_50_inflexible",
@@ -104,7 +104,7 @@
         ,
         {
           "id": "natgas_NG_70_inflexible",
-          "location": "N",
+          "location": "Brazil",
           "price": {
             "timeseries": {
               "header": "natgas_LNG_70_inflexible",
@@ -114,7 +114,7 @@
         }
         {
           "id": "natgas_NG_100_inflexible",
-          "location": "NE",
+          "location": "Brazil",
           "price": {
             "timeseries": {
               "header": "natgas_NG_100_inflexible",
@@ -199,6 +199,7 @@
         }
     ]
 }
+
 
 
 
