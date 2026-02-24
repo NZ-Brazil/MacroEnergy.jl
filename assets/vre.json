@@ -50,7 +50,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_NE",
           "availability": { "timeseries": { "header": "wind_0_NE", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 14756.370
         }}
       },
       {
@@ -63,7 +63,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_S",
           "availability": { "timeseries": { "header": "wind_0_S", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 756.199
         }}
       },
       {
@@ -116,7 +116,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_NE",
           "availability": { "timeseries": { "header": "wind_1_NE", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 17733.900
         }}
       },
       {
@@ -129,7 +129,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_S",
           "availability": { "timeseries": { "header": "wind_1_S", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 1690.290
         }}
       },
       {
@@ -142,7 +142,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_SE",
           "availability": { "timeseries": { "header": "wind_1_SE", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 28.050
         }}
       },
 
@@ -224,7 +224,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_N",
           "availability": { "timeseries": { "header": "solar_pv_0_N", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 5.474
         }}
       },
       {
@@ -265,7 +265,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_SE",
           "availability": { "timeseries": { "header": "solar_pv_1_MW", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 1.675
         }}
       },
       {
@@ -291,7 +291,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_NE",
           "availability": { "timeseries": { "header": "solar_pv_1_NE", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 8222.69778
         }}
       },
       {
@@ -304,7 +304,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_S",
           "availability": { "timeseries": { "header": "solar_pv_1_S", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 1.862
         }}
       },
       {
@@ -317,7 +317,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_SE",
           "availability": { "timeseries": { "header": "solar_pv_1_SE", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 6527.26042
         }}
       },
 
@@ -331,7 +331,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_SE",
           "availability": { "timeseries": { "header": "solar_pv_2_MW", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 306.27
         }}
       },
       {
@@ -344,7 +344,8 @@
           "capacity_size": 1,
           "end_vertex": "elec_N",
           "availability": { "timeseries": { "header": "solar_pv_2_N", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 11.75
+
         }}
       },
       {
@@ -357,7 +358,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_NE",
           "availability": { "timeseries": { "header": "solar_pv_2_NE", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 3570.31525
         }}
       },
       {
@@ -370,7 +371,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_S",
           "availability": { "timeseries": { "header": "solar_pv_2_S", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 14.704
         }}
       },
       {
@@ -383,7 +384,7 @@
           "capacity_size": 1,
           "end_vertex": "elec_SE",
           "availability": { "timeseries": { "header": "solar_pv_2_SE", "path": "system/vre_availability.csv" }},
-          "existing_capacity": 0
+          "existing_capacity": 859.79748
         }}
       }
 
