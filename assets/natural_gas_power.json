@@ -133,7 +133,7 @@
                     },
                     "edges": {
                         "elec_edge": {
-                            "end_vertex": "elec_MW",
+                            "end_vertex": "elec_SE",
                             "can_retire": true,
                             "can_expand": false,
                             "existing_capacity": 177,
@@ -278,7 +278,7 @@
                     },
                     "edges": {
                         "elec_edge": {
-                            "end_vertex": "elec_MW",
+                            "end_vertex": "elec_SE",
                             "can_retire": true,
                             "can_expand": false,
                             "existing_capacity": 915,
