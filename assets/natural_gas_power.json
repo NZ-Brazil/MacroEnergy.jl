@@ -614,7 +614,7 @@
                             "min_flow_fraction": 0.5
                         },
                         "fuel_edge": {
-                            "start_vertex": "natgas_LNG_50_INflexible"
+                            "start_vertex": "natgas_LNG_50_inflexible"
                         }
                     }
                 },
@@ -643,7 +643,7 @@
                             "min_flow_fraction": 0.5
                         },
                         "fuel_edge": {
-                            "start_vertex": "natgas_LNG_50_INflexible"
+                            "start_vertex": "natgas_LNG_50_inflexible"
                         }
                     }
                 },
@@ -672,7 +672,7 @@
                             "min_flow_fraction": 0.5
                         },
                         "fuel_edge": {
-                            "start_vertex": "natgas_LNG_50_INflexible"
+                            "start_vertex": "natgas_LNG_50_inflexible"
                         }
                     }
                 },
@@ -701,7 +701,7 @@
                             "min_flow_fraction": 0.5
                         },
                         "fuel_edge": {
-                            "start_vertex": "natgas_LNG_50_INflexible"
+                            "start_vertex": "natgas_LNG_50_inflexible"
                         }
                     }
                 },
@@ -730,7 +730,7 @@
                             "min_flow_fraction": 0.5
                         },
                         "fuel_edge": {
-                            "start_vertex": "natgas_LNG_50_INflexible"
+                            "start_vertex": "natgas_LNG_50_inflexible"
                         }
                     }
                 },
