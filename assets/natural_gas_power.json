@@ -15,7 +15,6 @@
                         "unidirectional": true,
                         "has_capacity": true,
                         "uc": true,
-                        "integer_decisions": false,
                         "constraints": {
                             "CapacityConstraint": true,
                             "RampingLimitConstraint": true,
@@ -56,8 +55,8 @@
                             "capacity_size": 1,
                             "startup_cost": 52,
                             "startup_fuel_consumption": 0.58614214,
-                            "min_up_time": 0.25,
-                            "min_down_time": 0.5,
+                            "min_up_time": 1,
+                            "min_down_time": 1,
                             "ramp_up_fraction": 0.440351,
                             "ramp_down_fraction": 0.440351,
                             "min_flow_fraction": 0
@@ -85,8 +84,8 @@
                             "capacity_size": 1,
                             "startup_cost": 52,
                             "startup_fuel_consumption": 0.58614214,
-                            "min_up_time": 0.25,
-                            "min_down_time": 0.5,
+                            "min_up_time": 1,
+                            "min_down_time": 1,
                             "ramp_up_fraction": 0.440351,
                             "ramp_down_fraction": 0.440351,
                             "min_flow_fraction": 0
@@ -114,8 +113,8 @@
                             "capacity_size": 1,
                             "startup_cost": 52,
                             "startup_fuel_consumption": 0.58614214,
-                            "min_up_time": 0.25,
-                            "min_down_time": 0.5,
+                            "min_up_time": 1,
+                            "min_down_time": 1,
                             "ramp_up_fraction": 0.440351,
                             "ramp_down_fraction": 0.440351,
                             "min_flow_fraction": 0
@@ -143,8 +142,8 @@
                             "capacity_size": 1,
                             "startup_cost": 52,
                             "startup_fuel_consumption": 0.58614214,
-                            "min_up_time": 0.25,
-                            "min_down_time": 0.5,
+                            "min_up_time": 1,
+                            "min_down_time": 1,
                             "ramp_up_fraction": 0.440351,
                             "ramp_down_fraction": 0.440351,
                             "min_flow_fraction": 0
@@ -299,7 +298,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "N_new_LNG_simple_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813528,
@@ -317,8 +316,8 @@
                             "capacity_size": 100,
                             "startup_cost": 52,
                             "startup_fuel_consumption": 0.58614214,
-                            "min_up_time": 0.25,
-                            "min_down_time": 0.5,
+                            "min_up_time": 1,
+                            "min_down_time": 1,
                             "ramp_up_fraction": 0.440351,
                             "ramp_down_fraction": 0.440351,
                             "min_flow_fraction": 0
@@ -328,7 +327,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "NE_new_LNG_simple_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813528,
@@ -346,8 +345,8 @@
                             "capacity_size": 100,
                             "startup_cost": 52,
                             "startup_fuel_consumption": 0.58614214,
-                            "min_up_time": 0.25,
-                            "min_down_time": 0.5,
+                            "min_up_time": 1,
+                            "min_down_time": 1,
                             "ramp_up_fraction": 0.440351,
                             "ramp_down_fraction": 0.440351,
                             "min_flow_fraction": 0
@@ -357,7 +356,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "SE_new_LNG_simple_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813528,
@@ -375,8 +374,8 @@
                             "capacity_size": 100,
                             "startup_cost": 52,
                             "startup_fuel_consumption": 0.58614214,
-                            "min_up_time": 0.25,
-                            "min_down_time": 0.5,
+                            "min_up_time": 1,
+                            "min_down_time": 1,
                             "ramp_up_fraction": 0.440351,
                             "ramp_down_fraction": 0.440351,
                             "min_flow_fraction": 0
@@ -386,7 +385,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "MW_new_LNG_simple_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813528,
@@ -404,8 +403,8 @@
                             "capacity_size": 100,
                             "startup_cost": 52,
                             "startup_fuel_consumption": 0.58614214,
-                            "min_up_time": 0.25,
-                            "min_down_time": 0.5,
+                            "min_up_time": 1,
+                            "min_down_time": 1,
                             "ramp_up_fraction": 0.440351,
                             "ramp_down_fraction": 0.440351,
                             "min_flow_fraction": 0
@@ -415,7 +414,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "S_new_LNG_simple_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813528,
@@ -433,8 +432,8 @@
                             "capacity_size": 100,
                             "startup_cost": 52,
                             "startup_fuel_consumption": 0.58614214,
-                            "min_up_time": 0.25,
-                            "min_down_time": 0.5,
+                            "min_up_time": 1,
+                            "min_down_time": 1,
                             "ramp_up_fraction": 0.440351,
                             "ramp_down_fraction": 0.440351,
                             "min_flow_fraction": 0
@@ -444,7 +443,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "N_new_LNG_combined_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -473,7 +472,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "NE_new_LNG_combined_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -502,7 +501,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "SE_new_LNG_combined_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -531,7 +530,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "MW_new_LNG_combined_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -560,7 +559,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "S_new_LNG_combined_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -589,7 +588,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "N_new_LNG_combined_cycle_50_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -618,7 +617,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "NE_new_LNG_combined_cycle_50_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -647,7 +646,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "SE_new_LNG_combined_cycle_50_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -676,7 +675,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "MW_new_LNG_combined_cycle_50_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -705,7 +704,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "S_new_LNG_combined_cycle_50_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -734,7 +733,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "N_new_NG_combined_cycle_70_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -763,7 +762,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "NE_new_NG_combined_cycle_70_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -792,7 +791,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "SE_new_NG_combined_cycle_70_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -821,7 +820,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "MW_new_NG_combined_cycle_70_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -850,7 +849,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "S_new_NG_combined_cycle_70_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -879,7 +878,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "N_new_NG_combined_cycle_100_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -908,7 +907,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "NE_new_NG_combined_cycle_100_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -937,7 +936,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "SE_new_NG_combined_cycle_100_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -966,7 +965,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "MW_new_NG_combined_cycle_100_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -995,7 +994,7 @@
                         }
                     }
                 },
-				{
+		{
                     "id": "S_new_NG_combined_cycle_100_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
