@@ -111,8 +111,7 @@
                             "startup_fuel_consumption": 0.0
                         }
                     }
-                }
-                ,
+                },
                 {
                     "id": "NE_new_SMR",
                     "transforms":{
@@ -212,8 +211,7 @@
                             "startup_fuel_consumption": 0.0
                         }
                     }
-                }
-                ,
+                },
                 {
                     "id": "NE_new_nuclear",
                     "transforms":{
