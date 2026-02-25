@@ -35,11 +35,15 @@ abstract type Hydrogen <: Commodity end ## MWh
 abstract type NaturalGas <: Commodity end ## MWh
 abstract type CO2 <: Commodity end ## tonnes
 abstract type CO2Captured <: CO2 end ## tonnes
+abstract type Charcoal <: Commodity end ## Mwh
 abstract type Coal <: Commodity end ## MWh
+abstract type Biomethane <: Commodity end ## MWh   
 abstract type Biomass <: Commodity end ## tonnes
 abstract type Uranium <: Commodity end ## MWh
 abstract type LiquidFuels <: Commodity end ## MWh
+abstract type Pollution <: Commodity end ## tonnes
 abstract type Cement <: Commodity end ## tonnes
+abstract type Ammonia <: Commodity end ## MWh
 abstract type Aluminum <: Commodity end ## tonnes
 abstract type AluminumScrap <: Commodity end ## tonnes
 abstract type Alumina <: Commodity end ## tonnes
@@ -208,6 +212,15 @@ include("model/assets/thermalheating.jl")
 include("model/assets/electricheating.jl")
 include("model/assets/thermalsteam.jl")
 include("model/assets/electricsteam.jl")
+include("model/assets/biomassharvest.jl")
+include("model/assets/beccsammonia.jl")
+include("model/assets/beccsbiomethane.jl")
+include("model/assets/beccsethanol.jl")
+include("model/assets/biomasstransformation.jl")
+include("model/assets/fischertropsch.jl")
+include("model/assets/beccsatj.jl") 
+include("model/assets/beccscharcoal.jl")
+include("model/assets/beccsdiesel.jl")
 
 include("config/configure_settings.jl")
 include("config/case_settings.jl")
@@ -318,6 +331,7 @@ export AbstractAsset,
     StorageSymmetricCapacityConstraint,
     StorageDischargeLimitConstraint,
     StorageChargeLimitConstraint,
+    ResidueDischargeCapacitySyncConstraint,
     SyntheticNaturalGas,
     SyntheticLiquidFuels,
     ThermalHydrogen,

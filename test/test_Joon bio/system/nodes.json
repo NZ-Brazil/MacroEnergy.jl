@@ -1,0 +1,215 @@
+{
+    "nodes": [
+        {
+            "global_data": {
+                "constraints": {
+                    "MaxNonServedDemandConstraint": true,
+                    "MaxNonServedDemandPerSegmentConstraint": true,
+                    "BalanceConstraint": true
+                },
+                "max_nsd": [
+                    1,
+                    0.04,
+                    0.024,
+                    0.003
+                ],
+                "time_interval": "Electricity",
+                "price_nsd": [
+                    50000,
+                    45000,
+                    27500.000000000004,
+                    10000
+                ]
+            },
+            "instance_data": [
+                {
+                    "demand": {
+                        "timeseries": {
+                            "header": "elec_demand_MA",
+                            "path": "system/demand.csv"
+                        }
+                    },
+                    "id": "elec_MA"
+                },
+                {
+                    "demand": {
+                        "timeseries": {
+                            "header": "elec_demand_CT",
+                            "path": "system/demand.csv"
+                        }
+                    },
+                    "id": "elec_CT"
+                },
+                {
+                    "demand": {
+                        "timeseries": {
+                            "header": "elec_demand_ME",
+                            "path": "system/demand.csv"
+                        }
+                    },
+                    "id": "elec_ME"
+                }
+            ],
+            "type": "Electricity"
+        },
+        
+
+        {
+            "type": "Corn",
+            "global_data": {
+                "time_interval": "Biomass",
+                "constraints": {
+                "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                "id": "corn_BR",
+                "location": "BR",
+                    "max_supply": [415.23, 187176.53, 241566.99, 237463.52, 197172.84, 56284.26, 43018.01, 123467.07, 11397.41, 6790.68],
+                    "price_supply": [8940.57, 10764.39, 11340.6, 11713.15, 12041.31, 12415.56, 13038.37, 14191.51, 15561.85, 18184.32]
+                }
+            ]
+        },
+
+
+    {
+        "type": "Bagasse",
+        "global_data": {
+            "time_interval": "Biomass",
+            "constraints": {
+            "BalanceConstraint": true
+            }
+        },
+        "instance_data": [
+            {
+            "id": "bagasse_BR",
+            "location": "BR"
+            }
+        ]
+    },
+
+    {
+      "type": "Ethanol",
+      "global_data": {
+        "time_interval": "LiquidFuels",
+        "max_nsd": [
+            1
+        ],
+        "price_nsd": [
+            5000000000.0
+        ],
+        "constraints": {
+          "BalanceConstraint": true,
+          "MaxNonServedDemandConstraint": true,
+          "MaxNonServedDemandPerSegmentConstraint": false
+        }
+      },
+      "instance_data": [
+        {
+          "id": "ethanol_BR",
+          "location": "BR"
+        },
+        {
+          "id": "ethanol_demand_BR",
+          "demand": {
+            "timeseries": {
+              "path": "system/demand_bio.csv",
+              "header": "Demand_Ethanol"
+            }
+          }
+        }
+      ]
+    },
+    
+        {
+            "global_data": {
+                "time_interval": "NaturalGas"
+            },
+            "instance_data": [
+                {
+                    "price": [18.59617191],
+                    "id": "CT_NG"
+                },
+                {
+                    "price": [18.59617191],
+                    "id": "ME_NG"
+                },
+                {
+                    "price": [18.59617191],
+                    "id": "MA_NG"
+                }
+            ],
+            "type": "NaturalGas"
+        },
+        {
+            "global_data": {
+                "time_interval": "Uranium"
+            },
+            "instance_data": [
+            ],
+            "type": "Uranium"
+        },
+
+        {
+            "global_data": {
+                "time_interval": "CO2"
+            },
+            "instance_data": [
+                {
+                    "constraints": {
+                        "CO2CapConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2CapConstraint": 18000
+                    },
+                    "id": "co2_sink_1"
+                },
+                {
+                    "constraints": {
+                        "CO2CapConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2CapConstraint": 25000
+                    },
+                    "id": "co2_sink_2"
+                },
+                {
+                    "constraints": {
+                        "CO2CapConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2CapConstraint": 25000
+                    },
+                    "id": "co2_sink_3"
+                }
+            ],
+            "type": "CO2"
+        },
+
+            {
+      "type": "CO2Captured",
+      "global_data": {
+        "time_interval": "CO2Captured"
+      },
+      "instance_data": [
+        {
+          "id": "co2_captured_BR",
+          "location": "BR"
+        }
+      ]
+    },
+    
+        {
+            "global_data": {
+                "time_interval": "Electricity"
+            },
+            "instance_data": [
+                {
+                    "id": "water_node"
+                }
+            ],
+            "type": "Electricity"
+        }
+    ]
+}

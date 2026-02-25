@@ -1,0 +1,6 @@
+{
+    "WriteSubcommodities": true,
+    "ConstraintScaling": true,
+    "OutputLayout": "wide",
+    "DualExportsEnabled": false
+}

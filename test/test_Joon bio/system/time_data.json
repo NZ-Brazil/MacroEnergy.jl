@@ -1,0 +1,20 @@
+{
+    "TimeStepsPerSubperiod":24,
+    "TimeResolution": {
+        "NaturalGas": 1,
+        "Electricity": 1,
+        "Biomass": 2,
+        "LiquidFuels":2,
+        "CO2": 1
+    },
+    "ReferenceClock": 1,
+    "NumberOfSubperiods" :3,
+    "HoursPerSubperiod": {
+        "NaturalGas": 24,
+        "Electricity": 24,
+        "Biomass":24,
+        "LiquidFuels":24,
+        "CO2": 24
+    },
+    "TotalTimeStepsModeled": 876
+}
