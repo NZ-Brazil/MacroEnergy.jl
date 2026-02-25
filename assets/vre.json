@@ -145,8 +145,6 @@
           "existing_capacity": 28.050
         }}
       },
-
-
       {
         "id": "wind_2_MW",
         "edges": { "edge": {
@@ -199,8 +197,6 @@
           "existing_capacity": 0
         }}
       },
-
-
       {
         "id": "solar_pv_0_MW",
         "edges": { "edge": {
@@ -253,8 +249,6 @@
           "existing_capacity": 0
         }}
       },
-
-
       {
         "id": "solar_pv_1_MW",
         "edges": { "edge": {
@@ -320,7 +314,6 @@
           "existing_capacity": 6527.26042
         }}
       },
-
       {
         "id": "solar_pv_2_MW",
         "edges": { "edge": {
