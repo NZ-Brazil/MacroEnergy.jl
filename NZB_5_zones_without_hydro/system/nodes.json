@@ -1,0 +1,190 @@
+{
+  "nodes": [
+    {
+      "type": "Electricity",
+      "global_data": {
+        "constraints": {
+          "MaxNonServedDemandConstraint": true,
+          "MaxNonServedDemandPerSegmentConstraint": true,
+          "BalanceConstraint": true
+        },
+        "max_nsd": [1, 0.04, 0.024, 0.003],
+        "time_interval": "Electricity",
+        "price_nsd": [50000, 45000, 27500.000000000004, 10000]
+      },
+      "instance_data": [
+        {
+          "id": "elec_NE",
+          "location": "NE",
+          "demand": {
+            "timeseries": {
+              "header": "elec_demand_NE",
+              "path": "system/demand.csv"
+            }
+          }
+        },
+        {
+          "id": "elec_N",
+          "location": "N",
+          "demand": {
+            "timeseries": {
+              "header": "elec_demand_N",
+              "path": "system/demand.csv"
+            }
+          }
+        },
+        {
+          "id": "elec_SE",
+          "location": "SE",
+          "demand": {
+            "timeseries": {
+              "header": "elec_demand_SE",
+              "path": "system/demand.csv"
+            }
+          }
+        },
+        {
+          "id": "elec_S",
+          "location": "S",
+          "demand": {
+            "timeseries": {
+              "header": "elec_demand_S",
+              "path": "system/demand.csv"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "NaturalGas",
+      "global_data": {
+        "time_interval": "NaturalGas"
+      },
+      "instance_data": [
+        {
+          "id": "natgas",
+          "location": "Brazil_1",
+          "price": {
+            "timeseries": {
+              "header": "natgas",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "natgas_LNG",
+          "location": "Brazil_2",
+          "price": {
+            "timeseries": {
+              "header": "natgas_LNG",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "natgas_LNG_100_flexible",
+          "location": "Brazil_3",
+          "price": {
+            "timeseries": {
+              "header": "natgas_LNG_100_flexible",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "natgas_LNG_50_inflexible",
+          "location": "Brazil_4",
+          "price": {
+            "timeseries": {
+              "header": "natgas_LNG_50_inflexible",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "natgas_NG_70_inflexible",
+          "location": "Brazil_5",
+          "price": {
+            "timeseries": {
+              "header": "natgas_NG_70_inflexible",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "natgas_NG_100_inflexible",
+          "location": "Brazil_6",
+          "price": {
+            "timeseries": {
+              "header": "natgas_NG_100_inflexible",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Uranium",
+      "global_data": {
+        "time_interval": "Uranium"
+      },
+      "instance_data": [
+        {
+          "id": "uranium_source",
+          "price": [
+            2.79796
+          ]
+        }
+      ]
+    },
+ {
+      "type": "Coal",
+      "global_data": {
+        "time_interval": "Coal"
+      },
+      "instance_data": [
+       {
+          "id": "coal_NE",
+          "location": "NE",
+          "price": {
+            "timeseries": {
+              "header": "coal_NE",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        },
+        {
+          "id": "coal_S",
+          "location": "S",
+          "price": {
+            "timeseries": {
+              "header": "coal_S",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "CO2",
+            "global_data": {
+                "time_interval": "CO2"
+            },
+            "instance_data": [
+                {
+                    "id": "co2_sink",
+                    "constraints": {
+                        "CO2CapConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2CapConstraint": 0
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+
+
+
