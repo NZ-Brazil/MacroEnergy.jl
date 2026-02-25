@@ -1,0 +1,16 @@
+{
+    "TimeStepsPerSubperiod":24,
+    "TimeResolution": {
+        "NaturalGas": 12,
+        "Electricity": 1,
+        "CO2": 1
+    },
+    "ReferenceClock": 1,
+    "NumberOfSubperiods":3,
+    "HoursPerSubperiod": {
+        "NaturalGas": 24,
+        "Electricity": 24,
+        "CO2": 24
+    },
+    "TotalTimeStepsModeled": 876
+}

@@ -6,7 +6,9 @@ function default_settings()
         OutputDir = "results",
         OutputLayout = "long",
         AutoCreateNodes = false,
-        AutoCreateLocations = true
+        AutoCreateLocations = true,
+        Retrofitting = false,
+        DualExportsEnabled = true
     )
 end
 
@@ -51,6 +53,7 @@ end
 
 function validate_settings(settings::NamedTuple)
     @assert settings[:ConstraintScaling] ∈ (false, true)
+    @assert settings[:DualExportsEnabled] isa Bool
     @assert settings[:OutputLayout] isa Union{String, NamedTuple}
     if settings[:OutputLayout] isa String
         @assert settings[:OutputLayout] ∈ ("long", "wide")
@@ -59,6 +62,7 @@ function validate_settings(settings::NamedTuple)
         @assert all(keys(settings[:OutputLayout]) .∈ Ref((:Capacity, :Costs, :Flow)))
         @assert all(values(settings[:OutputLayout]) .∈ Ref(("long", "wide")))
     end
+    return nothing
 end
 
 function validate_names(settings::NamedTuple)

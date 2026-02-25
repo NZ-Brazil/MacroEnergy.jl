@@ -2,12 +2,13 @@ macro AbstractEdgeBaseAttributes()
     edge_defaults = edge_default_data()
     esc(quote
         id::Symbol
-        timedata::TimeData{T}
+        timedata::TimeData
         start_vertex::AbstractVertex
         end_vertex::AbstractVertex
-        availability::Vector{Float64} = Float64[]
+        availability::MacroTimeSeries = MacroTimeSeries()
         can_expand::Bool = $edge_defaults[:can_expand]
         can_retire::Bool = $edge_defaults[:can_retire]
+        can_retrofit::Bool = $edge_defaults[:can_retrofit]
         capacity::Union{JuMPVariable,AffExpr,Float64} = AffExpr(0.0)
         capacity_size::Float64 = $edge_defaults[:capacity_size]
         capital_recovery_period::Int64 = $edge_defaults[:capital_recovery_period]
@@ -19,11 +20,14 @@ macro AbstractEdgeBaseAttributes()
         has_capacity::Bool = $edge_defaults[:has_capacity]
         integer_decisions::Bool = $edge_defaults[:integer_decisions]
         investment_cost::Float64 = $edge_defaults[:investment_cost]
+        is_retrofit::Bool = $edge_defaults[:is_retrofit]
         lifetime::Int64 = $edge_defaults[:lifetime]
         loss_fraction::Vector{Float64} = $edge_defaults[:loss_fraction]
         max_capacity::Float64 = $edge_defaults[:max_capacity]
         max_new_capacity::Float64 = $edge_defaults[:max_new_capacity]
         min_capacity::Float64 = $edge_defaults[:min_capacity]
+        min_retired_capacity::Float64 = $edge_defaults[:min_retired_capacity]
+        min_retired_capacity_track::Float64 = 0.0
         min_flow_fraction::Float64 = $edge_defaults[:min_flow_fraction]
         new_capacity::Union{AffExpr,Float64} = AffExpr(0.0)
         new_capacity_track::Dict{Int64,AffExpr} = Dict(1 => AffExpr(0.0))
@@ -33,6 +37,11 @@ macro AbstractEdgeBaseAttributes()
         retired_capacity::Union{AffExpr,Float64} = AffExpr(0.0)
         retired_capacity_track::Dict{Int64,AffExpr} = Dict(1 => AffExpr(0.0))
         retired_units::Union{JuMPVariable,Float64} = 0.0
+        retrofit_efficiency::Union{Missing,Float64} = $edge_defaults[:retrofit_efficiency]
+        retrofit_id::Union{Missing, Vector{Symbol}} = $edge_defaults[:retrofit_id]
+        retrofitted_capacity::AffExpr = AffExpr(0.0)
+        retrofitted_capacity_track::Dict{Int64,AffExpr} = Dict(1 => AffExpr(0.0))
+        retrofitted_units::Union{JuMPVariable,Float64} = 0.0
         unidirectional::Bool = $edge_defaults[:unidirectional]
         variable_om_cost::Float64 = $edge_defaults[:variable_om_cost]
         min_down_time::Int64 = $edge_defaults[:min_down_time]
@@ -72,6 +81,7 @@ end
     - loss_fraction::Vector{Float64}: Fraction of flow lost during transmission, it can be time-dependent.
     - max_capacity::Float64: Maximum allowed capacity
     - min_capacity::Float64: Minimum required capacity
+    - min_retired_capacity::Float64: Minimum capacity that must be retired in this period
     - min_flow_fraction::Float64: Minimum flow as fraction of capacity
     - new_capacity::Union{JuMPVariable,Float64}: JuMP variable representing new capacity built
     - ramp_down_fraction::Float64: Maximum ramp-down rate as fraction of capacity
@@ -88,8 +98,20 @@ Base.@kwdef mutable struct Edge{T} <: AbstractEdge{T}
     @AbstractEdgeBaseAttributes()
 end
 
+commodity_type(::Type{AbstractEdge{T}}) where {T} = T
+function commodity_type(t::Type{AbstractEdge{<:T}}) where {T}
+    ub_type = t.var.ub
+    return commodity_type(AbstractEdge{ub_type})
+end
+commodity_type(::Type{Edge{T}}) where {T} = T
+function commodity_type(t::Type{Edge{<:T}}) where {T}
+    ub_type = t.var.ub
+    return commodity_type(Edge{ub_type})
+end
+
 function target_is_valid(commodity::Type{<:Commodity}, target::T) where T<:Union{Node, AbstractStorage}
-    if commodity <: commodity_type(target)
+    target_commodity = commodity_type(target)
+    if (commodity === target_commodity) || (commodity <: target_commodity)
         return true
     end
     return false
@@ -126,6 +148,10 @@ function make_edge(
         if haskey(filtered_data, key)
             delete!(filtered_data, key)
         end
+    end
+    # Time series
+    if haskey(filtered_data, :availability) && isa(data[:availability], Vector{Float64})
+        filtered_data[:availability] = MacroTimeSeries(filtered_data[:availability], time_data.resolution)
     end
     if haskey(filtered_data,:loss_fraction) && !isa(filtered_data[:loss_fraction], Vector{Float64})
         filtered_data[:loss_fraction] = [filtered_data[:loss_fraction]];
@@ -174,6 +200,7 @@ function availability(e::AbstractEdge, t::Int64)
 end
 can_expand(e::AbstractEdge) = e.can_expand;
 can_retire(e::AbstractEdge) = e.can_retire;
+can_retrofit(e::AbstractEdge) = e.can_retrofit;
 capacity(e::AbstractEdge) = e.capacity;
 capacity_size(e::AbstractEdge) = e.capacity_size;
 capital_recovery_period(e::AbstractEdge) = e.capital_recovery_period;
@@ -187,6 +214,7 @@ has_capacity(e::AbstractEdge) = e.has_capacity;
 id(e::AbstractEdge) = e.id;
 integer_decisions(e::AbstractEdge) = e.integer_decisions;
 investment_cost(e::AbstractEdge) = e.investment_cost;
+is_retrofit(e::AbstractEdge) = e.is_retrofit;
 lifetime(e::AbstractEdge) = e.lifetime;
 loss_fraction(e::AbstractEdge) = e.loss_fraction;
 function loss_fraction(e::AbstractEdge, t::Int64)
@@ -202,6 +230,8 @@ end
 max_capacity(e::AbstractEdge) = e.max_capacity;
 max_new_capacity(e::AbstractEdge) = e.max_new_capacity;
 min_capacity(e::AbstractEdge) = e.min_capacity;
+min_retired_capacity(e::AbstractEdge) = e.min_retired_capacity;
+min_retired_capacity_track(e::AbstractEdge) = e.min_retired_capacity_track;
 min_flow_fraction(e::AbstractEdge) = e.min_flow_fraction;
 new_capacity(e::AbstractEdge) = e.new_capacity;
 new_capacity_track(e::AbstractEdge) = e.new_capacity_track;
@@ -216,6 +246,12 @@ retired_capacity_track(e::AbstractEdge) = e.retired_capacity_track;
 retired_capacity_track(e::AbstractEdge,s::Int64) =  (haskey(retired_capacity_track(e),s) == false) ? 0.0 : e.retired_capacity_track[s];
 retired_units(e::AbstractEdge) = e.retired_units;
 retirement_period(e::AbstractEdge) = e.retirement_period;
+retrofit_efficiency(e::AbstractEdge) = e.retrofit_efficiency;
+retrofit_id(e::AbstractEdge) = e.retrofit_id;
+retrofitted_capacity(e::AbstractEdge) = e.retrofitted_capacity;
+retrofitted_capacity_track(e::AbstractEdge) = e.retrofitted_capacity_track;
+retrofitted_capacity_track(e::AbstractEdge,s::Int64) = (haskey(retrofitted_capacity_track(e),s) == false) ? 0.0 : e.retrofitted_capacity_track[s];
+retrofitted_units(e::AbstractEdge) = e.retrofitted_units;
 start_vertex(e::AbstractEdge)::AbstractVertex = e.start_vertex;
 variable_om_cost(e::AbstractEdge) = e.variable_om_cost;
 wacc(e::AbstractEdge) = e.wacc;
@@ -248,7 +284,19 @@ function define_available_capacity!(e::AbstractEdge, model::Model)
         
         e.retired_capacity_track[period_index(e)] = retired_capacity(e);
 
-        @constraint(model, capacity(e) == new_capacity(e) - retired_capacity(e) + existing_capacity(e))
+        if can_retrofit(e)
+
+            e.retrofitted_units = @variable(model, lower_bound = 0.0, base_name = "vRETROFITUNIT_$(id(e))_period$(period_index(e))")
+            
+            e.retrofitted_capacity = @expression(model, capacity_size(e) * retrofitted_units(e))
+
+            e.retrofitted_capacity_track[period_index(e)] = retrofitted_capacity(e)
+
+            @constraint(model, capacity(e) == new_capacity(e) - retired_capacity(e) - retrofitted_capacity(e) + existing_capacity(e))
+            
+        else
+            @constraint(model, capacity(e) == new_capacity(e) - retired_capacity(e) + existing_capacity(e))
+        end
 
         # e.capacity = @expression(
         #     model,
@@ -280,7 +328,14 @@ function planning_model!(e::AbstractEdge, model::Model)
             end
         end
 
-        @constraint(model, retired_capacity(e) <= existing_capacity(e))
+        if can_retrofit(e)
+            @constraint(model, retrofitted_capacity(e) + retired_capacity(e) <= existing_capacity(e))
+            if integer_decisions(e)
+                set_integer(retrofitted_units(e))
+            end
+        else
+            @constraint(model, retired_capacity(e) <= existing_capacity(e))
+        end
 
     end
 
@@ -324,17 +379,17 @@ function operation_model!(e::Edge, model::Model)
     if e.unidirectional
         e.flow = @variable(
             model,
-            [t in time_interval(e)],
+            [t in time_steps(e)],
             lower_bound = 0.0,
             base_name = "vFLOW_$(id(e))_period$(period_index(e))"
         )
     else
-        e.flow = @variable(model, [t in time_interval(e)], base_name = "vFLOW_$(id(e))_period$(period_index(e))")
+        e.flow = @variable(model, [t in time_steps(e)], base_name = "vFLOW_$(id(e))_period$(period_index(e))")
     end
 
     update_balances!(e, model)
 
-    for t in time_interval(e)
+    for t in time_steps(e)
         w = current_subperiod(e,t)
         if variable_om_cost(e) > 0
             add_to_expression!(
@@ -412,6 +467,8 @@ Base.@kwdef mutable struct EdgeWithUC{T} <: AbstractEdge{T}
     ustart::JuMPVariable = Vector{VariableRef}()
 end
 
+commodity_type(::Type{EdgeWithUC{T}}) where {T} = T
+
 function make_edge_UC(
     id::Symbol,
     data::Dict{Symbol,Any},
@@ -437,6 +494,12 @@ function make_edge_UC(
             delete!(filtered_data, key)
         end
     end
+
+    # Time series
+    if haskey(filtered_data, :availability) && isa(data[:availability], Vector{T} where {T<:Real})
+        filtered_data[:availability] = MacroTimeSeries(filtered_data[:availability], time_data.resolution)
+    end
+
     _edge = EdgeWithUC{commodity}(;
         id = id,
         timedata = time_data,
@@ -456,8 +519,36 @@ EdgeWithUC(
 ) = make_edge_UC(id, data, time_data, commodity, start_vertex, end_vertex)
 
 ######### EdgeWithUC interface #########
-min_down_time(e::EdgeWithUC) = e.min_down_time;
-min_up_time(e::EdgeWithUC) = e.min_up_time;
+"""
+    rescale_data(edge::AbstractEdge, field_name::Symbol, resolution::AbstractResolution)
+
+Convert a time-based parameter from reference timesteps to model timesteps.
+For example, if `min_up_time = 6` reference hours and `block_length = 3` hours/timestep,
+this returns `2` model timesteps.
+"""
+function rescale_data(edge::AbstractEdge, field_name::Symbol, resolution::AbstractResolution)
+    input_data = getfield(edge, field_name)
+    
+    if isa(resolution, UniformResolution)
+        block_length = resolution.block_length
+        
+        # Check if input_data is divisible by block_length
+        if !iszero(input_data % block_length)
+            error("$(field_name) = $(input_data) is not divisible by block_length $(block_length) for edge $(edge.id). " *
+                  "Please ensure $(field_name) is a multiple of the time resolution.")
+        end
+        
+        return div(input_data, block_length)
+        
+    elseif isa(resolution, FlexibleResolution)
+        error("$(field_name) = $(input_data) cannot be rescaled for edge $(edge.id) with flexible resolution. " *
+              "Time-dependent constraints like min_up_time and min_down_time require uniform resolution.")
+    else
+        error("Unknown resolution type $(typeof(resolution)) for edge $(edge.id).")
+    end
+end
+min_up_time(e::EdgeWithUC) = rescale_data(e, :min_up_time, e.timedata.resolution)
+min_down_time(e::EdgeWithUC) = rescale_data(e, :min_down_time, e.timedata.resolution)
 startup_cost(e::EdgeWithUC) = e.startup_cost;
 startup_fuel_consumption(e::EdgeWithUC) = e.startup_fuel_consumption;
 startup_fuel_balance_id(e::EdgeWithUC) = e.startup_fuel_balance_id;
@@ -480,28 +571,28 @@ function operation_model!(e::EdgeWithUC, model::Model)
 
     e.flow = @variable(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         lower_bound = 0.0,
         base_name = "vFLOW_$(id(e))_period$(period_index(e))"
     )
 
     e.ucommit = @variable(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         lower_bound = 0.0,
         base_name = "vCOMMIT_$(id(e))_period$(period_index(e))"
     )
 
     e.ustart = @variable(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         lower_bound = 0.0,
         base_name = "vSTART_$(id(e))_period$(period_index(e))"
     )
 
     e.ushut = @variable(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         lower_bound = 0.0,
         base_name = "vSHUT_$(id(e))_period$(period_index(e))"
     )
@@ -510,7 +601,7 @@ function operation_model!(e::EdgeWithUC, model::Model)
 
     update_startup_fuel_balance!(e)
 
-    for t in time_interval(e)
+    for t in time_steps(e)
 
         w = current_subperiod(e,t)
         if variable_om_cost(e) > 0
@@ -546,15 +637,15 @@ function operation_model!(e::EdgeWithUC, model::Model)
     @constraints(
         model,
         begin
-            [t in time_interval(e)], ucommit(e, t) <= capacity(e) / capacity_size(e)
-            [t in time_interval(e)], ustart(e, t) <= capacity(e) / capacity_size(e)
-            [t in time_interval(e)], ushut(e, t) <= capacity(e) / capacity_size(e)
+            [t in time_steps(e)], ucommit(e, t) <= capacity(e) / capacity_size(e)
+            [t in time_steps(e)], ustart(e, t) <= capacity(e) / capacity_size(e)
+            [t in time_steps(e)], ushut(e, t) <= capacity(e) / capacity_size(e)
         end
     )
 
     @constraint(
         model,
-        [t in time_interval(e)],
+        [t in time_steps(e)],
         ucommit(e, t) - ucommit(e, timestepbefore(t, 1, subperiods(e))) ==
         ustart(e, t) - ushut(e, t)
     )
@@ -604,7 +695,17 @@ function update_startup_fuel_balance!(e::EdgeWithUC)
     i = startup_fuel_balance_id(e)
 
     if i ∈ balance_ids(v)
-        add_to_expression!.(get_balance(v, i), -1 * startup_fuel_consumption(e) * capacity_size(e) * ustart(e))
+        # get common time blocks for the startup fuel balance from the vertex v
+        constraint_time_intervals = balance_time_intervals(v, i)
+        # find the corresponding time blocks for the current edge
+        edge_time_intervals = map_time_steps_to_common_time_intervals(time_resolution(e), constraint_time_intervals)
+        # update the balance expression for the current edge
+        balance_expr = get_balance(v, i)
+        coeff = -1 * startup_fuel_consumption(e) * capacity_size(e)
+        for (int_idx, time_indices) in enumerate(edge_time_intervals)
+            # sum the startup flow over the time blocks
+            add_to_expression!(balance_expr[int_idx], coeff, sum(ustart(e, t) for t in time_indices))
+        end
     end
 
     return nothing
@@ -617,28 +718,24 @@ function update_balance_start!(e::AbstractEdge, model::Model)
 
     if e.unidirectional == true
 
-        effective_flow = @expression(model, [t in time_interval(e)], flow(e, t))
+        effective_flow = @expression(model, [t in time_steps(e)], flow(e, t))
 
     else
-        flow_pos = @variable(model, [t in time_interval(e)], lower_bound = 0.0, base_name = "vFLOWPOS_$(id(e))_period$(period_index(e))")
-        flow_neg = @variable(model, [t in time_interval(e)], lower_bound = 0.0, base_name = "vFLOWNEG_$(id(e))_period$(period_index(e))")
+        flow_pos = @variable(model, [t in time_steps(e)], lower_bound = 0.0, base_name = "vFLOWPOS_$(id(e))_period$(period_index(e))")
+        flow_neg = @variable(model, [t in time_steps(e)], lower_bound = 0.0, base_name = "vFLOWNEG_$(id(e))_period$(period_index(e))")
 
-        @constraint(model, [t in time_interval(e)], flow_pos[t] - flow_neg[t] == flow(e, t))
+        @constraint(model, [t in time_steps(e)], flow_pos[t] - flow_neg[t] == flow(e, t))
 
         if isa(e, EdgeWithUC)
-            @constraint(model, [t in time_interval(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t) * time_interval_length(t,time_resolution(e)))
         else
-            @constraint(model, [t in time_interval(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e) * time_interval_length(t,time_resolution(e)))
         end
 
-        effective_flow = @expression(model, [t in time_interval(e)], flow_pos[t] - (1 - loss_fraction(e,t)) * flow_neg[t])
+        effective_flow = @expression(model, [t in time_steps(e)], flow_pos[t] - (1 - loss_fraction(e, t)) * flow_neg[t])
     end
 
-    for i in balance_ids(v)
-        add_to_expression!.(get_balance(v, i),  -1 * balance_data(e, v, i) * effective_flow)
-    end
-    
-
+    update_balance!(e, v, effective_flow, -1)
 end
 
 function update_balance_end!(e::AbstractEdge, model::Model)
@@ -646,28 +743,68 @@ function update_balance_end!(e::AbstractEdge, model::Model)
     v = end_vertex(e)
 
     if e.unidirectional == true
-        effective_flow = @expression(model, [t in time_interval(e)], (1-loss_fraction(e,t)) * flow(e, t))
+        effective_flow = @expression(model, [t in time_steps(e)], (1-loss_fraction(e,t)) * flow(e, t))
     else
     
-        flow_pos = @variable(model, [t in time_interval(e)], lower_bound = 0.0, base_name = "vFLOWPOS_$(id(e))_period$(period_index(e))")
-        flow_neg = @variable(model, [t in time_interval(e)], lower_bound = 0.0, base_name = "vFLOWNEG_$(id(e))_period$(period_index(e))")
+        flow_pos = @variable(model, [t in time_steps(e)], lower_bound = 0.0, base_name = "vFLOWPOS_$(id(e))_period$(period_index(e))")
+        flow_neg = @variable(model, [t in time_steps(e)], lower_bound = 0.0, base_name = "vFLOWNEG_$(id(e))_period$(period_index(e))")
 
-        @constraint(model, [t in time_interval(e)], flow_pos[t] - flow_neg[t] == flow(e, t))
+        @constraint(model, [t in time_steps(e)], flow_pos[t] - flow_neg[t] == flow(e, t))
 
         if isa(e, EdgeWithUC)
-            @constraint(model, [t in time_interval(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity_size(e) * ucommit(e, t) * time_interval_length(t,time_resolution(e)))
         else
-            @constraint(model, [t in time_interval(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e))
+            @constraint(model, [t in time_steps(e)], flow_pos[t] + flow_neg[t] <= availability(e, t) * capacity(e) * time_interval_length(t,time_resolution(e)))
         end
 
-        effective_flow = @expression(model, [t in time_interval(e)], (1 - loss_fraction(e,t)) * flow_pos[t] - flow_neg[t])
+        effective_flow = @expression(model, [t in time_steps(e)], (1 - loss_fraction(e, t)) * flow_pos[t] - flow_neg[t])
 
     end
 
+    update_balance!(e, v, effective_flow, 1)
+
+end
+
+###### Helper Functions for Balance Updates ######
+
+"""
+    update_balance!(e::AbstractEdge, v::Transformation, effective_flow::JuMP.Containers.DenseAxisArray, coeff_sign::Int=1)
+Update balance for **Transformation** vertices with time resolution alignment.
+This function performs the following steps:
+1. Find common time blocks for the balance equation at the Transformation `v`
+2. Map the time steps of the edge `e` to the common time blocks
+3. Get the balance expression for the current edge
+4. Get the coefficient for the current edge
+5. Update the balance expression for the current edge by summing the flow variables over the time blocks
+"""
+function update_balance!(e::AbstractEdge, v::Transformation, flow::JuMP.Containers.DenseAxisArray, coeff_sign::Int=1)
     for i in balance_ids(v)
-        add_to_expression!.(get_balance(v, i),  balance_data(e, v, i) * effective_flow)
+        constraint_time_intervals = balance_time_intervals(v, i)
+        edge_time_intervals = map_time_steps_to_common_time_intervals(time_resolution(e), constraint_time_intervals)
+        balance_expr = get_balance(v, i)
+        coeff = coeff_sign * balance_data(e, v, i)
+        for (int_idx, time_indices) in enumerate(edge_time_intervals)
+            add_to_expression!(balance_expr[int_idx], coeff, sum(flow[t] for t in time_indices))
+        end
     end
-    
+end
+
+"""
+    update_balance!(e::AbstractEdge, v::AbstractVertex, effective_flow::JuMP.Containers.DenseAxisArray, coeff_sign::Int=1)
+Update balance for non-Transformation vertices with direct time alignment.
+This function performs the following steps:
+1. Find the balance expression for the current edge
+2. Get the coefficient for the current edge
+3. Update the balance expression for the current edge by summing the flow variables over the time blocks
+"""
+function update_balance!(e::AbstractEdge, v::AbstractVertex, effective_flow::JuMP.Containers.DenseAxisArray, coeff_sign::Int=1)
+    for i in balance_ids(v)
+        balance_expr = get_balance(v, i)
+        coeff = coeff_sign * balance_data(e, v, i)
+        for t in time_steps(e)
+            add_to_expression!(balance_expr[t], coeff, effective_flow[t])
+        end
+    end
 end
 
 ###### Templates ######

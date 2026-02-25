@@ -16,9 +16,10 @@ using Pkg
 using DistributedArrays
 using Distributed
 using ClusterManagers
-using Gurobi
 using GitHub
 using Markdown
+using Logging
+using LoggingExtras
 
 import MacroEnergyScaling: scale_constraints!
 import JuMP: set_optimizer, set_optimizer_attributes
@@ -34,19 +35,29 @@ abstract type Hydrogen <: Commodity end ## MWh
 abstract type NaturalGas <: Commodity end ## MWh
 abstract type CO2 <: Commodity end ## tonnes
 abstract type CO2Captured <: CO2 end ## tonnes
+abstract type Charcoal <: Commodity end ## Mwh
 abstract type Coal <: Commodity end ## MWh
+abstract type Biomethane <: Commodity end ## MWh   
 abstract type Biomass <: Commodity end ## tonnes
 abstract type Uranium <: Commodity end ## MWh
 abstract type LiquidFuels <: Commodity end ## MWh
+abstract type Pollution <: Commodity end ## tonnes
 abstract type Cement <: Commodity end ## tonnes
+abstract type Ammonia <: Commodity end ## MWh
 abstract type Aluminum <: Commodity end ## tonnes
 abstract type AluminumScrap <: Commodity end ## tonnes
 abstract type Alumina <: Commodity end ## tonnes
 abstract type Graphite <: Commodity end ## tonnes
 abstract type Bauxite <: Commodity end ## tonnes
+abstract type IronOre <: Commodity end ## tonnes
+abstract type SteelScrap <: Commodity end ## tonnes
+abstract type CrudeSteel <: Commodity end ## tonnes
+abstract type Heat <: Commodity end ## MWh
+abstract type Steam <: Commodity end ## MWh
 
 ## Time data types
-abstract type AbstractTimeData{T<:Commodity} end
+abstract type AbstractResolution end
+abstract type AbstractTimeData end
 
 ##
 abstract type AbstractSystem end
@@ -90,19 +101,31 @@ const JuMPVariable =
     Union{Array,Containers.DenseAxisArray,Containers.SparseAxisArray,VariableRef}
 
 # Load subcommodities from file when MacroEnergy is loaded
-# Also load the Gurobi environment
-const GRB_ENV = Ref{Gurobi.Env}()
-function __init__()
-    isdir(ME_DEPOT_PATH) && load_subcommodities_from_file(ME_DEPOT_PATH)
+
+# Default optimizer environment
+const OPT_ENV_REGISTRY = Dict{Symbol,Any}(
+    :HiGHS => nothing
+)
+
+function opt_env(optimizer::Symbol)
+    return get(OPT_ENV_REGISTRY, optimizer, nothing)
+end
+
+function opt_env(optimizer::Type{T}) where {T}
     try
-        GRB_ENV[] = Gurobi.Env()
+        module_name = Symbol(parentmodule(optimizer))
+        return get(OPT_ENV_REGISTRY, module_name, nothing)
     catch e
-        if isa(e, ErrorException) && occursin("Gurobi Error", string(e))
-            @debug "Gurobi is not available."
-        else
-            rethrow(e)
-        end
+        return nothing
     end
+end
+
+function set_opt_env!(optimizer::Symbol, env::Any)
+    OPT_ENV_REGISTRY[optimizer] = env
+end
+
+function has_opt_env(optimizer::Symbol)
+    return haskey(OPT_ENV_REGISTRY, optimizer) && !isnothing(opt_env(optimizer))
 end
 
 function include_all_in_folder(folder::AbstractString, root_path::AbstractString=@__DIR__)
@@ -122,6 +145,8 @@ include_all_in_folder("utilities")
 
 include("model/units.jl")
 include("model/time_management.jl")
+include("model/time_resolution.jl")
+include("model/time_series.jl")
 include("model/networks/vertex.jl")
 include("model/networks/node.jl")
 include("model/networks/storage.jl")
@@ -134,6 +159,7 @@ include("model/case.jl")
 include("model/networks/macroobject.jl")
 include("model/generate_model.jl")
 include("model/optimizer.jl")
+include("model/retrofit.jl")
 include("model/scaling.jl")
 include("model/solver.jl")
 include("model/myopic.jl")
@@ -168,6 +194,24 @@ include("model/assets/cementplant.jl")
 include("model/assets/aluminumrefining.jl")
 include("model/assets/aluminumsmelting.jl")
 include("model/assets/aluminaplant.jl")
+include("model/assets/integratedblastfurnacebasicoxygenfurnace.jl")
+include("model/assets/integratedblastfurnacebasicoxygenfurnaceccs.jl")
+include("model/assets/integrateddirectreductionelectricarcfurnace.jl")
+include("model/assets/integrateddirectreductionelectricarcfurnaceccs.jl")
+include("model/assets/standaloneelectricarcfurnace.jl")
+include("model/assets/thermalheating.jl")
+include("model/assets/electricheating.jl")
+include("model/assets/thermalsteam.jl")
+include("model/assets/electricsteam.jl")
+include("model/assets/biomassharvest.jl")
+include("model/assets/beccsammonia.jl")
+include("model/assets/beccsbiomethane.jl")
+include("model/assets/beccsethanol.jl")
+include("model/assets/biomasstransformation.jl")
+include("model/assets/fischertropsch.jl")
+include("model/assets/beccsatj.jl") 
+include("model/assets/beccscharcoal.jl")
+include("model/assets/beccsdiesel.jl")
 
 include("config/configure_settings.jl")
 include("config/case_settings.jl")
@@ -178,6 +222,7 @@ include_all_in_folder("write_outputs/")
 export AbstractAsset,
     AbstractTypeConstraint,
     AgeBasedRetirementConstraint,
+    AggregatedDemandConstraint,
     Alumina,
     Aluminum,
     AluminumScrap,
@@ -190,11 +235,14 @@ export AbstractAsset,
     Biomass,
     Coal,
     Cement,
+    CrudeSteel,
     BECCSElectricity,
     BECCSHydrogen,
     BECCSGasoline,
     BECCSLiquidFuels,
     BECCSNaturalGas,
+    BlastFurnaceBasicOxygenFurnace,
+    BlastFurnaceBasicOxygenFurnaceCCS,
     CO2,
     CO2CapConstraint,
     CO2Captured,
@@ -203,14 +251,21 @@ export AbstractAsset,
     CapacityConstraint,
     collect_results,
     Commodity,
+    DirectReductionElectricArcFurnace,
+    DirectReductionElectricArcFurnaceCCS,
     Edge,
     EdgeWithUC,
     Electricity,
     Electrolyzer,
     ElectricDAC,
+    ElectricArcFurnace,
+    ElectricHeating,
+    ElectricSteam,
     FossilFuelsUpstream,
     FuelCell,
     FuelsEndUse,
+    ThermalHeating,
+    ThermalSteam,
     GasStorage,
     Graphite,
     get_optimal_capacity, 
@@ -218,8 +273,10 @@ export AbstractAsset,
     get_optimal_flow,
     get_optimal_new_capacity,
     get_optimal_retired_capacity,
+    Heat,
     HydroRes,
     Hydrogen,
+    IronOre,
     LongDurationStorage,
     LongDurationStorageImplicitMinMaxConstraint,
     LongDurationStorageChangeConstraint,
@@ -247,6 +304,8 @@ export AbstractAsset,
     PolicyConstraint,
     RampingLimitConstraint,
     run_case,
+    Steam,
+    SteelScrap,
     Storage,
     StorageCapacityConstraint,
     StorageChargeDischargeRatioConstraint,
@@ -254,6 +313,7 @@ export AbstractAsset,
     StorageMinDurationConstraint,
     StorageSymmetricCapacityConstraint,
     StorageDischargeLimitConstraint,
+    ResidueDischargeCapacitySyncConstraint,
     SyntheticNaturalGas,
     SyntheticLiquidFuels,
     ThermalHydrogen,
@@ -267,6 +327,7 @@ export AbstractAsset,
     write_capacity,
     write_costs,
     write_dataframe,
+    write_duals,
     write_flow,
     write_results,
     template_system,
@@ -281,6 +342,8 @@ export AbstractAsset,
     download_examples,
     example_readme,
     example_contents,
-    authenticate_github
+    authenticate_github,
+    mermaid_diagram,
+    save_mermaid_diagram
     
 end # module MacroEnergy

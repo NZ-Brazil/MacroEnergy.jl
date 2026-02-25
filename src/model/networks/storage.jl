@@ -23,6 +23,8 @@ macro AbstractStorageBaseAttributes()
         min_capacity::Float64 = $storage_defaults[:min_capacity]
         min_duration::Float64 = $storage_defaults[:min_duration]
         min_outflow_fraction::Float64 = $storage_defaults[:min_outflow_fraction]
+        min_retired_capacity::Float64 = $storage_defaults[:min_retired_capacity]
+        min_retired_capacity_track::Float64 = 0.0
         min_storage_level::Float64 = $storage_defaults[:min_storage_level]
         new_capacity::Union{AffExpr,Float64} = AffExpr(0.0)
         new_capacity_track::Dict{Int64,AffExpr} = Dict(1=>AffExpr(0.0))
@@ -68,6 +70,7 @@ end
     - min_capacity::Float64: Minimum required storage capacity
     - min_duration::Float64: Minimum storage duration in hours
     - min_outflow_fraction::Float64: Minimum discharge rate as fraction of capacity
+    - min_retired_capacity::Float64: Minimum capacity that must be retired in this period
     - min_storage_level::Float64: Minimum storage level as fraction of capacity
     - new_capacity::AffExpr: New storage capacity to be built
     - new_units::Union{Missing, JuMPVariable}: New storage units to be built
@@ -83,6 +86,18 @@ end
 Base.@kwdef mutable struct Storage{T} <: AbstractStorage{T}
     @AbstractVertexBaseAttributes()
     @AbstractStorageBaseAttributes()
+end
+
+
+commodity_type(::Type{AbstractStorage{T}}) where {T} = T
+function commodity_type(t::Type{AbstractStorage{<:T}}) where {T}
+    ub_type = t.var.ub
+    return commodity_type(AbstractStorage{ub_type})
+end
+commodity_type(::Type{Storage{T}}) where {T} = T
+function commodity_type(t::Type{Storage{<:T}}) where {T}
+    ub_type = t.var.ub
+    return commodity_type(Storage{ub_type})
 end
 
 function make_storage(
@@ -151,6 +166,8 @@ max_storage_level(g::AbstractStorage) = g.max_storage_level;
 min_capacity(g::AbstractStorage) = g.min_capacity;
 min_duration(g::AbstractStorage) = g.min_duration;
 min_outflow_fraction(g::AbstractStorage) = g.min_outflow_fraction;
+min_retired_capacity(g::AbstractStorage) = g.min_retired_capacity;
+min_retired_capacity_track(g::AbstractStorage) = g.min_retired_capacity_track;
 min_storage_level(g::AbstractStorage) = g.min_storage_level;
 new_capacity(g::AbstractStorage) = g.new_capacity;
 new_capacity_track(g::AbstractStorage) = g.new_capacity_track;
@@ -163,6 +180,7 @@ retired_capacity_track(g::AbstractStorage) = g.retired_capacity_track;
 retired_capacity_track(g::AbstractStorage,s::Int64) =  (haskey(retired_capacity_track(g),s) == false) ? 0.0 : g.retired_capacity_track[s];
 retired_units(g::AbstractStorage) = g.retired_units;
 retirement_period(g::AbstractStorage) = g.retirement_period;
+retrofitted_capacity_track(g::AbstractStorage,s::Int64) = 0.0; ### Note that retrofits are not implemented for storage yet
 spillage_edge(g::AbstractStorage) = g.spillage_edge;
 storage_level(g::AbstractStorage) = g.storage_level;
 storage_level(g::AbstractStorage, t::Int64) = storage_level(g)[t];
@@ -219,7 +237,7 @@ function operation_model!(g::Storage, model::Model)
 
     g.storage_level = @variable(
         model,
-        [t in time_interval(g)],
+        [t in time_steps(g)],
         lower_bound = 0.0,
         base_name = "vSTOR_$(g.id)_period$(period_index(g))"
     )
@@ -230,14 +248,14 @@ function operation_model!(g::Storage, model::Model)
             if i == :storage 
                 g.operation_expr[:storage] = @expression(
                     model,
-                    [t in time_interval(g)],
+                    [t in time_steps(g)],
                     -storage_level(g, t) +
                     (1 - loss_fraction(g,timestepbefore(t, 1, subperiods(g)))) *
                     storage_level(g, timestepbefore(t, 1, subperiods(g)))
                 )
             else
                 g.operation_expr[i] =
-                @expression(model, [t in time_interval(g)], 0 * model[:vREF])
+                @expression(model, [t in time_steps(g)], 0 * model[:vREF])
             end
         end
     else
@@ -332,7 +350,7 @@ function operation_model!(g::LongDurationStorage, model::Model)
 
     g.storage_level = @variable(
         model,
-        [t in time_interval(g)],
+        [t in time_steps(g)],
         lower_bound = 0.0,
         base_name = "vSTOR_$(g.id)_period$(period_index(g))"
     )
@@ -345,7 +363,7 @@ function operation_model!(g::LongDurationStorage, model::Model)
                 STARTS = [first(sp) for sp in subperiods(g)];
                 g.operation_expr[:storage] = @expression(
                     model,
-                    [t in time_interval(g)],
+                    [t in time_steps(g)],
                     if t ∈ STARTS 
                         -storage_level(g, t) +
                         (1 - loss_fraction(g,timestepbefore(t, 1, subperiods(g)))) *
@@ -358,7 +376,7 @@ function operation_model!(g::LongDurationStorage, model::Model)
                 )
             else
                 g.operation_expr[i] =
-                @expression(model, [t in time_interval(g)], 0 * model[:vREF])
+                @expression(model, [t in time_steps(g)], 0 * model[:vREF])
             end
         end
     else

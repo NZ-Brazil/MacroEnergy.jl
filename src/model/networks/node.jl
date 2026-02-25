@@ -1,14 +1,15 @@
 macro AbstractNodeBaseAttributes()
     node_defaults = node_default_data()
     esc(quote
-        demand::Vector{Float64} = Vector{Float64}()
+        demand::MacroTimeSeries = $node_defaults[:demand]
         min_nsd::Vector{Float64} = $node_defaults[:min_nsd]
         max_nsd::Vector{Float64} = $node_defaults[:max_nsd]
         max_supply::Vector{Float64} = $node_defaults[:max_supply]
         non_served_demand::JuMPVariable = Matrix{VariableRef}(undef, 0, 0)
         policy_budgeting_vars::Dict = Dict()
+        policy_budgeting_constraints::Dict{DataType,JuMPConstraint} = Dict{DataType,JuMPConstraint}()  # Store policy budget constraint references
         policy_slack_vars::Dict = Dict()
-        price::Vector{Float64} = Vector{Float64}()
+        price::MacroTimeSeries = $node_defaults[:price]
         price_nsd::Vector{Float64} = $node_defaults[:price_nsd]
         price_supply::Vector{Float64} = $node_defaults[:price_supply]
         price_unmet_policy::Dict{DataType,Float64} = Dict{DataType,Float64}()
@@ -30,13 +31,14 @@ end
     - operation_expr::Dict: Operational JuMP expressions for the node
 
     # Fields
-    - demand::Union{Vector{Float64},Dict{Int64,Float64}}: Time series of demand values
+    - demand::MacroTimeSeries: Time series of demand values
     - max_nsd::Vector{Float64}: Maximum allowed non-served demand for each segment
     - max_supply::Vector{Float64}: Maximum supply for each segment
     - non_served_demand::Union{JuMPVariable,Matrix{Float64}}: JuMP variables or matrix representing unmet demand
     - policy_budgeting_vars::Dict: Policy budgeting variables for constraints
+    - policy_budgeting_constraints::Dict{DataType,JuMPConstraint}: Policy budget constraint references (sum across subperiods, keyed by :ConstraintType)
     - policy_slack_vars::Dict: Policy slack variables for constraints
-    - price::Union{Vector{Float64},Dict{Int64,Float64}}: Time series of prices
+    - price::MacroTimeSeries: Time series of prices
     - price_nsd::Vector{Float64}: Penalties for non-served demand by segment
     - price_supply::Vector{Float64}: Supply costs by segment
     - price_unmet_policy::Dict{DataType,Float64}: Mapping of policy types to penalty costs
@@ -48,6 +50,12 @@ end
 Base.@kwdef mutable struct Node{T} <: AbstractVertex
     @AbstractVertexBaseAttributes()
     @AbstractNodeBaseAttributes()
+end
+
+commodity_type(::Type{Node{T}}) where {T} = T
+function commodity_type(t::Type{Node{<:T}}) where {T}
+    ub_type = t.var.ub
+    return commodity_type(Node{ub_type})
 end
 
 function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodity::DataType)
@@ -62,13 +70,21 @@ function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodit
             delete!(filtered_data, key)
         end
     end
+    # Time series
+    if haskey(data, :demand) && isa(data[:demand], Vector{T} where {T<:Real})
+        data[:demand] = MacroTimeSeries(data[:demand], time_data.resolution)
+    end
+    if haskey(data, :price) && isa(data[:price], Vector{T} where {T<:Real})
+        data[:price] = MacroTimeSeries(data[:price], time_data.resolution)
+    end
+
     _node = Node{commodity}(;
         id = id,
         timedata = time_data,
-        demand = get(data, :demand, Vector{Float64}()),
+        demand = get(data, :demand, MacroTimeSeries()),
         max_nsd = get(data, :max_nsd, [0.0]),
         max_supply = get(data, :max_supply, [0.0]),
-        price = get(data, :price, Vector{Float64}()),
+        price = get(data, :price, MacroTimeSeries()),
         price_nsd = get(data, :price_nsd, [0.0]),
         price_supply = get(data, :price_supply, [0.0]),
         price_unmet_policy = get(data, :price_unmet_policy, Dict{DataType,Float64}()),
@@ -102,6 +118,8 @@ non_served_demand(n::Node) = n.non_served_demand;
 non_served_demand(n::Node, s::Int64, t::Int64) = non_served_demand(n)[s, t];
 policy_budgeting_vars(n::Node) = n.policy_budgeting_vars;
 policy_slack_vars(n::Node) = n.policy_slack_vars;
+policy_budgeting_constraints(n::Node) = n.policy_budgeting_constraints;
+policy_budgeting_constraints(n::Node, c::DataType) = policy_budgeting_constraints(n)[c]
 price(n::Node) = n.price;
 price(n::Node, t::Int64) = length(price(n)) == 1 ? price(n)[1] : price(n)[t];
 price_non_served_demand(n::Node) = n.price_nsd;
@@ -149,7 +167,7 @@ function planning_model!(n::Node, model::Model)
         ct_all = findall(isa.(n.constraints, PolicyConstraint))
         for ct in ct_all
             ct_type = typeof(n.constraints[ct])
-            @constraint(
+            n.policy_budgeting_constraints[ct_type] = @constraint(
                 model,
                 sum(n.policy_budgeting_vars[Symbol(string(ct_type) * "_Budget")]) ==
                 rhs_policy(n, ct_type)
@@ -166,12 +184,12 @@ function operation_model!(n::Node, model::Model)
             if i == :demand
                 n.operation_expr[:demand] = @expression(
                     model,
-                    [t in time_interval(n)],
+                    [t in time_steps(n)],
                     -demand(n, t) * model[:vREF]
                 )
             else
                 n.operation_expr[i] =
-                    @expression(model, [t in time_interval(n)], 0 * model[:vREF])
+                    @expression(model, [t in time_steps(n)], 0 * model[:vREF])
             end
         end
     end
@@ -179,11 +197,11 @@ function operation_model!(n::Node, model::Model)
     if !all(max_non_served_demand(n) .== 0)
         n.non_served_demand = @variable(
             model,
-            [s in segments_non_served_demand(n), t in time_interval(n)],
+            [s in segments_non_served_demand(n), t in time_steps(n)],
             lower_bound = 0.0,
             base_name = "vNSD_$(id(n))_period$(period_index(n))"
         )
-        for t in time_interval(n)
+        for t in time_steps(n)
             w = current_subperiod(n,t)
             for s in segments_non_served_demand(n)
                 add_to_expression!(
@@ -200,13 +218,13 @@ function operation_model!(n::Node, model::Model)
 
         n.supply_flow = @variable(
             model,
-            [s in supply_segments(n) ,t in time_interval(n)],
+            [s in supply_segments(n) ,t in time_steps(n)],
             lower_bound = 0.0,
             upper_bound = max_supply(n,s),
             base_name = "vSUPPLY_$(id(n))_period$(period_index(n))"
         )
 
-        for t in time_interval(n)
+        for t in time_steps(n)
             w = current_subperiod(n,t)
             for s in supply_segments(n)
 
@@ -252,6 +270,9 @@ function make(commodity::Type{<:Commodity}, input_data::AbstractDict{Symbol,Any}
     elseif any(isa.(node.constraints, CO2StorageConstraint))
         node.balance_data =
             get(data, :balance_data, Dict(:co2_storage => Dict{Symbol,Float64}()))
+    elseif any(isa.(node.constraints, AggregatedDemandConstraint))
+        node.balance_data =
+            get(data, :balance_data, Dict(:demand_flow => Dict{Symbol,Float64}()))
     else
         node.balance_data =
             get(data, :balance_data, Dict(:exogenous => Dict{Symbol,Float64}()))

@@ -1,6 +1,6 @@
 Base.@kwdef mutable struct MaxNonServedDemandConstraint <: OperationConstraint
     value::Union{Missing,Vector{Float64}} = missing
-    lagrangian_multiplier::Union{Missing,Vector{Float64}} = missing
+    constraint_dual::Union{Missing,Vector{Float64}} = missing
     constraint_ref::Union{Missing,JuMPConstraint} = missing
 end
 
@@ -14,13 +14,13 @@ Add a max non-served demand constraint to the node `n`. The functional form of t
     \sum_{s\ \in\ \text{segments\_nsd(n)}} \text{non\_served\_demand(n, s, t)} \leq \text{demand(n, t)}
 \end{aligned}
 ```
-for each time `t` in `time_interval(n)` for the node `n`.
+for each time `t` in `time_steps(n)` for the node `n`.
 """
 function add_model_constraint!(ct::MaxNonServedDemandConstraint, n::Node, model::Model)
     if !isempty(non_served_demand(n))
         ct.constraint_ref = @constraint(
             model,
-            [t in time_interval(n)],
+            [t in time_steps(n)],
             sum(non_served_demand(n, s, t) for s in segments_non_served_demand(n)) <=
             demand(n, t)
         )

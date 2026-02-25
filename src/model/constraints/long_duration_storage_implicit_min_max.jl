@@ -7,7 +7,7 @@
 
 Base.@kwdef mutable struct LongDurationStorageImplicitMinMaxConstraint <: OperationConstraint
     value::Union{Missing,Vector{Float64}} = missing
-    lagrangian_multiplier::Union{Missing,Vector{Float64}} = missing
+    constraint_dual::Union{Missing,Vector{Float64}} = missing
     constraint_ref::Union{Missing,JuMPConstraint} = missing
 end
 
@@ -60,8 +60,8 @@ function add_model_constraint!(ct::LongDurationStorageImplicitMinMaxConstraint, 
         max_storage_level =  @variable(model, [w ∈ W], lower_bound = 0.0, base_name = "vSTORMAX_$(id(g))_period$(period_index(g))")
         min_storage_level = @variable(model, [w ∈ W], lower_bound = 0.0, base_name = "vSTORMIN_$(id(g))_period$(period_index(g))")
 
-        @constraint(model, [t ∈ time_interval(g)], storage_level(g,t) ≤ max_storage_level[current_subperiod(g,t)])
-        @constraint(model, [t ∈ time_interval(g)], storage_level(g,t) ≥ min_storage_level[current_subperiod(g,t)])
+        @constraint(model, [t ∈ time_steps(g)], storage_level(g,t) ≤ max_storage_level[current_subperiod(g,t)])
+        @constraint(model, [t ∈ time_steps(g)], storage_level(g,t) ≥ min_storage_level[current_subperiod(g,t)])
 
         tstart = Dict(n => first(get_subperiod(g,subperiod_map(g,n))) for n in N)
 

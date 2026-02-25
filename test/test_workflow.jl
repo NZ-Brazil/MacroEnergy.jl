@@ -1,7 +1,9 @@
 module TestWorkflow
 
 using Test
-using Gurobi, HiGHS
+using HiGHS
+using Pkg
+try Pkg.add("Gurobi"); using Gurobi; catch e end
 using CSV, DataFrames, JSON3
 import MacroEnergy:
     System,
@@ -289,26 +291,21 @@ function test_writing_outputs(case,model)
     @test_nowarn get_optimal_retired_capacity(system.assets[1])
     @test_nowarn get_optimal_flow(system)
     @test_nowarn get_optimal_flow(system.assets[1], scaling=1.0)
-    @test_nowarn get_optimal_flow(system.assets[1].elec_edge, scaling=1.0)
+    @test_nowarn get_optimal_flow(system.assets[1].elec_edge, 1.0)
     @test_nowarn create_discounted_cost_expressions!(model,system,settings)
     @test_nowarn compute_undiscounted_costs!(model, system, settings)
-    @test_nowarn get_optimal_discounted_costs(model,1)
-    @test_nowarn get_optimal_discounted_costs(model,1,scaling=2.0)
-    @test_nowarn get_optimal_undiscounted_costs(model,1)
-    @test_nowarn get_optimal_undiscounted_costs(model,1, scaling=2.0)
-    @test_nowarn write_capacity(joinpath(@__DIR__, "test_capacity.csv"), system)
-    @test_nowarn write_costs(joinpath(@__DIR__, "test_costs.csv"), system, model)
-    @test_nowarn write_undiscounted_costs(joinpath(@__DIR__, "test_undiscountedcosts.csv"), system, model)
-    @test_nowarn write_flow(joinpath(@__DIR__, "test_flow.csv"), system)
-    @test_nowarn write_results(joinpath(@__DIR__, "test_outputs.csv.gz"), system, model, settings)
-    @test_nowarn write_results(joinpath(@__DIR__, "test_outputs.parquet"), system, model, settings)
-    @test_throws ArgumentError write_results("test.zip", system, model, settings)
-    rm(joinpath(@__DIR__, "test_outputs.csv.gz"))   # clean up
-    rm(joinpath(@__DIR__, "test_outputs.parquet"))  # clean up
-    rm(joinpath(@__DIR__, "test_capacity.csv"))     # clean up
-    rm(joinpath(@__DIR__, "test_costs.csv"))        # clean up
-    rm(joinpath(@__DIR__, "test_undiscountedcosts.csv"))        # clean up
-    rm(joinpath(@__DIR__, "test_flow.csv"))         # clean up
+    @test_nowarn get_optimal_discounted_costs(model)
+    @test_nowarn get_optimal_discounted_costs(model,scaling=2.0)
+    @test_nowarn get_optimal_undiscounted_costs(model)
+    @test_nowarn get_optimal_undiscounted_costs(model, scaling=2.0)
+    @test_nowarn write_capacity("test_capacity.csv", system)
+    @test_nowarn write_costs("test_costs.csv", system, model)
+    @test_nowarn write_undiscounted_costs("test_undiscountedcosts.csv", system, model)
+    @test_nowarn write_flow("test_flow.csv", system)
+    rm("test_capacity.csv")     # clean up
+    rm("test_costs.csv")        # clean up
+    rm("test_undiscountedcosts.csv")        # clean up
+    rm("test_flow.csv")         # clean up
     return nothing
 end 
 

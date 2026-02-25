@@ -1,6 +1,6 @@
 Base.@kwdef mutable struct MinStorageOutflowConstraint <: OperationConstraint
     value::Union{Missing,Vector{Float64}} = missing
-    lagrangian_multiplier::Union{Missing,Vector{Float64}} = missing
+    constraint_dual::Union{Missing,Vector{Float64}} = missing
     constraint_ref::Union{Missing,JuMPConstraint} = missing
 end
 
@@ -14,7 +14,7 @@ Add a min storage outflow constraint to the storage `g` part of a `HydroRes` ass
     \text{flow(spillage\_edge, t)} + \text{flow(discharge\_edge, t)} \geq \text{min\_outflow\_fraction(g)} \times \text{capacity(discharge\_edge)}
 \end{aligned}
 ```
-for each time `t` in `time_interval(g)` for the storage `g`.
+for each time `t` in `time_steps(g)` for the storage `g`.
 
 !!! warning "Only applies to HydroRes assets"
     This constraint only applies to HydroRes assets. It returns a warning if the storage `g` does not have a spillage edge. 
@@ -28,8 +28,8 @@ function add_model_constraint!(ct::MinStorageOutflowConstraint, g::AbstractStora
 
         ct.constraint_ref = @constraint(
             model,
-            [t in time_interval(g)],
-            flow(spillage_edge, t) + flow(discharge_edge,t) >= min_outflow_fraction(g) * capacity(discharge_edge)
+            [t in time_steps(g)],
+            flow(spillage_edge, t) + flow(discharge_edge,t) >= min_outflow_fraction(g) * capacity(discharge_edge) * time_interval_length(t,time_resolution(discharge_edge))
         )
         
     else
