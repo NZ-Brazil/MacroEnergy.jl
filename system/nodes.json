@@ -63,74 +63,6 @@
       "instance_data": [
         {
           "id": "natgas",
-          "location": "Brazil",
-          "price": {
-            "timeseries": {
-              "header": "natgas",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "natgas_LNG",
-          "location": "Brazil",
-          "price": {
-            "timeseries": {
-              "header": "natgas_LNG",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "natgas_LNG_100_flexible",
-          "location": "Brazil",
-          "price": {
-            "timeseries": {
-              "header": "natgas_LNG_100_flexible",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "natgas_LNG_50_inflexible",
-          "location": "Brazil",
-          "price": {
-            "timeseries": {
-              "header": "natgas_LNG_50_inflexible",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        ,
-        {
-          "id": "natgas_NG_70_inflexible",
-          "location": "Brazil",
-          "price": {
-            "timeseries": {
-              "header": "natgas_LNG_70_inflexible",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        }
-        {
-          "id": "natgas_NG_100_inflexible",
-          "location": "Brazil",
-          "price": {
-            "timeseries": {
-              "header": "natgas_NG_100_inflexible",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        }
-      ]
-    }, {
-      "type": "NaturalGas",
-      "global_data": {
-        "time_interval": "NaturalGas"
-      },
-      "instance_data": [
-        {
-          "id": "natgas",
           "location": "Brazil_1",
           "price": {
             "timeseries": {
@@ -267,8 +199,3 @@
         }
     ]
 }
-
-
-
-
-
