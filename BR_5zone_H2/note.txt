@@ -1,0 +1,11 @@
+TEA parameters for SMR_H2 and SMR_CCS_H2: https://www.osti.gov/servlets/purl/1862910
+
+TEA parameters for Elec_H2:https://apps.epri.com/lcri-electrolysis-tea/en/capex-rates.html
+
+Potential TEA parameter for H2_Stor: https://transitionaccelerator.ca/wp-content/uploads/2023/04/TA-Technical-Brief-1.1_TEEA-Hydrogen-Compression_PUBLISHED.pdf (compression)
+                                     https://www.mdpi.com/1996-1073/16/13/5233 (storage)
+                                     These parameters haven't been implemented as upstream and downstream conditions, as well as storage options, are unknown.
+
+Hydrogen demand for all regions is randomly defined for now.
+
+A very high nsd_price is assigned to force endogenous H2 production.

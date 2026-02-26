@@ -1,0 +1,159 @@
+{
+    "nodes": [
+        {
+            "global_data": {
+                "constraints": {
+                    "MaxNonServedDemandConstraint": true,
+                    "MaxNonServedDemandPerSegmentConstraint": true,
+                    "BalanceConstraint": true
+                },
+                "max_nsd": [
+                    1,
+                    0.04,
+                    0.024,
+                    0.003
+                ],
+                "time_interval": "Electricity",
+                "price_nsd": [
+                    50000000000,
+                    45000000000,
+                    27500000000.000000000004,
+                    10000000000
+                ]
+            },
+            "instance_data": [
+                {
+                    "demand": {
+                        "timeseries": {
+                            "header": "elec_demand_BR",
+                            "path": "system/demand.csv"
+                        }
+                    },
+                    "id": "elec_BR"
+                }
+            ],
+            "type": "Electricity"
+        },
+        
+
+        {
+            "type": "Corn",
+            "global_data": {
+                "time_interval": "Biomass",
+                "constraints": {
+                "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                "id": "corn_BR",
+                "location": "BR",
+                    "max_supply": [41500000.23, 1871760000.53, 241566.99, 237463.52, 197172.84, 56284.26, 43018.01, 123467.07, 11397.41, 6790.68],
+                    "price_supply": [8940.57, 10764.39, 11340.6, 11713.15, 12041.31, 12415.56, 13038.37, 14191.51, 15561.85, 18184.32]
+                }
+            ]
+        },
+
+
+        {
+            "type": "Residue",
+            "global_data": {
+                "time_interval": "Biomass",
+                "constraints": {
+                "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                "id": "residue_BR",
+                "location": "BR",
+                    "max_supply": [2000, 3000, 5000],
+                    "price_supply": [1, 1.5, 1.6]
+                }
+            ]
+        },
+
+
+    {
+        "type": "Bagasse",
+        "global_data": {
+            "time_interval": "Biomass",
+            "constraints": {
+            "BalanceConstraint": false
+            }
+        },
+        "instance_data": [
+            {
+            "id": "bagasse_BR",
+            "location": "BR"
+            }
+        ]
+    },
+
+    {
+      "type": "Ethanol",
+      "global_data": {
+        "time_interval": "LiquidFuels",
+        "constraints": {
+          "BalanceConstraint": true
+        }
+      },
+      "instance_data": [
+        {
+          "id": "ethanol_BR",
+          "demand": {
+            "timeseries": {
+              "path": "system/demand_bio.csv",
+              "header": "Demand_Ethanol"
+            }
+          }
+        }
+      ]
+    },
+    
+        {
+            "global_data": {
+                "time_interval": "NaturalGas"
+            },
+            "instance_data": [
+                {
+                    "price": [1850.17191],
+                    "id": "BR_NG"
+                }
+            ],
+            "type": "NaturalGas"
+        },
+
+
+        {
+            "global_data": {
+                "time_interval": "CO2"
+            },
+            "instance_data": [
+                {
+                    "constraints": {
+                        "CO2CapConstraint": false
+                    },
+                    "rhs_policy": {
+                        "CO2CapConstraint": 18000
+                    },
+                    "id": "co2_sink"
+                }
+            ],
+            "type": "CO2"
+        },
+
+            {
+      "type": "CO2Captured",
+      "global_data": {
+        "time_interval": "CO2Captured"
+      },
+      "instance_data": [
+        {
+          "id": "co2_captured_BR",
+          "location": "BR"
+        }
+      ]
+    }
+    ]
+}

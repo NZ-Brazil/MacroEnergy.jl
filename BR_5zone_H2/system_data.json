@@ -1,0 +1,27 @@
+{
+    "case": [
+        {
+            "settings": {
+                "path": "settings/macro_settings.json"
+            },
+            "commodities": {
+                "path": "system/commodities.json"
+            },
+            "time_data": {
+                "path": "system/time_data.json"
+            },
+            "locations": {
+                "path": "system/locations.json"
+            },
+            "nodes": {
+                "path": "system/nodes.json"
+            },
+            "assets": {
+                "path": "assets"
+            }
+        }
+    ],
+    "settings": {
+        "path": "settings/case_settings.json"
+    }
+}

@@ -1,0 +1,210 @@
+{
+    "nodes": [
+        {
+            "type": "NaturalGas",
+            "global_data": {
+                "time_interval": "NaturalGas"
+            },
+            "instance_data": [
+                {
+                    "id":"natgas",
+                    "price": [
+                        15.000
+                    ]
+                },
+                {
+                    "id": "natgas_N",
+                    "location": "N",
+                    "price": [
+                        15.000
+                    ]
+                },
+                {
+                    "id": "natgas_NE",
+                    "location": "NE",
+                    "price": [
+                        15.000
+                    ]
+                },
+                {
+                    "id": "natgas_MW",
+                    "location": "MW",
+                    "price": [
+                        15.000
+                    ]
+                },
+                {
+                    "id": "natgas_SE",
+                    "location": "SE",
+                    "price": [
+                        15.000
+                    ]
+                },
+                {
+                    "id": "natgas_S",
+                    "location": "S",
+                    "price": [
+                        15.000
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Electricity",
+            "global_data": {
+                "time_interval": "Electricity"
+            },
+            "instance_data": [
+                {
+                    "id": "elec_N",
+                    "location": "N",
+                    "price": [
+                        40.000
+                    ]
+                },
+                {
+                    "id": "elec_NE",
+                    "location": "NE",
+                    "price": [
+                        40.000
+                    ]
+                },
+                {
+                    "id": "elec_MW",
+                    "location": "MW",
+                    "price": [
+                        40.000
+                    ]
+                },
+                {
+                    "id": "elec_SE",
+                    "location": "SE",
+                    "price": [
+                        40.000
+                    ]
+                },
+                {
+                    "id": "elec_S",
+                    "location": "S",
+                    "price": [
+                        40.000
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Hydrogen",
+            "global_data": {
+                "time_interval": "Hydrogen",
+                "max_nsd": [
+                    1
+                ],
+                "price_nsd": [
+                    50000.0
+                ],
+                "constraints": {
+                    "BalanceConstraint": true,
+                    "MaxNonServedDemandConstraint": true,
+                    "MaxNonServedDemandPerSegmentConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                    "id": "h2_N",
+                    "location": "N",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/demand_h2.csv",
+                            "header": "h2_demand_N"
+                        }
+                    }
+                },
+                {
+                    "id": "h2_NE",
+                    "location": "NE",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/demand_h2.csv",
+                            "header": "h2_demand_NE"
+                        }
+                    }
+                },
+                {
+                    "id": "h2_MW",
+                    "location": "MW",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/demand_h2.csv",
+                            "header": "h2_demand_MW"
+                        }
+                    }
+                },
+                {
+                    "id": "h2_SE",
+                    "location": "SE",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/demand_h2.csv",
+                            "header": "h2_demand_SE"
+                        }
+                    }
+                },
+                {
+                    "id": "h2_S",
+                    "location": "S",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/demand_h2.csv",
+                            "header": "h2_demand_S"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "type": "CO2",
+            "global_data": {
+                "time_interval": "CO2"
+            },
+            "instance_data": [
+                {
+                    "id": "co2_sink",
+                    "constraints":{
+                        "CO2CapConstraint": false
+                    },
+                    "rhs_policy":{
+                        "CO2CapConstraint": 0
+                    }
+                }
+            ]
+        },
+        {
+            "type": "CO2Captured",
+            "global_data": {
+                "time_interval": "CO2Captured"
+            },
+            "instance_data": [
+                {
+                    "id": "co2_captured_N",
+                    "location": "N"
+                },
+                {
+                    "id": "co2_captured_NE",
+                    "location": "NE"
+                },
+                {
+                    "id": "co2_captured_MW",
+                    "location": "MW"
+                },
+                {
+                    "id": "co2_captured_SE",
+                    "location": "SE"
+                },
+                {
+                    "id": "co2_captured_S",
+                    "location": "S"
+                }
+            ]
+        }
+    ]
+}

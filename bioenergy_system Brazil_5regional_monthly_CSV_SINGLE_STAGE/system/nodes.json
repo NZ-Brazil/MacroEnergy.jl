@@ -299,31 +299,31 @@
         {
           "id": "ricestraw_N",
           "location": "N",
- "max_supply": [11.68, 508.9, 2722.42, 345.87, 2529.72, 3055.55, 240.99, 23875.98, 4849.87, 5053.19],
+ "max_supply": [11.68, 508.9, 2722.42, 345.87, 2529.72, 3055.55, 240.99, 23875.98, 4849.87, 505300.19],
  "price_supply": [561.41, 561.41, 591.55, 591.55, 594.94, 594.94, 594.94, 594.94, 608.53, 608.53]
         },
                 {
           "id": "ricestraw_NE",
           "location": "NE",
- "max_supply": [11.5, 858.73, 70.1, 2932.22, 3204.87, 2167.2, 2486.53, 2136.61, 1600.06, 940.56],
+ "max_supply": [11.5, 858.73, 70.1, 2932.22, 3204.87, 2167.2, 2486.53, 2136.61, 1600.06, 94000.56],
  "price_supply": [556.7, 556.7, 561.41, 620.91, 620.91, 620.91, 620.91, 630.07, 630.07, 630.07]
         },
                 {
           "id": "ricestraw_MW",
           "location": "MW",
- "max_supply": [248.4, 2535.84, 1035.14, 2800.11, 5030.28, 3511.13, 1782.96, 50.05, 2967.78, 1326.92],
+ "max_supply": [248.4, 2535.84, 1035.14, 2800.11, 5030.28, 3511.13, 1782.96, 50.05, 2967.78, 132600.92],
  "price_supply": [566.8, 566.8, 566.8, 566.8, 566.8, 569.29, 584.22, 584.22, 584.22, 584.22]
         },
                 {
           "id": "ricestraw_SE",
           "location": "SE",
- "max_supply": [0.51, 1179.81, 1004.92, 40.43, 68.03, 76.59, 17.25, 37.17, 234.92, 58.42],
- "price_supply": [551.2, 551.2, 551.2, 556.42, 556.42, 556.42, 556.42, 556.42, 556.42, 561.41]
+ "max_supply": [0.51, 1179.81, 1004.92, 40.43, 68.03, 76.59, 17.25, 37.17, 234.92, 5800.42],
+ "price_supply": [551.2, 551.2, 551.2, 556.42, 556.42, 556.42, 556.42, 556.42, 556.42, 56100.41]
         },
                 {
           "id": "ricestraw_S",
           "location": "S",
- "max_supply": [15.64, 222174.66, 55677.71, 50096.39, 23622.2, 10132.14, 21742.36, 152.4, 40.2, 5733.35],
+ "max_supply": [15.64, 222174.66, 55677.71, 50096.39, 23622.2, 10132.14, 21742.36, 152.4, 40.2, 573300.35],
  "price_supply": [543.99, 543.99, 543.99, 543.99, 545.71, 545.71, 546.82, 546.82, 546.82, 546.82]
         }
       ]
@@ -464,7 +464,7 @@
           "demand": {
             "timeseries": {
               "path": "system/demand.csv",
-              "header": "Demand_Electricity"
+              "header": "Demand_Zero"
             }
           }
         },
@@ -474,7 +474,7 @@
           "demand": {
             "timeseries": {
               "path": "system/demand.csv",
-              "header": "Demand_Electricity"
+              "header": "Demand_Zero"
             }
           }
         },
@@ -484,7 +484,7 @@
           "demand": {
             "timeseries": {
               "path": "system/demand.csv",
-              "header": "Demand_Electricity"
+              "header": "Demand_Zero"
             }
           }
         },
@@ -494,7 +494,7 @@
           "demand": {
             "timeseries": {
               "path": "system/demand.csv",
-              "header": "Demand_Electricity"
+              "header": "Demand_Zero"
             }
           }
         },
@@ -504,7 +504,7 @@
           "demand": {
             "timeseries": {
               "path": "system/demand.csv",
-              "header": "Demand_Electricity"
+              "header": "Demand_Zero"
             }
           }
         }
@@ -574,7 +574,7 @@
             "CO2CapConstraint": false
           },
           "rhs_policy": {
-            "CO2CapConstraint": -100000
+            "CO2CapConstraint": 100000
           },
           "price_unmet_policy": {
             "CO2CapConstraint": 9999999999
