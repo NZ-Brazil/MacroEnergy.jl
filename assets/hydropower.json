@@ -86,7 +86,7 @@
           "availability": { "timeseries": { "header": "res_basin_N", "path": "system/hydro_availability.csv" }},
           "existing_capacity": 11293.43,
           "storage_existing_capacity": 26147469.96,
-          "storage_min_outflow_fraction": 0.095, 
+          "storage_min_outflow_fraction": 0.095 
         }}
       },
 
@@ -102,7 +102,7 @@
           "end_vertex": "elec_NE",
           "availability": { "timeseries": { "header": "res_basin_NE", "path": "system/hydro_availability.csv" }},
           "existing_capacity": 3750.857,
-          "storage_existing_capacity": 19667154.42,          
+          "storage_existing_capacity": 19667154.42          
         }}
       },
       {
@@ -117,7 +117,7 @@
           "end_vertex": "elec_SE",
           "availability": { "timeseries": { "header": "res_basin_SE", "path": "system/hydro_availability.csv" }},
           "existing_capacity": 18137.213,
-          "storage_existing_capacity": 88647710.23,   
+          "storage_existing_capacity": 88647710.23   
         }}
       },
       {
@@ -132,11 +132,9 @@
           "end_vertex": "elec_S",
           "availability": { "timeseries": { "header": "res_basin_S", "path": "system/hydro_availability.csv" }},
           "existing_capacity": 8142.068,
-          "storage_existing_capacity": 10867969.26,   
+          "storage_existing_capacity": 10867969.26   
         }}
       },
-      }
-
     ]
   }
 }
