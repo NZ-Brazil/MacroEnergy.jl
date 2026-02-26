@@ -1,140 +1,166 @@
 {
-  "Hydro": {
-    "type": "Hydropower",
-    "global_data": {
-      "transforms": {
-        "timedata": "Electricity"
-      },
-      "edges": {
-        "edge": {
-          "unidirectional": true,
-          "has_capacity": true,
-          "commodity": "Electricity"
-        }
-      }
-    },
+    "Hydro": [
+        {
+            "type": "MustRun",
+            "global_data": {
+                "nodes": {},
+                "transforms": {
+                    "timedata": "Electricity"
+                    },
+                "edges": {
+                    "elec_edge": {
+                        "unidirectional": true,
+                        "can_expand": false,
+                        "can_retire": false,
+                        "has_capacity": true,
+                        "constraints": {
+                            "MustRunConstraint": true
+                        }
+                    }
+                }
+            },
     "instance_data": [
 
       {
         "id": "ror_basin_N",
-        "location": "N",
-        "edges": { "edge": {
-          "can_retire": true, "can_expand": false, "min_capacity": 0, "max_capacity": 0,
-          "constraints": { "CapacityConstraint": true },
-          "commodity": "Electricity",
-          "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
+	"edges": {
+             "elec_edge": {
+        "existing_capacity": 25376.55,  
+	"investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
           "capacity_size": 1,
           "end_vertex": "elec_N",
-          "availability": { "timeseries": { "header": "ror_basin_N", "path": "system/hydro_availability.csv" }},
-          "existing_capacity": 25376.55
-
-        }}
-      },
+          "availability": { 
+		"timeseries": { 
+		  "path": "system/hydro_availability.csv", 
+		  "header": "ror_basin_N"
+                                }
+                            }
+                        }
+                    }
+                },
       {
         "id": "ror_basin_NE",
-        "location": "NE",
-        "edges": { "edge": {
-          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": 0,
-          "constraints": { "CapacityConstraint": true },
-          "commodity": "Electricity",
-          "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
+	"edges": {
+             "elec_edge": {
+        "existing_capacity": 9124.912,
+         "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
           "capacity_size": 1,
           "end_vertex": "elec_NE",
-          "availability": { "timeseries": { "header": "ror_basin_NE", "path": "system/hydro_availability.csv" }},
-          "existing_capacity": 9124.912
-        }}
-      },
+         "availability": { 
+		"timeseries": { 
+		  "path": "system/hydro_availability.csv", 
+		  "header": "ror_basin_NE"
+                                }
+                            }
+                        }
+                    }
+                },
       {
         "id": "ror_basin_SE",
-        "location": "SE",
-        "edges": { "edge": {
-          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": 0,
-          "constraints": { "CapacityConstraint": true },
-          "commodity": "Electricity",
-          "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
+	"edges": {
+             "elec_edge": {
+        "existing_capacity": 18360.177,
+        "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
           "capacity_size": 1,
           "end_vertex": "elec_S",
-          "availability": { "timeseries": { "header": "ror_basin_SE", "path": "system/hydro_availability.csv" }},
-          "existing_capacity": 18360.177
-        }}
-      },
+         "availability": { 
+		"timeseries": { 
+		  "path": "system/hydro_availability.csv",
+		  "header": "ror_basin_SE"
+                                }
+                            }
+                        }
+                    }
+                },
       {
         "id": "ror_basin_S",
-        "location": "S",
-        "edges": { "edge": {
-          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": 0,
-          "constraints": { "CapacityConstraint": true },
-          "commodity": "Electricity",
-          "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
+	"edges": {
+             "elec_edge": {
+        "existing_capacity": 6461.368,
+        "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
           "capacity_size": 1,
           "end_vertex": "elec_S",
-          "availability": { "timeseries": { "header": "ror_basin_S", "path": "system/hydro_availability.csv" }},
-          "existing_capacity": 6461.368
-
-        }}
-      },
+           "availability": { 
+		"timeseries": { 
+		  "path": "system/hydro_availability.csv",
+		  "header": "ror_basin_S"
+                                }
+                            }
+                        }
+                    }
+                },
       {
         "id": "res_basin_N",
-        "location": "N",
-        "edges": { "edge": {
-          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": 0,
-          "constraints": { "CapacityConstraint": true },
-          "commodity": "Electricity",
-          "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
+	"edges": {
+             "elec_edge": {
+        "existing_capacity": 11293.43,
+        "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
           "capacity_size": 1,
           "end_vertex": "elec_N",
-          "availability": { "timeseries": { "header": "res_basin_N", "path": "system/hydro_availability.csv" }},
-          "existing_capacity": 11293.43,
-          "storage_existing_capacity": 26147469.96,
-          "storage_min_outflow_fraction": 0.095 
-        }}
-      },
-
+           "availability": { 
+		"timeseries": { 
+		  "path": "system/hydro_availability.csv",
+		  "header": "res_basin_N"
+                                }
+                            }
+                        }
+                    }
+                },
       {
         "id": "res_basin_NE",
-        "location": "NE",
-        "edges": { "edge": {
-          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": 0,
-          "constraints": { "CapacityConstraint": true },
-          "commodity": "Electricity",
-          "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
+	"edges": {
+             "elec_edge": {
+        "existing_capacity": 3750.857,
+        "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
           "capacity_size": 1,
           "end_vertex": "elec_NE",
-          "availability": { "timeseries": { "header": "res_basin_NE", "path": "system/hydro_availability.csv" }},
-          "existing_capacity": 3750.857,
-          "storage_existing_capacity": 19667154.42          
-        }}
-      },
+           "availability": { 
+		"timeseries": { 
+		  "path": "system/hydro_availability.csv", 
+		  "header": "res_basin_NE"
+                                }
+                            }
+                        }
+                    }
+                },
       {
         "id": "res_basin_SE",
-        "location": "SE",
-        "edges": { "edge": {
-          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": 0,
-          "constraints": { "CapacityConstraint": true },
-          "commodity": "Electricity",
-          "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
+	"edges": {
+             "elec_edge": {
+        "existing_capacity": 18137.213,
+        "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
           "capacity_size": 1,
           "end_vertex": "elec_SE",
-          "availability": { "timeseries": { "header": "res_basin_SE", "path": "system/hydro_availability.csv" }},
-          "existing_capacity": 18137.213,
-          "storage_existing_capacity": 88647710.23   
-        }}
-      },
+           "availability": { 
+		"timeseries": { 
+		  "path": "system/hydro_availability.csv",
+		  "header": "res_basin_SE"
+                                }
+                            }
+                        }
+                    }
+                },
       {
         "id": "res_basin_S",
-        "location": "S",
-        "edges": { "edge": {
-          "can_retire": true, "can_expand": true, "min_capacity": 0, "max_capacity": 0,
-          "constraints": { "CapacityConstraint": true },
-          "commodity": "Electricity",
-          "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
+	"edges": {
+             "elec_edge": {
+        "existing_capacity": 8142.068,
+        "investment_cost": 0, "fixed_om_cost": 12820, "variable_om_cost": 0.1,
           "capacity_size": 1,
           "end_vertex": "elec_S",
-          "availability": { "timeseries": { "header": "res_basin_S", "path": "system/hydro_availability.csv" }},
-          "existing_capacity": 8142.068,
-          "storage_existing_capacity": 10867969.26   
-        }}
-      },
+           "availability": { 
+		"timeseries": { 
+		  "path": "system/hydro_availability.csv",
+		  "header": "res_basin_S"
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            ]
+        }
     ]
-  }
+
+
 }
