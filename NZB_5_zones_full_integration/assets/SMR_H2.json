@@ -4,7 +4,8 @@
             "type": "ThermalHydrogen",
             "global_data":{
             "fuel_commodity": "NaturalGas",
-            "start_vertex": "natgas",
+            "fuel_start_vertex":"natgas",
+            "co2_sink": "co2_sink",
             "lifetime":30,
             "wacc":0.08,
             "capital_recovery_period":20,
@@ -27,86 +28,24 @@
             "min_down_time": 3,
             "ramp_up_fraction": 0.5,
             "ramp_down_fraction": 0.5,
-            "min_flow_fraction": 0.85,
-            "edges" : {
-                "co2_edge": {
-                    "commodity": "CO2",
-                    "unidirectional": true,
-                    "has_capacity": false,
-                    "end_vertex": "co2_sink"
-                }
-            }
+            "min_flow_fraction": 0.85
             },
             "instance_data": [
                 {
                     "id": "NG_SMR_H2_N",
-                    "edges": {
-                        "h2_edge": {
-                            "end_vertex": "h2_N"
-                        },
-                        "fuel_edge": {
-                            "start_vertex": "natgas"
-                        },
-                        "elec_edge": {
-                            "start_vertex": "elec_N"
-                        }
-                    }
+                    "location": "N"
                 },
                 {
                     "id": "NG_SMR_H2_NE",
-                    "edges": {
-                        "h2_edge": {
-                            "end_vertex": "h2_NE"
-                        },
-                        "fuel_edge": {
-                            "start_vertex": "natgas"
-                        },
-                        "elec_edge": {
-                            "start_vertex": "elec_NE"
-                        }
-                    }
-                },
-                {
-                    "id": "NG_SMR_H2_MW",
-                    "edges": {
-                        "h2_edge": {
-                            "end_vertex": "h2_MW"
-                        },
-                        "fuel_edge": {
-                            "start_vertex": "natgas"
-                        },
-                        "elec_edge": {
-                            "start_vertex": "elec_SE"
-                        }
-                    }
+                    "location": "NE"
                 },
                 {
                     "id": "NG_SMR_H2_SE",
-                    "edges": {
-                        "h2_edge": {
-                            "end_vertex": "h2_SE"
-                        },
-                        "fuel_edge": {
-                            "start_vertex": "natgas"
-                        },
-                        "elec_edge": {
-                            "start_vertex": "elec_SE"
-                        }
-                    }
+                    "location": "SE"
                 },
                 {
                     "id": "NG_SMR_H2_S",
-                    "edges": {
-                        "h2_edge": {
-                            "end_vertex": "h2_S"
-                        },
-                        "fuel_edge": {
-                            "start_vertex": "natgas"
-                        },
-                        "elec_edge": {
-                            "start_vertex": "elec_S"
-                        }
-                    }
+                    "location": "S"
                 }
             ]
         }

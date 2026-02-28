@@ -18,15 +18,7 @@
                 },
             "ramp_up_fraction": 1,
             "ramp_down_fraction": 1,
-            "min_flow_fraction": 0.1,
-            "edges" : {
-                "co2_edge": {
-                    "commodity": "CO2",
-                    "unidirectional": true,
-                    "has_capacity": false,
-                    "end_vertex": "co2_sink"
-                }
-            }
+            "min_flow_fraction": 0.1
             },
             "instance_data": [
                 {
@@ -36,17 +28,6 @@
                 {
                     "id": "Elec_H2_NE",
                     "location": "NE"
-                },
-                {
-                    "id": "Elec_H2_MW",
-                    "edges":{
-                        "elec_edge": {
-                            "start_vertex": "elec_SE"
-                        },
-                        "h2_edge":{
-                            "end_vertex" : "h2_MW"
-                        }
-                    }
                 },
                 {
                     "id": "Elec_H2_SE",
