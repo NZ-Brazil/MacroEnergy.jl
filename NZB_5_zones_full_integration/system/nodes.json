@@ -460,7 +460,7 @@
         },
         "max_nsd": [1, 0.04, 0.024, 0.003],
         "time_interval": "Electricity",
-        "price_nsd": [50000, 45000, 27500.000000000004, 10000]
+        "price_nsd": [50000, 45000, 27500, 10000]
       },
       "instance_data": [
         {
@@ -582,12 +582,17 @@
       "instance_data": [
         {
           "id": "uranium_source",
-          "price": [
-            2.79796
-          ]
+          "location": "Brazil_1",
+          "price": {
+            "timeseries": {
+              "header": "uranium_source",
+              "path": "system/fuel_prices.csv"
+            }
+          }
         }
       ]
     },
+
  {
       "type": "Coal",
       "global_data": {
@@ -615,6 +620,18 @@
           }
         }
       ]
+    },
+
+        {
+            "type": "Electricity",
+            "global_data": {
+                "time_interval": "Electricity"
+            },
+            "instance_data": [
+                {
+                    "id": "hydro_source"
+                }
+            ]
     },
 
     {
@@ -764,16 +781,6 @@
                 }
             },
             {
-                "id": "h2_MW",
-                "location": "MW",
-                "demand": {
-                    "timeseries": {
-                        "path": "system/demand_h2.csv",
-                        "header": "h2_demand_MW"
-                    }
-                }
-            },
-            {
                 "id": "h2_SE",
                 "location": "SE",
                 "demand": {
@@ -795,7 +802,7 @@
             }
         ]
     },
-
+ 
     {
       "type": "Ammonia",
       "global_data": {

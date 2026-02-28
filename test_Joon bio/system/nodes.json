@@ -3,23 +3,9 @@
         {
             "global_data": {
                 "constraints": {
-                    "MaxNonServedDemandConstraint": true,
-                    "MaxNonServedDemandPerSegmentConstraint": true,
                     "BalanceConstraint": true
                 },
-                "max_nsd": [
-                    1,
-                    0.04,
-                    0.024,
-                    0.003
-                ],
-                "time_interval": "Electricity",
-                "price_nsd": [
-                    50000000000,
-                    45000000000,
-                    27500000000.000000000004,
-                    10000000000
-                ]
+                "time_interval": "Electricity"
             },
             "instance_data": [
                 {
@@ -48,8 +34,8 @@
                 {
                 "id": "corn_BR",
                 "location": "BR",
-                    "max_supply": [41500000.23, 1871760000.53, 241566.99, 237463.52, 197172.84, 56284.26, 43018.01, 123467.07, 11397.41, 6790.68],
-                    "price_supply": [8940.57, 10764.39, 11340.6, 11713.15, 12041.31, 12415.56, 13038.37, 14191.51, 15561.85, 18184.32]
+                    "max_supply": [41500000.23],
+                    "price_supply": [8000]
                 }
             ]
         },
@@ -117,7 +103,7 @@
             },
             "instance_data": [
                 {
-                    "price": [1850.17191],
+                    "price": [1850],
                     "id": "BR_NG"
                 }
             ],
