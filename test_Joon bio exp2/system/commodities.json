@@ -1,0 +1,15 @@
+{
+    "commodities": [
+        "Electricity",
+        "NaturalGas",
+        "CO2",
+        "CO2Captured",
+        "Hydrogen",
+        "Biomass",    
+            { "name": "Corn", "acts_like": "Biomass" },
+            { "name": "Bagasse", "acts_like": "Biomass" },
+            { "name": "Residue", "acts_like": "Biomass" },
+        "LiquidFuels",
+            { "name": "Ethanol", "acts_like": "LiquidFuels" }
+    ]
+}

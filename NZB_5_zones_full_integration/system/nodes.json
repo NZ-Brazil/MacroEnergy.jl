@@ -751,7 +751,7 @@
                 1
             ],
             "price_nsd": [
-                50000.0
+                50000000000.0
             ],
             "constraints": {
                 "BalanceConstraint": true,
