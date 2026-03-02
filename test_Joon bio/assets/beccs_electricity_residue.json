@@ -49,7 +49,7 @@
         {
           "id": "BR_N_biomass_thermal_plant",
           "transforms": {
-            "electricity_production": 1,
+            "electricity_production": 1.5,
             "co2_content": 1.55,
             "emission_rate": 1.55
           },
