@@ -1,0 +1,429 @@
+{
+    "nodes": [
+        {
+            "global_data": {
+                "constraints": {
+                    "BalanceConstraint": true
+                },
+                "time_interval": "Electricity"
+            },
+            "instance_data": [
+                {
+                    "demand": {
+                        "timeseries": {
+                            "header": "elec_demand_BR",
+                            "path": "system/demand.csv"
+                        }
+                    },
+                    "id": "elec_BR"
+                }
+            ],
+            "type": "Electricity"
+        },
+
+        {
+            "type": "Electricity",
+            "global_data": {
+                "time_interval": "Electricity"
+            },
+            "instance_data": [
+                {
+                    "id": "hydro_source"
+                }
+            ]
+        },
+
+            {
+      "type": "Sugarcane",
+      "global_data": {
+        "time_interval": "Biomass",
+        "constraints": {
+          "BalanceConstraint": true
+        }
+      },
+      "instance_data": [
+        {
+          "id": "sugarcane_BR",
+          "max_supply": [19859.19, 869920.03, 2013242.36, 10412570.36, 26072174.95, 30503267.31, 50674962.07, 43324191.15, 25821289.83, 1038254.3],
+          "price_supply": [760.82, 798.5, 857.57, 919.28, 939.94, 970.36, 1001.17, 1034.5, 1123.79, 1588.74]
+        },
+
+        {
+          "id": "sugarcane_harvested_BR",
+          "location": "BR"
+        },
+
+        {
+          "id": "sugarcane_straw_processed_BR"
+        },
+
+        {
+          "id": "sugarcane_wasted_BR",        
+          "constraints": {
+            "BalanceConstraint": false
+          }
+        },
+
+        {
+          "id": "sugarcane_notused_BR",
+          "demand": [999999999999],
+          "max_nsd": [
+            1
+          ],
+          "price_nsd": [
+            0
+          ],
+          "constraints": {
+            "MaxNonServedDemandConstraint": true,
+            "MaxNonServedDemandPerSegmentConstraint": false
+          }
+        }
+      ]
+    },
+        
+
+    {
+      "type": "Corn",
+      "global_data": {
+        "time_interval": "Biomass",
+        "constraints": {
+          "BalanceConstraint": true
+        }
+      },
+      "instance_data": [
+        {
+          "id": "corn_BR",
+          "max_supply": [4982.76,	716067.96,	410309.76,	1284627.72,	2813736.24,	1790355.96,	2076425.76,	1711956.96,	716607.12,	1651055.04],
+          "price_supply": [8940.57, 9764.82, 10592.07, 10975.17, 11407.97, 11641.32, 11809.73, 12060.67, 12930.35, 18019.02]
+        },
+
+        {
+          "id": "corn_harvested_BR",
+          "location": "BR"
+        },
+
+        {
+          "id": "corn_stover_processed_BR"
+        },
+
+        {
+          "id": "corn_notused_BR",
+          "demand": [999999999999],
+          "max_nsd": [
+            1.0
+          ],
+          "price_nsd": [
+              0
+          ],
+          "constraints": {
+            "MaxNonServedDemandConstraint": true,
+            "MaxNonServedDemandPerSegmentConstraint": false
+          }
+        },
+
+        {
+          "id": "corn_wasted_BR",        
+          "constraints": {
+            "BalanceConstraint": false
+          }
+        }
+      ]
+    },
+
+    
+    {
+      "type": "Soybean",
+      "global_data": {
+        "time_interval": "Biomass",
+        "constraints": {
+          "BalanceConstraint": true
+        }
+      },
+      "instance_data": [
+        {
+          "id": "soybean_BR",
+          "max_supply": [623.52, 27443.83, 46566.47, 68054.45, 128589.05, 100884.3, 16728.11, 45906.55, 57515.85, 36083.49],
+          "price_supply": [11452.64, 12247.69, 12358.86, 12433.02, 12578.74, 12790.04, 13007.61, 13156.19, 13294.42, 13897.53]
+        },
+
+        {
+          "id": "soybean_harvested_BR",
+          "location": "BR"
+        },
+
+        {
+          "id": "soybean_residue_processed_BR"
+        },
+
+        {
+          "id": "soybean_notused_BR",
+          "demand": [999999999999],
+          "max_nsd": [
+            1.0
+          ],
+          "price_nsd": [
+              0
+          ],
+          "constraints": {
+            "MaxNonServedDemandConstraint": true,
+            "MaxNonServedDemandPerSegmentConstraint": false
+          }
+        },
+
+        {
+          "id": "soybean_wasted_BR",        
+          "constraints": {
+            "BalanceConstraint": false
+          }
+        }
+      ]
+    },
+
+        {
+      "type": "RiceStraw",
+      "global_data": {
+        "time_interval": "Biomass",
+        "constraints": {
+          "BalanceConstraint": true
+        }
+      },
+      "instance_data": [
+        {
+          "id": "ricestraw_BR",
+          "location": "BR",
+ "max_supply": [11.68, 508.9, 2722.42, 345.87, 2529.72, 3055.55, 240.99, 23875.98, 4849.87, 5053.19],
+ "price_supply": [561.41, 561.41, 591.55, 591.55, 594.94, 594.94, 594.94, 594.94, 608.53, 608.53]
+        }
+      ]
+    },
+
+        {
+      "type": "BioDiesel",
+      "global_data": {
+        "time_interval": "LiquidFuels",
+        "max_nsd": [
+            1
+        ],
+        "price_nsd": [
+            50000000.0
+        ],
+        "constraints": {
+            "BalanceConstraint": true,
+            "MaxNonServedDemandConstraint": false,
+            "MaxNonServedDemandPerSegmentConstraint": false
+        }
+      },
+      "instance_data": [
+        {
+          "id": "biodiesel_BR",
+          "location": "BR"
+        },
+        {
+          "id": "biodiesel_demand_BR",
+          "demand": {
+            "timeseries": {
+              "path": "system/demand_bio.csv",
+              "header": "Demand_BioDiesel" 
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "Sugar",
+      "global_data": {
+        "time_interval": "Biomass",
+        "max_nsd": [
+            1
+        ],
+        "price_nsd": [
+            5000000000.0
+        ],
+        "constraints": {
+            "BalanceConstraint": true,
+            "MaxNonServedDemandConstraint": true,
+            "MaxNonServedDemandPerSegmentConstraint": false
+        }
+      },
+      "instance_data": [
+        {
+          "id": "sugar_BR",
+          "location": "BR",
+          "demand": [0]
+        }
+      ]
+    },
+
+
+
+    {
+      "type": "Residue",
+      "global_data": {
+        "time_interval": "Biomass",
+        "constraints": {
+          "BalanceConstraint": true
+        }
+      },
+      "instance_data": [
+        {
+          "id": "residue_BR",
+          "location": "BR"
+        }
+      ]
+    },
+
+
+    {
+      "type": "Bagasse",
+      "global_data": {
+        "time_interval": "Biomass",
+        "constraints": {
+          "BalanceConstraint": true
+        }
+      },
+      "instance_data": [
+        {
+          "id": "bagasse_BR",
+          "location": "BR"
+        },
+
+        {
+          "id": "bagasse_notused_BR",
+          "demand": [9999999999],
+          "max_nsd": [
+            1
+          ],
+          "price_nsd": [
+              0
+          ],
+          "constraints": {
+            "MaxNonServedDemandConstraint": true,
+            "MaxNonServedDemandPerSegmentConstraint": false
+          }
+        }
+      ]
+    },
+
+
+    {
+      "type": "Ethanol",
+      "global_data": {
+        "time_interval": "LiquidFuels",
+        "constraints": {
+          "BalanceConstraint": true
+        }
+      },
+      "instance_data": [
+        {
+          "id": "ethanol_BR",
+          "demand": {
+            "timeseries": {
+              "path": "system/demand_bio.csv",
+              "header": "Demand_Ethanol"
+            }
+          }
+        }
+      ]
+    },
+    
+ {
+      "type": "NaturalGas",
+      "global_data": {
+        "time_interval": "NaturalGas"
+      },
+      "instance_data": [
+        {
+          "id": "BR_NG",
+          "location": "BR",
+          "price": {
+            "timeseries": {
+              "header": "natgas",
+              "path": "system/fuel_prices.csv"
+            }
+          }
+        }
+      ]
+    },
+
+     {
+        "type": "Coal",
+        "global_data": {
+            "time_interval": "Coal"
+        },
+        "instance_data": [
+        {
+            "id": "coal_BR",
+            "location": "BR",
+            "price": {
+                "timeseries": {
+                "header": "natgas",
+                "path": "system/fuel_prices.csv"
+                }
+            }
+            }
+        ]
+    },
+
+    {
+        "type": "Hydrogen",
+        "global_data": {
+            "time_interval": "Hydrogen",
+            "max_nsd": [
+                1
+            ],
+            "price_nsd": [
+                50000000000.0
+            ],
+            "constraints": {
+                "BalanceConstraint": true,
+                "MaxNonServedDemandConstraint": true,
+                "MaxNonServedDemandPerSegmentConstraint": true
+            }
+        },
+        "instance_data": [
+            {
+                "id": "h2_BR",
+                "location": "BR",
+                "demand": {
+                    "timeseries": {
+                        "path": "system/demand.csv",
+                        "header": "h2_demand_BR"
+                    }
+                }
+            }
+        ]
+    },
+
+    {
+        "global_data": {
+            "time_interval": "CO2"
+        },
+        "instance_data": [
+            {
+                "constraints": {
+                    "CO2CapConstraint": false
+                },
+                "rhs_policy": {
+                    "CO2CapConstraint": 18000
+                },
+                "id": "co2_sink"
+            }
+        ],
+        "type": "CO2"
+    },
+
+    {
+      "type": "CO2Captured",
+      "global_data": {
+        "time_interval": "CO2Captured"
+      },
+      "instance_data": [
+        {
+          "id": "co2_captured_BR",
+          "location": "BR"
+        }
+      ]
+    }
+    ]
+}

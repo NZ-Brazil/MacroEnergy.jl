@@ -1,0 +1,217 @@
+{
+    "NuclearPower": {
+        "type": "ThermalPower",
+            "global_data": {
+            "transforms": {
+                "timedata": "Uranium",
+                "constraints": {
+                        "BalanceConstraint": true
+                }
+            },
+            "edges" : {
+                "elec_edge":{
+                            "commodity": "Electricity",
+                            "unidirectional": true,
+                            "has_capacity": true,
+                            "uc": false,
+                            "integer_decisions": false,
+                            "constraints": {
+                                "CapacityConstraint": true
+                            }
+                        },
+                "fuel_edge": {
+                            "commodity": "Uranium",
+                            "unidirectional": true,
+                            "has_capacity": false,
+                             "start_vertex": "uranium_source"
+                        },
+                "co2_edge": {
+                        "commodity": "CO2",
+                        "unidirectional": true,
+                        "has_capacity": false,
+                        "end_vertex": "co2_sink"
+                    }
+                }
+            },
+            "instance_data": [
+                {
+                    "id": "Angra_1",
+                    "transforms":{
+                        "fuel_consumption": 3.064351108
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_SE",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 657,
+                            "fixed_om_cost": 264367.8,
+                            "variable_om_cost": 7.0,
+                            "capacity_size": 1051.009
+                        }
+                    }
+                },
+                {
+                    "id": "Angra_2",
+                    "transforms":{
+                        "fuel_consumption": 3.064351108
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_SE",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 1350,
+                            "fixed_om_cost": 264367.8,
+                            "variable_om_cost": 7.0,
+                            "capacity_size": 1051.009
+                        }
+                    }
+                },
+                {
+                    "id": "N_new_SMR",
+                    "transforms":{
+                        "fuel_consumption": 3.064058037
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_N",
+                            "can_retire": true,
+                            "can_expand": true,
+                            "existing_capacity": 0.0,
+                            "investment_cost": 13633225.8518, 
+                            "fixed_om_cost": 232217.2800,
+                            "variable_om_cost": 3.0102,
+                            "capacity_size": 300
+                        }
+                    }
+                },
+                {
+                    "id": "NE_new_SMR",
+                    "transforms":{
+                        "fuel_consumption": 3.064058037
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_NE",
+                            "can_retire": true,
+                            "can_expand": true,
+                            "existing_capacity": 0.0,
+                            "investment_cost": 13633225.8518, 
+                            "fixed_om_cost": 232217.2800,
+                            "variable_om_cost": 3.0102,
+                            "capacity_size": 300
+                        }
+                    }
+                },
+                {
+                    "id": "SE_new_SMR",
+                    "transforms":{
+                        "fuel_consumption": 3.064058037
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_SE",
+                            "can_retire": true,
+                            "can_expand": true,
+                            "existing_capacity": 0.0,
+                            "investment_cost": 13633225.8518, 
+                            "fixed_om_cost": 232217.2800,
+                            "variable_om_cost": 3.0102,
+                            "capacity_size": 300
+                        }
+                    }
+                },
+                {
+                    "id": "S_new_SMR",
+                    "transforms":{
+                        "fuel_consumption": 3.064058037
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_S",
+                            "can_retire": true,
+                            "can_expand": true,
+                            "existing_capacity": 0.0,
+                            "investment_cost": 13633225.8518, 
+                            "fixed_om_cost": 232217.2800,
+                            "variable_om_cost": 3.0102,
+                            "capacity_size": 300
+                        }
+                    }
+                },
+                {
+                    "id": "N_new_nuclear",
+                    "transforms":{
+                        "fuel_consumption": 3.064058037
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_N",
+                            "can_retire": true,
+                            "can_expand": true,
+                            "existing_capacity": 0.0,
+                            "investment_cost": 12724773.4062, 
+                            "fixed_om_cost": 219316.3200,
+                            "variable_om_cost": 3.65527,
+                            "capacity_size": 1000
+                        }
+                    }
+                },
+                {
+                    "id": "NE_new_nuclear",
+                    "transforms":{
+                        "fuel_consumption": 3.064058037
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_NE",
+                            "can_retire": true,
+                            "can_expand": true,
+                            "existing_capacity": 0.0,
+                            "investment_cost": 12724773.4062, 
+                            "fixed_om_cost": 219316.3200,
+                            "variable_om_cost": 3.65527,
+                            "capacity_size": 1000
+                        }
+                    }
+                },
+                {
+                    "id": "SE_new_nuclear",
+                    "transforms":{
+                        "fuel_consumption": 3.064058037
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_SE",
+                            "can_retire": true,
+                            "can_expand": true,
+                            "existing_capacity": 0.0,
+                            "investment_cost": 12724773.4062, 
+                            "fixed_om_cost": 219316.3200,
+                            "variable_om_cost": 3.65527,
+                            "capacity_size": 1000
+                        }
+                    }
+                },
+                {
+                    "id": "S_new_nuclear",
+                    "transforms":{
+                        "fuel_consumption": 3.064058037
+                    },
+                    "edges":{
+                        "elec_edge": {
+                            "end_vertex": "elec_S",
+                            "can_retire": true,
+                            "can_expand": true,
+                            "existing_capacity": 0.0,
+                            "investment_cost": 12724773.4062, 
+                            "fixed_om_cost": 219316.3200,
+                            "variable_om_cost": 3.65527,
+                            "capacity_size": 1000
+                        }
+                    }
+                }
+            ]    
+        }
+}

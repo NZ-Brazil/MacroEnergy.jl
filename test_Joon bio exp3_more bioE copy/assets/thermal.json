@@ -1,0 +1,86 @@
+
+
+{
+    "NaturalGasPower": [
+        {
+            "type": "ThermalPower",
+            "global_data": {
+                "transforms": {
+                    "timedata": "NaturalGas",
+                    "constraints": {
+                        "BalanceConstraint": true
+                    }
+                },
+                "edges": {
+                    "elec_edge": {
+                        "commodity": "Electricity",
+                        "unidirectional": true,
+                        "has_capacity": true,
+                        "uc": false,
+                        "constraints": {
+                            "CapacityConstraint": true
+                        }
+                    },
+                    "fuel_edge": {
+                        "commodity": "NaturalGas",
+                        "unidirectional": true,
+                        "has_capacity": false
+                    },
+                    "co2_edge": {
+                        "commodity": "CO2",
+                        "unidirectional": true,
+                        "has_capacity": false,
+                        "end_vertex": "co2_sink"
+                    }
+                }
+            },
+            "instance_data": [
+		        {
+                    "id": "NE_new_NG_combined_cycle_100_inflexible",
+                    "transforms": {
+                        "emission_rate": 0.1813314,
+                        "fuel_consumption": 2.10561406
+                    },
+                    "edges": {
+                        "elec_edge": {
+                            "end_vertex": "elec_BR",
+                            "can_retire": true,
+                            "can_expand": true,
+                            "existing_capacity": 0,
+                            "investment_cost": 15000,
+                            "fixed_om_cost": 7800,
+                            "variable_om_cost": 7,
+                            "capacity_size": 100
+                        },
+                        "fuel_edge": {
+                            "start_vertex": "BR_NG"
+                        }
+                    }
+                },
+
+                               {
+                    "id": "N_existing_natural_gas_fired_simple_cycle",
+                    "transforms": {
+                        "emission_rate": 0.1813528,
+                        "fuel_consumption": 2.6072995
+                    },
+                    "edges": {
+                        "elec_edge": {
+                            "end_vertex": "elec_BR2",
+                            "can_retire": true,
+                            "can_expand": false,
+                            "existing_capacity": 166,
+                            "investment_cost": 0.0,
+                            "fixed_om_cost": 15000,
+                            "variable_om_cost": 5,
+                            "capacity_size": 1
+                        },
+                        "fuel_edge": {
+                            "start_vertex": "BR_NG"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
