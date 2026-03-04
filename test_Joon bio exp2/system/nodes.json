@@ -20,6 +20,18 @@
             ],
             "type": "Electricity"
         },
+
+        {
+            "type": "Electricity",
+            "global_data": {
+                "time_interval": "Electricity"
+            },
+            "instance_data": [
+                {
+                    "id": "hydro_source"
+                }
+            ]
+        },
         
 
         {

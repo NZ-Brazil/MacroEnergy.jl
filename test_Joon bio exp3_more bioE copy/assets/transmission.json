@@ -1,0 +1,59 @@
+{
+  "transmission": {
+    "type": "TransmissionLink",
+    "global_data": {
+      "transforms": {},
+      "edges": {
+        "transmission_edge": {
+          "unidirectional": false,
+          "has_capacity": true,
+          "commodity": "Electricity"
+        }
+      }
+    },
+    "instance_data": [
+      {
+        "id": "BR_to_BR2",
+        "edges": {
+          "transmission_edge": {
+            "can_retire": false,
+            "can_expand": true,
+            "constraints": {
+              "CapacityConstraint": true,
+              "MaxCapacityConstraint": true,
+              "MaxNewCapacityConstraint": true
+            },
+            "start_vertex": "elec_BR",
+            "end_vertex": "elec_BR2",
+            "loss_fraction": 0.012305837,
+            "max_capacity": 1000000000,
+            "max_new_capacity": 10000000000,
+            "existing_capacity": 2500,
+            "investment_cost": 12060
+          }
+        }
+      },
+            {
+        "id": "BR2_to_BR",
+        "edges": {
+          "transmission_edge": {
+            "can_retire": false,
+            "can_expand": true,
+            "constraints": {
+              "CapacityConstraint": true,
+              "MaxCapacityConstraint": true,
+              "MaxNewCapacityConstraint": true
+            },
+            "start_vertex": "elec_BR2",
+            "end_vertex": "elec_BR",
+            "loss_fraction": 0.012305837,
+            "max_capacity": 1000000000,
+            "max_new_capacity": 10000000000,
+            "existing_capacity": 2500,
+            "investment_cost": 12060
+          }
+        }
+      }
+    ]
+  }
+}
