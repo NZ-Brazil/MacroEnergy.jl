@@ -31,7 +31,7 @@
           "end_vertex": "elec_N",
           "availability": { 
 		"timeseries": { 
-		  "path": "system/hydro_availability.csv", 
+		  "path": "system/hydro_availability2.csv", 
 		  "header": "ror_basin_N"
                                 }
                             }
@@ -48,7 +48,7 @@
           "end_vertex": "elec_NE",
          "availability": { 
 		"timeseries": { 
-		  "path": "system/hydro_availability.csv", 
+		  "path": "system/hydro_availability2.csv", 
 		  "header": "ror_basin_NE"
                                 }
                             }
@@ -65,7 +65,7 @@
           "end_vertex": "elec_S",
          "availability": { 
 		"timeseries": { 
-		  "path": "system/hydro_availability.csv",
+		  "path": "system/hydro_availability2.csv",
 		  "header": "ror_basin_SE"
                                 }
                             }
@@ -82,7 +82,7 @@
           "end_vertex": "elec_S",
            "availability": { 
 		"timeseries": { 
-		  "path": "system/hydro_availability.csv",
+		  "path": "system/hydro_availability2.csv",
 		  "header": "ror_basin_S"
                                 }
                             }
@@ -99,7 +99,7 @@
           "end_vertex": "elec_N",
            "availability": { 
 		"timeseries": { 
-		  "path": "system/hydro_availability.csv",
+		  "path": "system/hydro_availability2.csv",
 		  "header": "res_basin_N"
                                 }
                             }
@@ -116,7 +116,7 @@
           "end_vertex": "elec_NE",
            "availability": { 
 		"timeseries": { 
-		  "path": "system/hydro_availability.csv", 
+		  "path": "system/hydro_availability2.csv", 
 		  "header": "res_basin_NE"
                                 }
                             }
@@ -133,7 +133,7 @@
           "end_vertex": "elec_SE",
            "availability": { 
 		"timeseries": { 
-		  "path": "system/hydro_availability.csv",
+		  "path": "system/hydro_availability2.csv",
 		  "header": "res_basin_SE"
                                 }
                             }
@@ -150,7 +150,7 @@
           "end_vertex": "elec_S",
            "availability": { 
 		"timeseries": { 
-		  "path": "system/hydro_availability.csv",
+		  "path": "system/hydro_availability2.csv",
 		  "header": "res_basin_S"
                                 }
                             }
