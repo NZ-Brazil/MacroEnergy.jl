@@ -5,7 +5,7 @@
       "transforms": {},
       "edges": {
         "transmission_edge": {
-          "unidirectional": true,
+          "unidirectional": false,
           "has_capacity": true,
           "commodity": "Electricity"
         }
@@ -46,23 +46,7 @@
           }
         }
       },
-      {
-        "id": "NE_to_N",
-        "edges": {
-          "transmission_edge": {
-            "can_retire": false,
-            "can_expand": true,
-            "constraints": {
-              "CapacityConstraint": true
-            },
-            "start_vertex": "elec_NE",
-            "end_vertex": "elec_N",
-            "loss_fraction": 0.012305837,
-            "existing_capacity": 2500,
-            "investment_cost": 12060
-          }
-        }
-      },
+
       {
         "id": "NE_to_SE",
         "edges": {
@@ -80,23 +64,7 @@
           }
         }
       },
-      {
-        "id": "SE_to_N",
-        "edges": {
-          "transmission_edge": {
-            "can_retire": false,
-            "can_expand": true,
-            "constraints": {
-              "CapacityConstraint": true
-            },
-            "start_vertex": "elec_SE",
-            "end_vertex": "elec_N",
-            "loss_fraction": 0.012305837,
-            "existing_capacity": 3000,
-            "investment_cost": 12060
-          }
-        }
-      },
+
       {
         "id": "SE_to_NE",
         "edges": {
@@ -127,23 +95,6 @@
             "end_vertex": "elec_S",
             "loss_fraction": 0.012305837,
             "existing_capacity": 10,
-            "investment_cost": 12060
-          }
-        }
-      },
-      {
-        "id": "S_to_SE",
-        "edges": {
-          "transmission_edge": {
-            "can_retire": false,
-            "can_expand": true,
-            "constraints": {
-              "CapacityConstraint": true
-            },
-            "start_vertex": "elec_S",
-            "end_vertex": "elec_SE",
-            "loss_fraction": 0.012305837,
-            "existing_capacity": 4000,
             "investment_cost": 12060
           }
         }

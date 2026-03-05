@@ -1,0 +1,191 @@
+{
+    "nodes": [
+        {
+            "global_data": {
+                "constraints": {
+                    "BalanceConstraint": true
+                },
+                "time_interval": "Electricity"
+            },
+            "instance_data": [
+                {
+                    "demand": {
+                        "timeseries": {
+                            "header": "elec_demand_BR",
+                            "path": "system/demand.csv"
+                        }
+                    },
+                    "id": "elec_BR"
+                }
+            ],
+            "type": "Electricity"
+        },
+
+        {
+            "type": "Electricity",
+            "global_data": {
+                "time_interval": "Electricity"
+            },
+            "instance_data": [
+                {
+                    "id": "hydro_source"
+                }
+            ]
+        },
+        
+
+        {
+            "type": "Corn",
+            "global_data": {
+                "time_interval": "Biomass",
+                "constraints": {
+                "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                "id": "corn_BR",
+                "location": "BR",
+                    "max_supply": [41500000.23],
+                    "price_supply": [8000]
+                }
+            ]
+        },
+
+
+        {
+            "type": "Residue",
+            "global_data": {
+                "time_interval": "Biomass",
+                "constraints": {
+                "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                "id": "residue_BR",
+                "location": "BR",
+                    "max_supply": [2000, 3000, 5000],
+                    "price_supply": [1, 1.5, 1.6]
+                }
+            ]
+        },
+
+
+    {
+        "type": "Bagasse",
+        "global_data": {
+            "time_interval": "Biomass",
+            "constraints": {
+            "BalanceConstraint": false
+            }
+        },
+        "instance_data": [
+            {
+            "id": "bagasse_BR",
+            "location": "BR"
+            }
+        ]
+    },
+
+    {
+      "type": "Ethanol",
+      "global_data": {
+        "time_interval": "LiquidFuels",
+        "constraints": {
+          "BalanceConstraint": true
+        }
+      },
+      "instance_data": [
+        {
+          "id": "ethanol_BR",
+          "location": "BR"
+        },
+        {
+          "id": "ethanol_demand_BR",
+          "demand": {
+            "timeseries": {
+              "path": "system/demand_bio.csv",
+              "header": "Demand_Ethanol"
+            }
+          }
+        }
+      ]
+    },
+    
+        {
+            "global_data": {
+                "time_interval": "NaturalGas"
+            },
+            "instance_data": [
+                {
+                    "price": [1850],
+                    "id": "BR_NG"
+                }
+            ],
+            "type": "NaturalGas"
+        },
+
+
+            {
+        "type": "Hydrogen",
+        "global_data": {
+            "time_interval": "Hydrogen",
+            "max_nsd": [
+                1
+            ],
+            "price_nsd": [
+                50000000000.0
+            ],
+            "constraints": {
+                "BalanceConstraint": true,
+                "MaxNonServedDemandConstraint": true,
+                "MaxNonServedDemandPerSegmentConstraint": true
+            }
+        },
+        "instance_data": [
+            {
+                "id": "h2_BR",
+                "location": "BR",
+                "demand": {
+                    "timeseries": {
+                        "path": "system/demand.csv",
+                        "header": "h2_demand_BR"
+                    }
+                }
+            }
+        ]
+    },
+
+    {
+        "global_data": {
+            "time_interval": "CO2"
+        },
+        "instance_data": [
+            {
+                "constraints": {
+                    "CO2CapConstraint": false
+                },
+                "rhs_policy": {
+                    "CO2CapConstraint": 18000
+                },
+                "id": "co2_sink"
+            }
+        ],
+        "type": "CO2"
+    },
+
+    {
+      "type": "CO2Captured",
+      "global_data": {
+        "time_interval": "CO2Captured"
+      },
+      "instance_data": [
+        {
+          "id": "co2_captured_BR",
+          "location": "BR"
+        }
+      ]
+    }
+    ]
+}
