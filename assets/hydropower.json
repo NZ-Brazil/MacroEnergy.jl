@@ -132,7 +132,7 @@
             },
             "instance_data": [
                 {
-                    "id": "res_basin_N",
+                    "id": "res_basins_N",
                     "storage": {
                         "min_storage_level": 0.3,
                         "charge_discharge_ratio": 1.0,
@@ -169,7 +169,7 @@
                     }
                 },
                                 {
-                    "id": "res_basin_NE",
+                    "id": "res_basins_NE",
                     "storage": {
                         "min_storage_level": 0.3,
                         "charge_discharge_ratio": 1.0,
@@ -206,7 +206,7 @@
                     }
                 },
                                 {
-                    "id": "res_basin_S",
+                    "id": "res_basins_S",
                     "storage": {
                         "min_storage_level": 0.3,
                         "charge_discharge_ratio": 1.0,
@@ -243,7 +243,7 @@
                     }
                 },
                                 {
-                    "id": "res_basin_SE",
+                    "id": "res_basins_SE",
                     "storage": {
                         "min_storage_level": 0.3,
                         "charge_discharge_ratio": 1.0,
