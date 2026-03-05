@@ -132,6 +132,44 @@
       ]
     },
 
+    {
+      "type": "Soybean",
+      "global_data": {
+        "time_interval": "Biomass",
+        "constraints": {
+          "BalanceConstraint": true
+        }
+      },
+      "instance_data": [
+        {
+          "id": "soybean_N",
+          "max_supply": [623.52, 27443.83, 46566.47, 68054.45, 128589.05, 100884.3, 16728.11, 45906.55, 57515.85, 36083.49],
+          "price_supply": [11452.64, 12247.69, 12358.86, 12433.02, 12578.74, 12790.04, 13007.61, 13156.19, 13294.42, 13897.53]
+        },
+                {
+          "id": "soybean_NE",
+          "max_supply": [496.78, 1587.61, 7188.15, 142052.39, 108707.55, 48097.42, 1425.32, 202588.15, 1128937.83, 301864.39],
+          "price_supply": [10691.67, 10805.05, 10967.22, 11114.9, 11205.42, 12141.19, 13327.81, 14540.17, 14760.16, 16518.72]
+        },
+                {
+          "id": "soybean_MW",
+          "max_supply": [1929.52, 694857.42, 779172.35, 536891.59, 687040.8, 1236770.03, 932761.64, 1661455.93, 2594043.92, 1699980.61],
+          "price_supply": [7666.17, 10037.57, 11154.57, 11767.6, 12378.11, 12743.29, 13702.62, 15051.88, 16172.93, 22330.22]
+        },
+                {
+          "id": "soybean_SE",
+          "max_supply": [28.77, 14717.86, 9205.16, 17835.21, 32896.15, 25249.47, 48716.91, 32526.39, 49094.68, 33107.2],
+          "price_supply": [8680.5, 10598.48, 12750.95, 13715.89, 14400.74, 15190.11, 15824.89, 16410.51, 17201.9, 25279.3]
+        },
+                {
+          "id": "soybean_S",
+          "max_supply": [22154.24, 1443677.08, 884358.96, 978619.63, 1273935.9, 1070641.02, 1185044.63, 913433.27, 948441.36, 1358642.32],
+          "price_supply": [11287.72, 14920.38, 16522.88, 18279.12, 19988.42, 20922.5, 21985.88, 23477.27, 25341.51, 27786.46]
+        }
+      ]
+    },
+
+
 
     {
       "type": "RiceStraw",
@@ -540,6 +578,172 @@
                     "id": "hydro_source"
                 }
             ]
+    },
+
+
+    {
+      "type": "Ammonia",
+      "global_data": {
+        "time_interval": "Ammonia",
+        "max_nsd": [
+            1
+        ],
+        "price_nsd": [
+            5000000000.0
+        ],
+        "constraints": {
+            "BalanceConstraint": true,
+            "MaxNonServedDemandConstraint": true,
+            "MaxNonServedDemandPerSegmentConstraint": false
+        }
+      },
+      "instance_data": [
+        {
+          "id": "nh3_BR",
+          "location": "BR"
+        },
+        {
+          "id": "nh3_demand_BR",
+          "demand": {
+            "timeseries": {
+              "path": "system/demand_monthly.csv",
+              "header": "Demand_Ammonia"
+            }
+          }
+        }
+      ]
+    },
+
+        {
+      "type": "Gasoline",
+      "global_data": {
+        "time_interval": "LiquidFuels",
+        "max_nsd": [
+            1
+        ],
+        "price_nsd": [
+            5000000000.0
+        ],
+        "constraints": {
+            "BalanceConstraint": true,
+            "MaxNonServedDemandConstraint": true,
+            "MaxNonServedDemandPerSegmentConstraint": false
+        }
+      },
+      "instance_data": [
+        {
+          "id": "gasoline_BR",
+          "location": "BR"
+        },
+        {
+          "id": "gasoline_demand_BR",
+          "demand": {
+            "timeseries": {
+              "path": "system/demand_monthly.csv",
+              "header": "Demand_Gasoline"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "JetFuel",
+      "global_data": {
+        "time_interval": "LiquidFuels",
+        "max_nsd": [
+            1
+        ],
+        "price_nsd": [
+            5000000000.0
+        ],
+        "constraints": {
+            "BalanceConstraint": true,
+            "MaxNonServedDemandConstraint": true,
+            "MaxNonServedDemandPerSegmentConstraint": false
+        }
+      },
+      "instance_data": [
+        {
+          "id": "jetfuel_BR",
+          "location": "BR"
+        },
+        {
+          "id": "jetfuel_demand_BR",
+          "demand": {
+            "timeseries": {
+              "path": "system/demand_monthly.csv",
+              "header": "Demand_Jetfuel"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "GreenDiesel",
+      "global_data": {
+        "time_interval": "LiquidFuels",
+        "max_nsd": [
+            1
+        ],
+        "price_nsd": [
+            5000000000.0
+        ],
+        "constraints": {
+            "BalanceConstraint": true,
+            "MaxNonServedDemandConstraint": true,
+            "MaxNonServedDemandPerSegmentConstraint": false
+        }
+      },
+      "instance_data": [
+        {
+          "id": "greendiesel_BR",
+          "location": "BR"
+        },
+        {
+          "id": "greendiesel_demand_BR",
+          "demand": {
+            "timeseries": {
+              "path": "system/demand_monthly.csv",
+              "header": "Demand_GreenDiesel"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "BioDiesel",
+      "global_data": {
+        "time_interval": "LiquidFuels",
+        "max_nsd": [
+            1
+        ],
+        "price_nsd": [
+            50000000.0
+        ],
+        "constraints": {
+            "BalanceConstraint": true,
+            "MaxNonServedDemandConstraint": true,
+            "MaxNonServedDemandPerSegmentConstraint": false
+        }
+      },
+      "instance_data": [
+        {
+          "id": "biodiesel_BR",
+          "location": "BR"
+        },
+        {
+          "id": "biodiesel_demand_BR",
+          "demand": {
+            "timeseries": {
+              "path": "system/demand_monthly.csv",
+              "header": "Demand_BioDiesel" 
+            }
+          }
+        }
+      ]
     },
 
 
