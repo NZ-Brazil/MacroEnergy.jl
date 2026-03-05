@@ -52,7 +52,24 @@
               "path": "system/demand.csv"
             }
           }
-        }
+        }      
+      ]
+    },
+    {
+      "type": "Electricity",
+      "instance_data": [
+        {
+          "id": "hydro_source_N"
+        },
+        {
+          "id": "hydro_source_NE"
+        },
+        {
+          "id": "hydro_source_SE"
+        },
+        {
+          "id": "hydro_source_S"
+        }        
       ]
     },
     {
@@ -168,17 +185,6 @@
           }
         }
       ]
-    },
-    {
-            "type": "Electricity",
-            "global_data": {
-                "time_interval": "Electricity"
-            },
-            "instance_data": [
-                {
-                    "id": "hydro_source"
-                }
-            ]
     },
     {
       "type": "CO2",
