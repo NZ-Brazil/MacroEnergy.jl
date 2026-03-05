@@ -315,8 +315,12 @@
         }
       },
       "instance_data": [
+      {
+        "id": "ethanol_BR",
+        "location": "BR"
+      },
         {
-          "id": "ethanol_BR",
+          "id": "ethanol_demand_BR",
           "demand": {
             "timeseries": {
               "path": "system/demand_bio.csv",

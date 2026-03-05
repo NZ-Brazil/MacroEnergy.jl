@@ -2,7 +2,6 @@
   "TimeStepsPerSubperiod": 2920,
   "TimeResolution": {
     "Ammonia": 730,
-    "Biomethane": 730,
     "Biomass": 730,
     "LiquidFuels": 730,
     "Charcoal": 730,
@@ -22,7 +21,6 @@
     "NaturalGas": 2920,
     "Hydrogen": 2920,
     "Ammonia": 2920,
-    "Biomethane": 2920,
     "CO2": 2920,
     "Biomass": 2920,
     "LiquidFuels": 2920,

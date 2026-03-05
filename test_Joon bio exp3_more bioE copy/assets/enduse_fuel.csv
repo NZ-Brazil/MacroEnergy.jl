@@ -14,6 +14,7 @@ FuelsEndUse,BR_GreenDiesel_Use,co2_sink,0.25,GreenDiesel,TRUE,FALSE,greendiesel_
 FuelsEndUse,BR_Gasoline_Use,co2_sink,0.24,Gasoline,TRUE,FALSE,gasoline_BR,Gasoline,TRUE,FALSE,gasoline_demand_BR,CO2,TRUE,FALSE,co2_sink
 FuelsEndUse,BR_EthanolEndUse,co2_sink,0.232,Ethanol,TRUE,FALSE,ethanol_BR,Ethanol,TRUE,FALSE,ethanol_demand_BR,CO2,TRUE,FALSE,co2_sink
 FuelsEndUse,BR_BioDiesel_Use,co2_sink,0.253,BioDiesel,TRUE,FALSE,biodiesel_BR,BioDiesel,TRUE,FALSE,biodiesel_demand_BR,CO2,TRUE,FALSE,co2_sink
+FuelsEndUse,BR_JetFuel_Use,co2_sink,0.258,JetFuel,TRUE,FALSE,jetfuel_BR,JetFuel,TRUE,FALSE,jetfuel_demand_BR,CO2,TRUE,FALSE,co2_sink
 FuelsEndUse,BR_N_Soybean_notused,co2_sink,0,Soybean,TRUE,FALSE,soybean_harvested_N,Corn,TRUE,FALSE,soybean_notused_BR,CO2,TRUE,FALSE,co2_sink
 FuelsEndUse,BR_NE_Soybean_notused,co2_sink,0,Soybean,TRUE,FALSE,soybean_harvested_NE,Corn,TRUE,FALSE,soybean_notused_BR,CO2,TRUE,FALSE,co2_sink
 FuelsEndUse,BR_MW_Soybean_notused,co2_sink,0,Soybean,TRUE,FALSE,soybean_harvested_MW,Corn,TRUE,FALSE,soybean_notused_BR,CO2,TRUE,FALSE,co2_sink

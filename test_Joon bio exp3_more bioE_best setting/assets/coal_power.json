@@ -56,11 +56,11 @@
                             "variable_om_cost": 7.5256,
                             "capacity_size": 1.0,
                             "startup_cost": 100,
-                            "min_up_time": 100,
-                            "min_down_time": 100,
+                            "min_up_time": 172,
+                            "min_down_time": 172,
                             "ramp_up_fraction": 0.1,
                             "ramp_down_fraction": 0.1,
-                            "min_flow_fraction": 1
+                            "min_flow_fraction": 0.1
                         },
                         "fuel_edge": {
                             "start_vertex": "coal_BR"
