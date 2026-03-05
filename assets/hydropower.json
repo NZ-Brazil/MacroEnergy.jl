@@ -102,7 +102,7 @@
                     "can_retire": false,
                     "constraints": {
                         "BalanceConstraint": true,
-                        "MinStorageLevelConstraint": true,
+                        "MinStorageLevelConstraint": false,
                         "StorageChargeDischargeRatioConstraint":true
                     }
                 },
