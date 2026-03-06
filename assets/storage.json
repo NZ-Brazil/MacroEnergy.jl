@@ -22,7 +22,6 @@
                 "storage": {
                     "min_storage_level": 0,
                     "can_retire": true,
-                    "max_capacity": -1,
                     "can_expand": true,
                     "constraints": {
                         "StorageCapacityConstraint": true,
@@ -46,7 +45,6 @@
                 "edges": {
                     "discharge_edge": {
                         "can_retire": true,
-                        "max_capacity": -1,
                         "can_expand": true,
                         "constraints": {
                             "StorageDischargeLimitConstraint": true,
@@ -84,7 +82,6 @@
                 "storage": {
                     "min_storage_level": 0,
                     "can_retire": true,
-                    "max_capacity": -1,
                     "can_expand": true,
                     "constraints": {
                         "StorageCapacityConstraint": true,
@@ -108,7 +105,6 @@
                 "edges": {
                     "discharge_edge": {
                         "can_retire": true,
-                        "max_capacity": -1,
                         "can_expand": true,
                         "constraints": {
                             "StorageDischargeLimitConstraint": true,
@@ -146,7 +142,6 @@
                 "storage": {
                     "min_storage_level": 0,
                     "can_retire": true,
-                    "max_capacity": -1,
                     "can_expand": true,
                     "constraints": {
                         "StorageCapacityConstraint": true,
@@ -170,7 +165,6 @@
                 "edges": {
                     "discharge_edge": {
                         "can_retire": true,
-                        "max_capacity": -1,
                         "can_expand": true,
                         "constraints": {
                             "StorageDischargeLimitConstraint": true,
@@ -208,7 +202,6 @@
                 "storage": {
                     "min_storage_level": 0,
                     "can_retire": true,
-                    "max_capacity": -1,
                     "can_expand": true,
                     "constraints": {
                         "StorageCapacityConstraint": true,
@@ -232,7 +225,6 @@
                 "edges": {
                     "discharge_edge": {
                         "can_retire": true,
-                        "max_capacity": -1,
                         "can_expand": true,
                         "constraints": {
                             "StorageDischargeLimitConstraint": true,
@@ -270,7 +262,6 @@
                 "storage": {
                     "min_storage_level": 0,
                     "can_retire": true,
-                    "max_capacity": -1,
                     "can_expand": true,
                     "constraints": {
                         "StorageCapacityConstraint": true,
@@ -294,7 +285,6 @@
                 "edges": {
                     "discharge_edge": {
                         "can_retire": true,
-                        "max_capacity": -1,
                         "can_expand": true,
                         "constraints": {
                             "StorageDischargeLimitConstraint": true,
@@ -332,7 +322,6 @@
                 "storage": {
                     "min_storage_level": 0,
                     "can_retire": true,
-                    "max_capacity": -1,
                     "can_expand": true,
                     "constraints": {
                         "StorageCapacityConstraint": true,
@@ -356,7 +345,6 @@
                 "edges": {
                     "discharge_edge": {
                         "can_retire": true,
-                        "max_capacity": -1,
                         "can_expand": true,
                         "constraints": {
                             "StorageDischargeLimitConstraint": true,
@@ -394,7 +382,6 @@
                 "storage": {
                     "min_storage_level": 0,
                     "can_retire": true,
-                    "max_capacity": -1,
                     "can_expand": true,
                     "constraints": {
                         "StorageCapacityConstraint": true,
@@ -418,7 +405,6 @@
                 "edges": {
                     "discharge_edge": {
                         "can_retire": true,
-                        "max_capacity": -1,
                         "can_expand": true,
                         "constraints": {
                             "StorageDischargeLimitConstraint": true,
@@ -456,7 +442,6 @@
                 "storage": {
                     "min_storage_level": 0,
                     "can_retire": true,
-                    "max_capacity": -1,
                     "can_expand": true,
                     "constraints": {
                         "StorageCapacityConstraint": true,
@@ -480,7 +465,6 @@
                 "edges": {
                     "discharge_edge": {
                         "can_retire": true,
-                        "max_capacity": -1,
                         "can_expand": true,
                         "constraints": {
                             "StorageDischargeLimitConstraint": true,
@@ -518,7 +502,6 @@
                 "storage": {
                     "min_storage_level": 0,
                     "can_retire": true,
-                    "max_capacity": -1,
                     "can_expand": true,
                     "constraints": {
                         "StorageCapacityConstraint": true,
@@ -542,7 +525,6 @@
                 "edges": {
                     "discharge_edge": {
                         "can_retire": true,
-                        "max_capacity": -1,
                         "can_expand": true,
                         "constraints": {
                             "StorageDischargeLimitConstraint": true,
@@ -580,7 +562,6 @@
                 "storage": {
                     "min_storage_level": 0,
                     "can_retire": true,
-                    "max_capacity": -1,
                     "can_expand": true,
                     "constraints": {
                         "StorageCapacityConstraint": true,
@@ -604,7 +585,6 @@
                 "edges": {
                     "discharge_edge": {
                         "can_retire": true,
-                        "max_capacity": -1,
                         "can_expand": true,
                         "constraints": {
                             "StorageDischargeLimitConstraint": true,
