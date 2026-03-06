@@ -1,3 +1,5 @@
 {
-    "SolutionAlgorithm": "Monolithic"
+    "SolutionAlgorithm": "Monolithic",
+    "PeriodLengths": [1],
+    "DiscountRate": 0
 }
