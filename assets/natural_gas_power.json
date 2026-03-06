@@ -153,7 +153,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "N_existing_natural_gas_fired_combined_cycle",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -240,7 +240,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "S_existing_natural_gas_fired_combined_cycle",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -272,7 +272,7 @@
                 {
                     "id": "MW_existing_natural_gas_fired_combined_cycle",
                     "transforms": {
-                       "emission_rate": 0.1813314,
+                        "emission_rate": 0.1813314,
                         "fuel_consumption": 2.10561406
                     },
                     "edges": {
@@ -282,7 +282,7 @@
                             "can_expand": false,
                             "existing_capacity": 915,
                             "investment_cost": 0.0,
-                           "fixed_om_cost": 146227.3563,
+                            "fixed_om_cost": 146227.3563,
                             "variable_om_cost": 1.1,
                             "capacity_size": 458,
                             "startup_cost": 104.7,
@@ -298,7 +298,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "N_new_LNG_simple_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813528,
@@ -327,7 +327,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "NE_new_LNG_simple_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813528,
@@ -356,7 +356,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "SE_new_LNG_simple_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813528,
@@ -385,7 +385,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "MW_new_LNG_simple_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813528,
@@ -414,7 +414,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "S_new_LNG_simple_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813528,
@@ -443,7 +443,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "N_new_LNG_combined_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -472,7 +472,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "NE_new_LNG_combined_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -501,7 +501,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "SE_new_LNG_combined_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -530,7 +530,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "MW_new_LNG_combined_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -559,7 +559,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "S_new_LNG_combined_cycle_100_flexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -588,7 +588,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "N_new_LNG_combined_cycle_50_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -617,7 +617,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "NE_new_LNG_combined_cycle_50_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -646,7 +646,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "SE_new_LNG_combined_cycle_50_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -675,7 +675,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "MW_new_LNG_combined_cycle_50_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -704,7 +704,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "S_new_LNG_combined_cycle_50_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -733,7 +733,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "N_new_NG_combined_cycle_70_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -762,7 +762,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "NE_new_NG_combined_cycle_70_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -791,7 +791,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "SE_new_NG_combined_cycle_70_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -820,7 +820,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "MW_new_NG_combined_cycle_70_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -832,7 +832,7 @@
                             "can_retire": true,
                             "can_expand": true,
                             "existing_capacity": 0,
-                           "investment_cost": 988579.3103,
+                            "investment_cost": 988579.3103,
                             "fixed_om_cost": 146227.3563,
                             "variable_om_cost": 7.53,
                             "capacity_size": 100,
@@ -849,7 +849,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "S_new_NG_combined_cycle_70_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -878,7 +878,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "N_new_NG_combined_cycle_100_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -907,7 +907,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "NE_new_NG_combined_cycle_100_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -936,7 +936,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "SE_new_NG_combined_cycle_100_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -965,7 +965,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "MW_new_NG_combined_cycle_100_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
@@ -994,7 +994,7 @@
                         }
                     }
                 },
-		{
+                {
                     "id": "S_new_NG_combined_cycle_100_inflexible",
                     "transforms": {
                         "emission_rate": 0.1813314,
