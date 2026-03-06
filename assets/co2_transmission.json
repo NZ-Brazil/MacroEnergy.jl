@@ -35,7 +35,6 @@
                         }
                     }
                 },
-                "instance_data": [
                 {
                     "id": "Industry_to_Sink_N",
                     "edges": {
@@ -52,7 +51,6 @@
                         }
                     }
                 },
-                "instance_data": [
                 {
                     "id": "Industry_to_Sink_NE",
                     "edges": {
@@ -69,7 +67,6 @@
                         }
                     }
                 },
-                "instance_data": [
                 {
                     "id": "Industry_to_Sink_S",
                     "edges": {
@@ -86,7 +83,6 @@
                         }
                     }
                 },
-                "instance_data": [
                 {
                     "id": "Industry_to_Sink_SE",
                     "edges": {
@@ -106,5 +102,4 @@
             ]
         }
     ]
-
 }
