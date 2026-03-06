@@ -2,10 +2,10 @@
     "commodities": [
         "Electricity",
         "NaturalGas",
-	    "Coal",
+        "Coal",
         "Uranium",
         "CO2",
-		"CO2Captured",
+        "CO2Captured",
         "Hydrogen"
     ]
 }

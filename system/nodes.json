@@ -8,9 +8,19 @@
           "MaxNonServedDemandPerSegmentConstraint": true,
           "BalanceConstraint": true
         },
-        "max_nsd": [1, 0.04, 0.024, 0.003],
+        "max_nsd": [
+          1,
+          0.04,
+          0.024,
+          0.003
+        ],
         "time_interval": "Electricity",
-        "price_nsd": [50000, 45000, 27500.000000000004, 10000]
+        "price_nsd": [
+          50000,
+          45000,
+          27500,
+          10000
+        ]
       },
       "instance_data": [
         {
@@ -52,7 +62,7 @@
               "path": "system/demand.csv"
             }
           }
-        }      
+        }
       ]
     },
     {
@@ -69,7 +79,7 @@
         },
         {
           "id": "hydro_source_S"
-        }        
+        }
       ]
     },
     {
@@ -158,13 +168,13 @@
         }
       ]
     },
- {
+    {
       "type": "Coal",
       "global_data": {
         "time_interval": "Coal"
       },
       "instance_data": [
-       {
+        {
           "id": "coal_NE",
           "location": "NE",
           "price": {
@@ -187,114 +197,132 @@
       ]
     },
     {
-            "type": "CO2",
-            "global_data": {
-                "time_interval": "CO2"
-            },
-            "instance_data": [
-                {
-                    "id": "co2_sink_N",
-                    "constraints": {
-                        "CO2CapConstraint": true
-                    },
-                    "rhs_policy": {
-                        "CO2CapConstraint": 0
-                    },
-                    "price_unmet_policy": {
-                        "CO2CapConstraint": 25000000
-                    }
-                },
-                {
-                    "id": "co2_source_N",
-                    "max_supply": [ 15.5927945588022 ],
-                    "price_supply": [ 0 ],
-                    "constraints": {
-                        "BalanceConstraint": true
-                    }
-                },
-                {
-                    "id": "co2_sink_NE",
-                    "constraints": {
-                        "CO2CapConstraint": true
-                    },
-                    "rhs_policy": {
-                        "CO2CapConstraint": 0
-                    },
-                    "price_unmet_policy": {
-                        "CO2CapConstraint": 25000000
-                    }
-                },
-                {
-                    "id": "co2_source_NE",
-                    "max_supply": [ 43.343635270232 ],
-                    "price_supply": [ 0 ],
-                    "constraints": {
-                        "BalanceConstraint": true
-                    }
-                },
-                {
-                    "id": "co2_sink_SE",
-                    "constraints": {
-                        "CO2CapConstraint": true
-                    },
-                    "rhs_policy": {
-                        "CO2CapConstraint": 0
-                    },
-                    "price_unmet_policy": {
-                        "CO2CapConstraint": 25000000
-                    }
-                },
-                {
-                    "id": "co2_source_SE",
-                    "max_supply": [ 3000 ],
-                    "price_supply": [ 0 ],
-                    "constraints": {
-                        "BalanceConstraint": true
-                    }
-                },
-                {
-                    "id": "co2_sink_S",
-                    "constraints": {
-                        "CO2CapConstraint": true
-                    },
-                    "rhs_policy": {
-                        "CO2CapConstraint": 0
-                    },
-                    "price_unmet_policy": {
-                        "CO2CapConstraint": 25000000
-                    }
-                },
-                {
-                    "id": "co2_source_S",
-                    "max_supply": [ 421.108664494097 ],
-                    "price_supply": [ 0 ],
-                    "constraints": {
-                        "BalanceConstraint": true
-                    }
-                },
-                {
-                    "id": "co2_sink_MW",
-                    "constraints": {
-                        "CO2CapConstraint": true
-                    },
-                    "rhs_policy": {
-                        "CO2CapConstraint": 0
-                    },
-                    "price_unmet_policy": {
-                        "CO2CapConstraint": 25000000
-                    }
-                },
-                {
-                    "id": "co2_source_MW",
-                    "max_supply": [ 157.038236817765 ],
-                    "price_supply": [ 0 ],
-                    "constraints": {
-                        "BalanceConstraint": true
-                    }
-                }
-            ]
+      "type": "CO2",
+      "global_data": {
+        "time_interval": "CO2"
+      },
+      "instance_data": [
+        {
+          "id": "co2_sink_N",
+          "constraints": {
+            "CO2CapConstraint": true
+          },
+          "rhs_policy": {
+            "CO2CapConstraint": 0
+          },
+          "price_unmet_policy": {
+            "CO2CapConstraint": 25000000
+          }
+        },
+        {
+          "id": "co2_source_N",
+          "max_supply": [
+            15.5927945588022
+          ],
+          "price_supply": [
+            0
+          ],
+          "constraints": {
+            "BalanceConstraint": true
+          }
+        },
+        {
+          "id": "co2_sink_NE",
+          "constraints": {
+            "CO2CapConstraint": true
+          },
+          "rhs_policy": {
+            "CO2CapConstraint": 0
+          },
+          "price_unmet_policy": {
+            "CO2CapConstraint": 25000000
+          }
+        },
+        {
+          "id": "co2_source_NE",
+          "max_supply": [
+            43.343635270232
+          ],
+          "price_supply": [
+            0
+          ],
+          "constraints": {
+            "BalanceConstraint": true
+          }
+        },
+        {
+          "id": "co2_sink_SE",
+          "constraints": {
+            "CO2CapConstraint": true
+          },
+          "rhs_policy": {
+            "CO2CapConstraint": 0
+          },
+          "price_unmet_policy": {
+            "CO2CapConstraint": 25000000
+          }
+        },
+        {
+          "id": "co2_source_SE",
+          "max_supply": [
+            3000
+          ],
+          "price_supply": [
+            0
+          ],
+          "constraints": {
+            "BalanceConstraint": true
+          }
+        },
+        {
+          "id": "co2_sink_S",
+          "constraints": {
+            "CO2CapConstraint": true
+          },
+          "rhs_policy": {
+            "CO2CapConstraint": 0
+          },
+          "price_unmet_policy": {
+            "CO2CapConstraint": 25000000
+          }
+        },
+        {
+          "id": "co2_source_S",
+          "max_supply": [
+            421.108664494097
+          ],
+          "price_supply": [
+            0
+          ],
+          "constraints": {
+            "BalanceConstraint": true
+          }
+        },
+        {
+          "id": "co2_sink_MW",
+          "constraints": {
+            "CO2CapConstraint": true
+          },
+          "rhs_policy": {
+            "CO2CapConstraint": 0
+          },
+          "price_unmet_policy": {
+            "CO2CapConstraint": 25000000
+          }
+        },
+        {
+          "id": "co2_source_MW",
+          "max_supply": [
+            157.038236817765
+          ],
+          "price_supply": [
+            0
+          ],
+          "constraints": {
+            "BalanceConstraint": true
+          }
         }
-    ]
+      ]
+    }
+  ]
 }
-
-
