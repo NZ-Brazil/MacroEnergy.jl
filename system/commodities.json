@@ -5,6 +5,7 @@
 	    "Coal",
         "Uranium",
         "CO2",
+		"CO2Captured",
         "Hydrogen"
     ]
 }
