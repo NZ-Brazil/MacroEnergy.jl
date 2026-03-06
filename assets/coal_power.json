@@ -14,14 +14,14 @@
                     "commodity": "Electricity",
                     "unidirectional": true,
                     "has_capacity": true,
-                    "uc": true,
+                    "uc": false,
                     "integer_decisions": false,
                     "constraints": {
                         "CapacityConstraint": true,
                         "RampingLimitConstraint": true,
                         "MinFlowConstraint": true,
-                        "MinUpTimeConstraint": true,
-                        "MinDownTimeConstraint": true
+                        "MinUpTimeConstraint": false,
+                        "MinDownTimeConstraint": false
                     }
                 },
                 "fuel_edge": {
