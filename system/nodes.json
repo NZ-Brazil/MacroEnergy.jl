@@ -206,7 +206,7 @@
                 },
                 {
                     "id": "co2_source_N",
-                    "max_supply": [ 1000 ],
+                    "max_supply": [ 15.5927945588022 ],
                     "price_supply": [ 0 ],
                     "constraints": {
                         "BalanceConstraint": true
@@ -226,7 +226,7 @@
                 },
                 {
                     "id": "co2_source_NE",
-                    "max_supply": [ 1000 ],
+                    "max_supply": [ 43.343635270232 ],
                     "price_supply": [ 0 ],
                     "constraints": {
                         "BalanceConstraint": true
@@ -266,7 +266,7 @@
                 },
                 {
                     "id": "co2_source_S",
-                    "max_supply": [ 1000 ],
+                    "max_supply": [ 421.108664494097 ],
                     "price_supply": [ 0 ],
                     "constraints": {
                         "BalanceConstraint": true
@@ -286,7 +286,7 @@
                 },
                 {
                     "id": "co2_source_MW",
-                    "max_supply": [ 1000 ],
+                    "max_supply": [ 157.038236817765 ],
                     "price_supply": [ 0 ],
                     "constraints": {
                         "BalanceConstraint": true
@@ -296,4 +296,5 @@
         }
     ]
 }
+
 
