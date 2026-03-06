@@ -20,13 +20,81 @@
             },
             "instance_data": [
                 {
-                    "id": "Industry_to_Sink",
+                    "id": "Industry_to_Sink_MW",
                     "edges": {
                         "transmission_edge": {
-                            "start_vertex": "co2_source",
-                            "end_vertex": "co2_sink",
+                            "start_vertex": "co2_source_MW",
+                            "end_vertex": "co2_sink_MW",
                             "distance": 0,
-                            "existing_capacity": 1000,
+                            "existing_capacity": 157.038236817765,
+                            "investment_cost": 0,
+                            "loss_fraction": 0,
+                            "availability": [
+                                1
+                            ]
+                        }
+                    }
+                },
+                "instance_data": [
+                {
+                    "id": "Industry_to_Sink_N",
+                    "edges": {
+                        "transmission_edge": {
+                            "start_vertex": "co2_source_N",
+                            "end_vertex": "co2_sink_N",
+                            "distance": 0,
+                            "existing_capacity": 15.5927945588022,
+                            "investment_cost": 0,
+                            "loss_fraction": 0,
+                            "availability": [
+                                1
+                            ]
+                        }
+                    }
+                },
+                "instance_data": [
+                {
+                    "id": "Industry_to_Sink_NE",
+                    "edges": {
+                        "transmission_edge": {
+                            "start_vertex": "co2_source_NE",
+                            "end_vertex": "co2_sink_NE",
+                            "distance": 0,
+                            "existing_capacity": 43.343635270232,
+                            "investment_cost": 0,
+                            "loss_fraction": 0,
+                            "availability": [
+                                1
+                            ]
+                        }
+                    }
+                },
+                "instance_data": [
+                {
+                    "id": "Industry_to_Sink_S",
+                    "edges": {
+                        "transmission_edge": {
+                            "start_vertex": "co2_source_S",
+                            "end_vertex": "co2_sink_S",
+                            "distance": 0,
+                            "existing_capacity": 421.108664494097,
+                            "investment_cost": 0,
+                            "loss_fraction": 0,
+                            "availability": [
+                                1
+                            ]
+                        }
+                    }
+                },
+                "instance_data": [
+                {
+                    "id": "Industry_to_Sink_SE",
+                    "edges": {
+                        "transmission_edge": {
+                            "start_vertex": "co2_source_SE",
+                            "end_vertex": "co2_sink_SE",
+                            "distance": 0,
+                            "existing_capacity": 2110.48726791404,
                             "investment_cost": 0,
                             "loss_fraction": 0,
                             "availability": [
@@ -38,4 +106,5 @@
             ]
         }
     ]
+
 }
