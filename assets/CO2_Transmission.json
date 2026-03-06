@@ -1,0 +1,41 @@
+{
+    "IndustryCO2toAirSink": [
+        {
+            "type": "TransmissionLink",
+            "global_data": {
+                "edges": {
+                    "transmission_edge": {
+                        "commodity": "CO2",
+                        "has_capacity": true,
+                        "unidirectional": true,
+                        "can_expand": true,
+                        "can_retire": false,
+                        "integer_decisions": false,
+                        "constraints": {
+                            "CapacityConstraint": true,
+                            "MustRunConstraint": true
+                        }
+                    }
+                }
+            },
+            "instance_data": [
+                {
+                    "id": "Industry_to_Sink",
+                    "edges": {
+                        "transmission_edge": {
+                            "start_vertex": "co2_source",
+                            "end_vertex": "co2_sink",
+                            "distance": 0,
+                            "existing_capacity": 1000,
+                            "investment_cost": 0,
+                            "loss_fraction": 0,
+                            "availability": [
+                                1
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
