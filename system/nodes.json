@@ -1,337 +1,337 @@
 {
-  "nodes": [
-    {
-      "type": "Electricity",
-      "global_data": {
-        "constraints": {
-          "MaxNonServedDemandConstraint": true,
-          "MaxNonServedDemandPerSegmentConstraint": true,
-          "BalanceConstraint": true
-        },
-        "max_nsd": [
-          1,
-          0.04,
-          0.024,
-          0.003
-        ],
-        "time_interval": "Electricity",
-        "price_nsd": [
-          50000,
-          45000,
-          27500,
-          10000
-        ]
-      },
-      "instance_data": [
-        {
-          "id": "elec_NE",
-          "location": "NE",
-          "demand": {
-            "timeseries": {
-              "header": "elec_demand_NE",
-              "path": "system/demand.csv"
-            }
-          }
-        },
-        {
-          "id": "elec_N",
-          "location": "N",
-          "demand": {
-            "timeseries": {
-              "header": "elec_demand_N",
-              "path": "system/demand.csv"
-            }
-          }
-        },
-        {
-          "id": "elec_SE",
-          "location": "SE",
-          "demand": {
-            "timeseries": {
-              "header": "elec_demand_SE",
-              "path": "system/demand.csv"
-            }
-          }
-        },
-        {
-          "id": "elec_S",
-          "location": "S",
-          "demand": {
-            "timeseries": {
-              "header": "elec_demand_S",
-              "path": "system/demand.csv"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "type": "Electricity",
-      "instance_data": [
-        {
-          "id": "hydro_source_N"
-        },
-        {
-          "id": "hydro_source_NE"
-        },
-        {
-          "id": "hydro_source_SE"
-        },
-        {
-          "id": "hydro_source_S"
-        }
-      ]
-    },
-    {
-      "type": "NaturalGas",
-      "global_data": {
-        "time_interval": "NaturalGas"
-      },
-      "instance_data": [
-        {
-          "id": "natgas",
-          "location": "Brazil_1",
-          "price": {
-            "timeseries": {
-              "header": "natgas",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "natgas_LNG",
-          "location": "Brazil_2",
-          "price": {
-            "timeseries": {
-              "header": "natgas_LNG",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "natgas_LNG_100_flexible",
-          "location": "Brazil_3",
-          "price": {
-            "timeseries": {
-              "header": "natgas_LNG_100_flexible",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "natgas_LNG_50_inflexible",
-          "location": "Brazil_4",
-          "price": {
-            "timeseries": {
-              "header": "natgas_LNG_50_inflexible",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "natgas_NG_70_inflexible",
-          "location": "Brazil_5",
-          "price": {
-            "timeseries": {
-              "header": "natgas_NG_70_inflexible",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "natgas_NG_100_inflexible",
-          "location": "Brazil_6",
-          "price": {
-            "timeseries": {
-              "header": "natgas_NG_100_inflexible",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "type": "Uranium",
-      "global_data": {
-        "time_interval": "Uranium"
-      },
-      "instance_data": [
-        {
-          "id": "uranium_source",
-          "location": "Brazil_1",
-          "price": {
-            "timeseries": {
-              "header": "uranium_source",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "type": "Coal",
-      "global_data": {
-        "time_interval": "Coal"
-      },
-      "instance_data": [
-        {
-          "id": "coal_NE",
-          "location": "NE",
-          "price": {
-            "timeseries": {
-              "header": "coal_NE",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        },
-        {
-          "id": "coal_S",
-          "location": "S",
-          "price": {
-            "timeseries": {
-              "header": "coal_S",
-              "path": "system/fuel_prices.csv"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "type": "CO2",
-      "global_data": {
-        "time_interval": "CO2"
-      },
-      "instance_data": [
-        {
-          "id": "co2_sink_N",
-          "constraints": {
-            "CO2CapConstraint": true
-          },
-          "rhs_policy": {
-            "CO2CapConstraint": 0
-          },
-          "price_unmet_policy": {
-            "CO2CapConstraint": 25000000
-          }
-        },
-        {
-          "id": "co2_source_N",
-          "max_supply": [
-            15.5927945588022
-          ],
-          "price_supply": [
-            0
-          ],
-          "constraints": {
-            "BalanceConstraint": true
-          }
-        },
-        {
-          "id": "co2_sink_NE",
-          "constraints": {
-            "CO2CapConstraint": true
-          },
-          "rhs_policy": {
-            "CO2CapConstraint": 0
-          },
-          "price_unmet_policy": {
-            "CO2CapConstraint": 25000000
-          }
-        },
-        {
-          "id": "co2_source_NE",
-          "max_supply": [
-            43.343635270232
-          ],
-          "price_supply": [
-            0
-          ],
-          "constraints": {
-            "BalanceConstraint": true
-          }
-        },
-        {
-          "id": "co2_sink_SE",
-          "constraints": {
-            "CO2CapConstraint": true
-          },
-          "rhs_policy": {
-            "CO2CapConstraint": 0
-          },
-          "price_unmet_policy": {
-            "CO2CapConstraint": 25000000
-          }
-        },
-        {
-          "id": "co2_source_SE",
-          "max_supply": [
-            3000
-          ],
-          "price_supply": [
-            0
-          ],
-          "constraints": {
-            "BalanceConstraint": true
-          }
-        },
-        {
-          "id": "co2_sink_S",
-          "constraints": {
-            "CO2CapConstraint": true
-          },
-          "rhs_policy": {
-            "CO2CapConstraint": 0
-          },
-          "price_unmet_policy": {
-            "CO2CapConstraint": 25000000
-          }
-        },
-        {
-          "id": "co2_source_S",
-          "max_supply": [
-            421.108664494097
-          ],
-          "price_supply": [
-            0
-          ],
-          "constraints": {
-            "BalanceConstraint": true
-          }
-        },
-        {
-          "id": "co2_sink_MW",
-          "constraints": {
-            "CO2CapConstraint": true
-          },
-          "rhs_policy": {
-            "CO2CapConstraint": 0
-          },
-          "price_unmet_policy": {
-            "CO2CapConstraint": 25000000
-          }
-        },
-        {
-          "id": "co2_source_MW",
-          "max_supply": [
-            157.038236817765
-          ],
-          "price_supply": [
-            0
-          ],
-          "constraints": {
-            "BalanceConstraint": true
-          }
-        },
-        {
-          "id": "co2_sink",
-          "constraints": {
-            "CO2CapConstraint": true
-          },
-          "rhs_policy": {
-            "CO2CapConstraint": 0
-          }
-        }
-      ]
-    }
-  ]
+	"nodes": [
+		{
+			"type": "Electricity",
+			"global_data": {
+				"constraints": {
+					"MaxNonServedDemandConstraint": true,
+					"MaxNonServedDemandPerSegmentConstraint": true,
+					"BalanceConstraint": true
+				},
+				"max_nsd": [
+					1,
+					0.04,
+					0.024,
+					0.003
+				],
+				"time_interval": "Electricity",
+				"price_nsd": [
+					50000,
+					45000,
+					27500,
+					10000
+				]
+			},
+			"instance_data": [
+				{
+					"id": "elec_NE",
+					"location": "NE",
+					"demand": {
+						"timeseries": {
+							"header": "elec_demand_NE",
+							"path": "system/demand.csv"
+						}
+					}
+				},
+				{
+					"id": "elec_N",
+					"location": "N",
+					"demand": {
+						"timeseries": {
+							"header": "elec_demand_N",
+							"path": "system/demand.csv"
+						}
+					}
+				},
+				{
+					"id": "elec_SE",
+					"location": "SE",
+					"demand": {
+						"timeseries": {
+							"header": "elec_demand_SE",
+							"path": "system/demand.csv"
+						}
+					}
+				},
+				{
+					"id": "elec_S",
+					"location": "S",
+					"demand": {
+						"timeseries": {
+							"header": "elec_demand_S",
+							"path": "system/demand.csv"
+						}
+					}
+				}
+			]
+		},
+		{
+			"type": "Electricity",
+			"instance_data": [
+				{
+					"id": "hydro_source_N"
+				},
+				{
+					"id": "hydro_source_NE"
+				},
+				{
+					"id": "hydro_source_SE"
+				},
+				{
+					"id": "hydro_source_S"
+				}
+			]
+		},
+		{
+			"type": "NaturalGas",
+			"global_data": {
+				"time_interval": "NaturalGas"
+			},
+			"instance_data": [
+				{
+					"id": "natgas",
+					"location": "Brazil_1",
+					"price": {
+						"timeseries": {
+							"header": "natgas",
+							"path": "system/fuel_prices.csv"
+						}
+					}
+				},
+				{
+					"id": "natgas_LNG",
+					"location": "Brazil_2",
+					"price": {
+						"timeseries": {
+							"header": "natgas_LNG",
+							"path": "system/fuel_prices.csv"
+						}
+					}
+				},
+				{
+					"id": "natgas_LNG_100_flexible",
+					"location": "Brazil_3",
+					"price": {
+						"timeseries": {
+							"header": "natgas_LNG_100_flexible",
+							"path": "system/fuel_prices.csv"
+						}
+					}
+				},
+				{
+					"id": "natgas_LNG_50_inflexible",
+					"location": "Brazil_4",
+					"price": {
+						"timeseries": {
+							"header": "natgas_LNG_50_inflexible",
+							"path": "system/fuel_prices.csv"
+						}
+					}
+				},
+				{
+					"id": "natgas_NG_70_inflexible",
+					"location": "Brazil_5",
+					"price": {
+						"timeseries": {
+							"header": "natgas_NG_70_inflexible",
+							"path": "system/fuel_prices.csv"
+						}
+					}
+				},
+				{
+					"id": "natgas_NG_100_inflexible",
+					"location": "Brazil_6",
+					"price": {
+						"timeseries": {
+							"header": "natgas_NG_100_inflexible",
+							"path": "system/fuel_prices.csv"
+						}
+					}
+				}
+			]
+		},
+		{
+			"type": "Uranium",
+			"global_data": {
+				"time_interval": "Uranium"
+			},
+			"instance_data": [
+				{
+					"id": "uranium_source",
+					"location": "Brazil_1",
+					"price": {
+						"timeseries": {
+							"header": "uranium_source",
+							"path": "system/fuel_prices.csv"
+						}
+					}
+				}
+			]
+		},
+		{
+			"type": "Coal",
+			"global_data": {
+				"time_interval": "Coal"
+			},
+			"instance_data": [
+				{
+					"id": "coal_NE",
+					"location": "NE",
+					"price": {
+						"timeseries": {
+							"header": "coal_NE",
+							"path": "system/fuel_prices.csv"
+						}
+					}
+				},
+				{
+					"id": "coal_S",
+					"location": "S",
+					"price": {
+						"timeseries": {
+							"header": "coal_S",
+							"path": "system/fuel_prices.csv"
+						}
+					}
+				}
+			]
+		},
+		{
+			"type": "CO2",
+			"global_data": {
+				"time_interval": "CO2"
+			},
+			"instance_data": [
+				{
+					"id": "co2_sink_N",
+					"constraints": {
+						"CO2CapConstraint": true
+					},
+					"rhs_policy": {
+						"CO2CapConstraint": 0
+					},
+					"price_unmet_policy": {
+						"CO2CapConstraint": 25000000
+					}
+				},
+				{
+					"id": "co2_source_N",
+					"max_supply": [
+						15.5927945588022
+					],
+					"price_supply": [
+						0
+					],
+					"constraints": {
+						"BalanceConstraint": true
+					}
+				},
+				{
+					"id": "co2_sink_NE",
+					"constraints": {
+						"CO2CapConstraint": true
+					},
+					"rhs_policy": {
+						"CO2CapConstraint": 0
+					},
+					"price_unmet_policy": {
+						"CO2CapConstraint": 25000000
+					}
+				},
+				{
+					"id": "co2_source_NE",
+					"max_supply": [
+						43.343635270232
+					],
+					"price_supply": [
+						0
+					],
+					"constraints": {
+						"BalanceConstraint": true
+					}
+				},
+				{
+					"id": "co2_sink_SE",
+					"constraints": {
+						"CO2CapConstraint": true
+					},
+					"rhs_policy": {
+						"CO2CapConstraint": 0
+					},
+					"price_unmet_policy": {
+						"CO2CapConstraint": 25000000
+					}
+				},
+				{
+					"id": "co2_source_SE",
+					"max_supply": [
+						3000
+					],
+					"price_supply": [
+						0
+					],
+					"constraints": {
+						"BalanceConstraint": true
+					}
+				},
+				{
+					"id": "co2_sink_S",
+					"constraints": {
+						"CO2CapConstraint": true
+					},
+					"rhs_policy": {
+						"CO2CapConstraint": 0
+					},
+					"price_unmet_policy": {
+						"CO2CapConstraint": 25000000
+					}
+				},
+				{
+					"id": "co2_source_S",
+					"max_supply": [
+						421.108664494097
+					],
+					"price_supply": [
+						0
+					],
+					"constraints": {
+						"BalanceConstraint": true
+					}
+				},
+				{
+					"id": "co2_sink_MW",
+					"constraints": {
+						"CO2CapConstraint": true
+					},
+					"rhs_policy": {
+						"CO2CapConstraint": 0
+					},
+					"price_unmet_policy": {
+						"CO2CapConstraint": 25000000
+					}
+				},
+				{
+					"id": "co2_source_MW",
+					"max_supply": [
+						157.038236817765
+					],
+					"price_supply": [
+						0
+					],
+					"constraints": {
+						"BalanceConstraint": true
+					}
+				},
+				{
+					"id": "co2_sink",
+					"constraints": {
+						"CO2CapConstraint": true
+					},
+					"rhs_policy": {
+						"CO2CapConstraint": 0
+					}
+				}
+			]
+		}
+	]
 }
