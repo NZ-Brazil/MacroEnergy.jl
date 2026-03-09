@@ -332,6 +332,39 @@
 					}
 				}
 			]
-		}
+		},
+		{
+      "type": "CO2Captured",
+      "global_data": {
+        "time_interval": "CO2Captured"
+      },
+      "instance_data": [
+        {
+          "id": "co2_captured_N",
+          "location": "N"
+        },
+        {
+          "id": "co2_captured_NE",
+          "location": "NE"
+        },
+        {
+          "id": "co2_captured_MW",
+          "location": "MW"
+        },
+        {
+          "id": "co2_captured_SE",
+          "location": "SE"
+        },
+        {
+          "id": "co2_captured_S",
+          "location": "S"
+        },
+        {
+          "id": "co2_captured_BR",
+          "location": "BR"
+        }
+      ]
+    }
 	]
+
 }
