@@ -2,9 +2,25 @@ function scaling!(y::Union{AbstractVertex,AbstractEdge})
     atts_vec = attributes_to_scale(y)
     ScalingFactor = 1e3
     for f in atts_vec
-        setfield!(y, f, getfield(y, f) / ScalingFactor)
+        attr = getfield(y, f)
+        setfield!(y, f, _scale_attr(attr, ScalingFactor))
     end
 
+end
+
+"""Scale a single attribute; handles MacroTimeSeries and Vector{MacroTimeSeries}."""
+function _scale_attr(attr, factor::Real)
+    if attr isa MacroTimeSeries
+        attr.data ./= factor
+        return attr
+    elseif attr isa Vector{<:MacroTimeSeries}
+        for ts in attr
+            ts.data ./= factor
+        end
+        return attr
+    else
+        return attr / factor
+    end
 end
 
 function scaling!(a::AbstractAsset)

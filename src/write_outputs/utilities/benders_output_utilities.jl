@@ -208,7 +208,7 @@ function extract_subproblem_results(system::System; scaling::Float64=1.0)
     # Nodes that can have operational costs (NSD, supply, and/or slack)
     nodes_with_costs = filter(get_nodes(system)) do n
         !isempty(non_served_demand(n)) ||
-        !all(iszero, max_supply(n)) ||
+        any_supply_capacity(n) ||
         !isempty(policy_slack_vars(n))
     end
 

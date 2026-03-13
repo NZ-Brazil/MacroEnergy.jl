@@ -10,6 +10,7 @@ with_logger(test_logger) do
         include("test_workflow.jl")
         include("test_user_additions.jl")
         include("test_registry_user_smoke.jl")
+        include("test_node_max_supply.jl")
     end
 
     Test.@testset verbose = true "Writing Outputs" begin

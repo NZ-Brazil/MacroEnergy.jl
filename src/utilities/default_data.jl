@@ -117,7 +117,7 @@ function node_default_data()
         :price => MacroTimeSeries(),
         :price_nsd => [0.0],
         :price_supply => [0.0],
-        :max_supply => [0.0],
+        :max_supply => [MacroTimeSeries([0.0], UniformResolution(1, 1))],
         :price_unmet_policy => Dict{Symbol,Any}(),
         :rhs_policy => Dict{Symbol,Any}(),
     )

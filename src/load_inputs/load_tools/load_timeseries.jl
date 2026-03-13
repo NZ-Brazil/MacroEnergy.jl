@@ -9,8 +9,16 @@ function load_time_series_data!(system::System, data::AbstractDict{Symbol,Any})
     # load each time series data and update the data dictionary
     for (value, keys) in time_series_paths
         # If the value is a Dict with :path and :header keys, then load the data
-        if isa(value, DataFrame) || isa(value, Vector{Float64})
+        if isa(value, DataFrame) || isa(value, Vector{Float64}) ||
+           (isa(value, Vector) && !isempty(value) && all(x -> x isa AbstractVector, value))
             time_series = value
+        elseif isa(value, AbstractDict) && haskey(value, :header) && haskey(value, :segments)
+            # Multi-column load (convention: header, header_2, header_3, ...)
+            file_path = rel_or_abs_path(value[:path], system.data_dirpath)
+            base = string(value[:header])
+            n = Int(value[:segments])
+            headers = n == 1 ? [Symbol(base)] : [Symbol(base); [Symbol(base * "_$(s)") for s in 2:n]]
+            time_series = load_time_series_data(file_path, headers)
         else
             file_path = rel_or_abs_path(value[:path], system.data_dirpath)
             time_series = load_time_series_data(file_path, value[:header])
@@ -26,7 +34,22 @@ function load_time_series_data(
     header::T,
 )::Vector{Float64} where {T<:Union{Symbol,String}}
     time_series = read_csv(file_path, Symbol(header))
-    return time_series[!, header]
+    return Float64.(time_series[!, Symbol(header)])
+end
+
+"""
+    load_time_series_data(file_path, headers)::Vector{Vector{Float64}}
+
+Load multiple columns from a CSV file. Returns a vector of vectors, one per column.
+Used for node attributes with multiple segments (e.g. max_supply).
+"""
+function load_time_series_data(
+    file_path::AbstractString,
+    headers::AbstractVector,
+)::Vector{Vector{Float64}}
+    sym_headers = Symbol.(headers)
+    df = read_csv(file_path, sym_headers)
+    return [Float64.(df[!, h]) for h in sym_headers]
 end
 
 """

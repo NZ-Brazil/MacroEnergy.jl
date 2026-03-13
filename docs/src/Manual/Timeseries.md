@@ -142,10 +142,40 @@ This is useful when:
 - The timeseries values are generated programmatically
 - Users want to keep all data in a single file
 
+### Example: Adding max_supply time series from CSV (single or multiple segments)
+
+For node attributes with multiple segments (e.g. `max_supply`), use the **header + segments** convention (recommended):
+
+```json
+{
+    "id": "bioherb_MA",
+    "max_supply": {
+        "timeseries": {
+            "path": "system/max_supply.csv",
+            "header": "bioherb_MA",
+            "segments": 3
+        }
+    },
+    "price_supply": [40, 60, 80],
+    // [ ... other attributes ... ]
+}
+```
+
+**CSV column naming**: Segment 1 uses `header`; segments 2, 3, … use `header_2`, `header_3`, etc.
+
+| Time_Index | bioherb_MA | bioherb_MA_2 | bioherb_MA_3 |
+|------------|------------|--------------|--------------|
+| 1          | 10000      | 20000        | 30000        |
+| 2          | 10100      | 20100        | 30100        |
+| ...        | ...        | ...          | ...          |
+
+The number of CSV rows must match your model's time steps.
+
 ## Summary
 
 | Method | Use Case | Example |
 |--------|----------|---------|
 | CSV with `timeseries` dict | Large datasets, multiple timeseries, shared across runs | `"demand": {"timeseries": {"path": "system/demand.csv", "header": "Zone1"}}` |
+| CSV with `timeseries` + `header` + `segments` | Multi-segment time series (e.g. max_supply) | `"max_supply": {"timeseries": {"path": "system/max_supply.csv", "header": "bioherb_MA", "segments": 3}}` |
 | Single-value vector in JSON | Constant parameters | `"price": [15.0]` |
 | Vector in JSON | Short timeseries, programmatically generated data | `"demand": [100, 110, 120, ...]` |

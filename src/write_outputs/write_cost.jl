@@ -299,7 +299,7 @@ Only applicable to nodes with non-zero `max_supply`.
 Returns a Float64 value.
 """
 function compute_supply_cost(n::Node)::Float64
-    if all(iszero, max_supply(n))
+    if !any_supply_capacity(n)
         return 0.0
     end
     supply_cost = 0.0

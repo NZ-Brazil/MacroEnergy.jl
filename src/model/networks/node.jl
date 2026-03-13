@@ -4,7 +4,7 @@ macro AbstractNodeBaseAttributes()
         demand::MacroTimeSeries = $node_defaults[:demand]
         min_nsd::Vector{Float64} = $node_defaults[:min_nsd]
         max_nsd::Vector{Float64} = $node_defaults[:max_nsd]
-        max_supply::Vector{Float64} = $node_defaults[:max_supply]
+        max_supply::Vector{MacroTimeSeries} = $node_defaults[:max_supply]
         non_served_demand::JuMPVariable = Matrix{VariableRef}(undef, 0, 0)
         policy_budgeting_vars::Dict = Dict()
         policy_budgeting_constraints::Dict{DataType,JuMPConstraint} = Dict{DataType,JuMPConstraint}()  # Store policy budget constraint references
@@ -33,7 +33,7 @@ end
     # Fields
     - demand::MacroTimeSeries: Time series of demand values
     - max_nsd::Vector{Float64}: Maximum allowed non-served demand for each segment
-    - max_supply::Vector{Float64}: Maximum supply for each segment
+    - max_supply::Vector{MacroTimeSeries}: Maximum supply per segment (time-varying)
     - non_served_demand::Union{JuMPVariable,Matrix{Float64}}: JuMP variables or matrix representing unmet demand
     - policy_budgeting_vars::Dict: Policy budgeting variables for constraints
     - policy_budgeting_constraints::Dict{DataType,JuMPConstraint}: Policy budget constraint references (sum across subperiods, keyed by :ConstraintType)
@@ -77,6 +77,19 @@ function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodit
     if haskey(data, :price) && isa(data[:price], Vector{T} where {T<:Real})
         data[:price] = MacroTimeSeries(data[:price], time_data.resolution)
     end
+    # Parse max_supply: legacy [a,b,c] or new [[a_t1,a_t2,...],[b_t1,...],...]
+    max_supply_parsed = if haskey(data, :max_supply)
+        raw = data[:max_supply]
+        if !isempty(raw) && all(x -> x isa Number, raw)
+            [MacroTimeSeries([Float64(v)], time_data.resolution) for v in raw]
+        elseif !isempty(raw) && all(x -> x isa AbstractVector, raw)
+            [MacroTimeSeries(Float64.(collect(v)), time_data.resolution) for v in raw]
+        else
+            get(data, :max_supply, node_default_data()[:max_supply])
+        end
+    else
+        node_default_data()[:max_supply]
+    end
 
     _node = Node{commodity}(;
         id = id,
@@ -84,7 +97,7 @@ function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodit
         demand = get(data, :demand, MacroTimeSeries()),
         location = as_symbol_or_missing(get(data, :location, missing)),
         max_nsd = get(data, :max_nsd, [0.0]),
-        max_supply = get(data, :max_supply, [0.0]),
+        max_supply = max_supply_parsed,
         price = get(data, :price, MacroTimeSeries()),
         price_nsd = get(data, :price_nsd, [0.0]),
         price_supply = get(data, :price_supply, [0.0]),
@@ -134,7 +147,24 @@ supply_flow(n::Node) = n.supply_flow;
 supply_flow(n::Node, s::Int64, t::Int64) = supply_flow(n)[s, t];
 supply_segments(n::Node) = eachindex(n.max_supply);
 max_supply(n::Node) = n.max_supply;
-max_supply(n::Node,s::Int64) = n.max_supply[s];
+function max_supply(n::Node, s::Int64)
+    ts = n.max_supply[s]
+    return isempty(ts) ? 0.0 : (length(ts) == 1 ? ts[1] : ts[1])
+end
+function max_supply(n::Node, s::Int64, t::Int64)
+    ts = n.max_supply[s]
+    return isempty(ts) ? 0.0 : (length(ts) == 1 ? ts[1] : ts[t])
+end
+
+function any_supply_capacity(n::Node)
+    for s in supply_segments(n)
+        for t in time_steps(n)
+            max_supply(n, s, t) > 0 && return true
+        end
+    end
+    return false
+end
+
 price_supply(n::Node,s::Int64) = n.price_supply[s];
 ######### Node interface #########
 
@@ -215,13 +245,13 @@ function operation_model!(n::Node, model::Model)
         end
     end
 
-    if !all(max_supply(n) .== 0)
-
+    if any_supply_capacity(n)
+        ub_matrix = [max_supply(n, s, t) for s in supply_segments(n), t in time_steps(n)]
         n.supply_flow = @variable(
             model,
-            [s in supply_segments(n) ,t in time_steps(n)],
+            [s in supply_segments(n), t in time_steps(n)],
             lower_bound = 0.0,
-            upper_bound = max_supply(n,s),
+            upper_bound = ub_matrix[s, t],
             base_name = "vSUPPLY_$(id(n))_period$(period_index(n))"
         )
 
