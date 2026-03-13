@@ -14,7 +14,7 @@ Add a storage charge limit constraint to the edge `e` if the end vertex of the e
    \text{efficiency(e)}\text{flow(e, t)} \leq \text{capacity(end\_vertex(e))} - \text{storage\_level(end\_vertex(e), timestepbefore(t, 1, subperiods(e)))}
 \end{aligned}
 ```
-for each time `t` in `time_interval(e)` for the edge `e`. The function [`timestepbefore`](@ref) is used to perform the time wrapping within the subperiods and get the correct time step before `t`.
+for each time `t` in `time_steps(e)` for the edge `e`. The function [`timestepbefore`](@ref) is used to perform the time wrapping within the subperiods and get the correct time step before `t`.
 
 !!! note "Storage charge limit constraint"
     This constraint is only applied to edges with an end vertex that is a storage.
@@ -24,7 +24,7 @@ function add_model_constraint!(ct::StorageChargeLimitConstraint, e::Edge, model:
     if isa(end_vertex(e), Storage)
         ct.constraint_ref = @constraint(
             model,
-            [t in time_interval(e)],
+            [t in time_steps(e)],
             balance_data(e, end_vertex(e), :storage) * flow(e, t) <=
             capacity(end_vertex(e)) - storage_level(end_vertex(e), timestepbefore(t, 1, subperiods(e)))
         )

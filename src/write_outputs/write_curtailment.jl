@@ -167,7 +167,7 @@ function get_optimal_curtailment(
     scaling::Float64=1.0,
     obj_asset_map::Dict{Symbol,Base.RefValue{<:AbstractAsset}}=Dict{Symbol,Base.RefValue{<:AbstractAsset}}()
 )
-    time_axis = time_interval(obj)
+    time_axis = time_steps(obj)
     cap_val = Float64(value(capacity(obj)))
 
     curtailment_values = Float64[

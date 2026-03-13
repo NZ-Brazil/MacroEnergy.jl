@@ -254,26 +254,6 @@ function get_optimal_capacity_by_field(
 
     # Calculate total number of rows needed
     total_rows = length(objs) * length(field_list)
-
-    # Helper function to get capacity with time_interval_length correction
-    function get_capacity_value(obj::Union{AbstractEdge,Storage}, capacity_func::Function)
-        cap_value = Float64(value(capacity_func(obj)))
-        
-        # For edges with time resolution, multiply by time_interval_length
-        # This converts from "per timestep" capacity to actual physical capacity
-        if isa(obj, AbstractEdge) && has_capacity(obj)
-            resolution = obj.timedata.resolution
-            # Get the time_interval_length for the first timestep (should be uniform for capacity)
-            time_steps_list = time_steps(obj)
-            if !isempty(time_steps_list)
-                t_first = first(time_steps_list)
-                interval_length = time_interval_length(t_first, resolution)
-                cap_value = cap_value * interval_length
-            end
-        end
-        
-        return cap_value
-    end
     
     if isempty(obj_asset_map)
         return DataFrame(
@@ -285,8 +265,7 @@ function get_optimal_capacity_by_field(
             component_type = [get_type(obj) for obj in objs for f in field_list],
             variable = [Symbol(f) for obj in objs for f in field_list],
             year = fill(missing, total_rows),
-            # value = [Float64(value(f(obj))) * scaling for obj in objs for f in field_list]
-            value = [get_capacity_value(obj, f) * scaling for obj in objs for f in field_list]
+            value = [Float64(value(f(obj))) * scaling for obj in objs for f in field_list]
         )
     else
         return DataFrame(
@@ -299,8 +278,7 @@ function get_optimal_capacity_by_field(
             component_type = [get_type(obj) for obj in objs for f in field_list],
             variable = [Symbol(f) for obj in objs for f in field_list],
             year = fill(missing, total_rows),
-            # value = [Float64(value(f(obj))) * scaling for obj in objs for f in field_list]
-            value = [get_capacity_value(obj, f) * scaling for obj in objs for f in field_list]
+            value = [Float64(value(f(obj))) * scaling for obj in objs for f in field_list]
         )
     end
 end

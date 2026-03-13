@@ -227,7 +227,7 @@ Returns a Float64 value.
 function compute_variable_om_cost(e::AbstractEdge)::Float64
     variable_om_cost(e) <= 0 && return 0.0
     vom_cost = 0.0
-    for t in time_interval(e)
+    for t in time_steps(e)
         w = current_subperiod(e, t)
         vom_cost += subperiod_weight(e, w) * variable_om_cost(e) * value(flow(e, t))
     end
@@ -244,7 +244,7 @@ Returns a Float64 value.
 function compute_fuel_cost(e::AbstractEdge)::Float64
     (!isa(start_vertex(e), Node) || isempty(price(start_vertex(e)))) && return 0.0
     fuel_cost = 0.0
-    for t in time_interval(e)
+    for t in time_steps(e)
         w = current_subperiod(e, t)
         fuel_cost += subperiod_weight(e, w) * price(start_vertex(e), t) * value(flow(e, t))
     end
@@ -261,7 +261,7 @@ Returns a Float64 value.
 function compute_startup_cost(e::EdgeWithUC)::Float64
     startup_cost(e) <= 0 && return 0.0
     startup_cost_val = 0.0
-    for t in time_interval(e)
+    for t in time_steps(e)
         w = current_subperiod(e, t)
         startup_cost_val += subperiod_weight(e, w) * startup_cost(e) * capacity_size(e) * value(ustart(e, t))
     end
@@ -282,7 +282,7 @@ function compute_nsd_cost(n::Node)::Float64
     end
     
     nsd_cost = 0.0
-    for t in time_interval(n)
+    for t in time_steps(n)
         w = current_subperiod(n, t)
         for s in segments_non_served_demand(n)
             nsd_cost += subperiod_weight(n, w) * price_non_served_demand(n, s) * value(non_served_demand(n, s, t))
@@ -303,7 +303,7 @@ function compute_supply_cost(n::Node)::Float64
         return 0.0
     end
     supply_cost = 0.0
-    for t in time_interval(n)
+    for t in time_steps(n)
         w = current_subperiod(n, t)
         for s in supply_segments(n)
             supply_cost += subperiod_weight(n, w) * price_supply(n, s) * value(supply_flow(n, s, t))

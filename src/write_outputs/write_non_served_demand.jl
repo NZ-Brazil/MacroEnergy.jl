@@ -167,7 +167,7 @@ function get_optimal_non_served_demand(node::Node, scaling::Float64=1.0)
         return DataFrame()
     end
     
-    time_axis = time_interval(node)
+    time_axis = time_steps(node)
     num_segments = length(segments_non_served_demand(node))
     total_rows = num_segments * length(time_axis)
     

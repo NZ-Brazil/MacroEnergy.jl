@@ -267,7 +267,7 @@ function get_optimal_storage_level(
     scaling::Float64=1.0,
     storage_asset_map::Dict{Symbol,Base.RefValue{<:AbstractAsset}}=Dict{Symbol,Base.RefValue{<:AbstractAsset}}()
 )
-    time_axis = time_interval(storage)
+    time_axis = time_steps(storage)
     total_rows = length(time_axis)
     
     if isempty(storage_asset_map)

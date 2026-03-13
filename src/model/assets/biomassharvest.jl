@@ -119,7 +119,8 @@ end
 
 function make(asset_type::Type{BiomassHarvest}, data::AbstractDict{Symbol,Any}, system::System)
     id = AssetId(data[:id])
-
+    location = as_symbol_or_missing(get(data, :location, missing))
+    
     @setup_data(asset_type, data, id)
 
     ## Storage component of the biomass harvest
@@ -148,6 +149,7 @@ function make(asset_type::Type{BiomassHarvest}, data::AbstractDict{Symbol,Any}, 
         storage_data,
         system.time_data[commodity_symbol],
         commodity,
+        location
     )
     
     if long_duration
