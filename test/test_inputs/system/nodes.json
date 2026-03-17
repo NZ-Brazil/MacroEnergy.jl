@@ -202,16 +202,20 @@
                 {
                     "id": "bioherb_MA",
                     "demand": [0.0],
-                    "max_supply": [
-                        10000,
-                        20000,
-                        30000
-                    ],
-                    "price_supply": [
-                        40,
-                        60,
-                        80
-                    ]
+                    "max_supply": {
+                        "timeseries": {
+                            "path": "system/max_supply.csv",
+                            "header": "bioherb_MA",
+                            "segments": 3
+                        }
+                    },
+                    "price_supply": {
+                        "timeseries": {
+                            "path": "system/price_supply.csv",
+                            "header": "bioherb_MA",
+                            "segments": 3
+                        }
+                    }
                 },
                 {
                     "id": "bioherb_CT",

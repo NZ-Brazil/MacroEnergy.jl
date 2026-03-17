@@ -85,7 +85,7 @@ function test_writing_output()
             subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
         price = [10.0, 11.0, 12.0],
-        price_supply = [100.0, 110.0, 120.0],
+        price_supply = [MacroTimeSeries([100.0], UniformResolution(10, 30)), MacroTimeSeries([110.0], UniformResolution(10, 30)), MacroTimeSeries([120.0], UniformResolution(10, 30))],
         max_supply = [MacroTimeSeries([100.0], UniformResolution(10, 30)), MacroTimeSeries([110.0], UniformResolution(10, 30)), MacroTimeSeries([120.0], UniformResolution(10, 30))],
         supply_flow = zeros(3, 3),  # 3 segments × 3 time steps
         non_served_demand = [1.0 2.0 3.0; 4.0 5.0 6.0; 7.0 8.0 9.0],

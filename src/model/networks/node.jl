@@ -11,7 +11,7 @@ macro AbstractNodeBaseAttributes()
         policy_slack_vars::Dict = Dict()
         price::MacroTimeSeries = $node_defaults[:price]
         price_nsd::Vector{Float64} = $node_defaults[:price_nsd]
-        price_supply::Vector{Float64} = $node_defaults[:price_supply]
+        price_supply::Vector{MacroTimeSeries} = $node_defaults[:price_supply]
         price_unmet_policy::Dict{DataType,Float64} = Dict{DataType,Float64}()
         rhs_policy::Dict{DataType,Float64} = Dict{DataType,Float64}()
         supply_flow::JuMPVariable = Matrix{VariableRef}(undef, 0, 0)
@@ -40,7 +40,7 @@ end
     - policy_slack_vars::Dict: Policy slack variables for constraints
     - price::MacroTimeSeries: Time series of prices
     - price_nsd::Vector{Float64}: Penalties for non-served demand by segment
-    - price_supply::Vector{Float64}: Supply costs by segment
+    - price_supply::Vector{MacroTimeSeries}: Supply costs by segment (time-varying)
     - price_unmet_policy::Dict{DataType,Float64}: Mapping of policy types to penalty costs
     - rhs_policy::Dict{DataType,Float64}: Mapping of policy types to right-hand side values
     - supply_flow::Union{JuMPVariable,Matrix{Float64}}: JuMP variables or matrix representing supply flows
@@ -56,6 +56,23 @@ commodity_type(::Type{Node{T}}) where {T} = T
 function commodity_type(t::Type{Node{<:T}}) where {T}
     ub_type = t.var.ub
     return commodity_type(Node{ub_type})
+end
+
+"""Parse supply/price_supply: [a,b,c], [[a_t1,...],[b_t1,...]], or Vector{MacroTimeSeries}."""
+function _parse_supply_timeseries(raw, resolution, default)
+    (raw === nothing || isempty(raw)) && return default
+    # Vector{Number} -> Vector{MacroTimeSeries}
+    if all(x -> x isa Number, raw)
+        return [MacroTimeSeries([Float64(v)], resolution) for v in raw]
+    # Vector{Vector{Number}} -> Vector{MacroTimeSeries}
+    elseif all(x -> x isa AbstractVector, raw)
+        return [MacroTimeSeries(Float64.(collect(v)), resolution) for v in raw]
+    # Vector{MacroTimeSeries} is already parsed
+    elseif all(x -> x isa MacroTimeSeries, raw)
+        return raw
+    else
+        return default
+    end
 end
 
 function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodity::DataType)
@@ -77,19 +94,14 @@ function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodit
     if haskey(data, :price) && isa(data[:price], Vector{T} where {T<:Real})
         data[:price] = MacroTimeSeries(data[:price], time_data.resolution)
     end
-    # Parse max_supply: legacy [a,b,c] or new [[a_t1,a_t2,...],[b_t1,...],...]
-    max_supply_parsed = if haskey(data, :max_supply)
-        raw = data[:max_supply]
-        if !isempty(raw) && all(x -> x isa Number, raw)
-            [MacroTimeSeries([Float64(v)], time_data.resolution) for v in raw]
-        elseif !isempty(raw) && all(x -> x isa AbstractVector, raw)
-            [MacroTimeSeries(Float64.(collect(v)), time_data.resolution) for v in raw]
-        else
-            get(data, :max_supply, node_default_data()[:max_supply])
-        end
-    else
-        node_default_data()[:max_supply]
-    end
+    # Parse supply timeseries: legacy [a,b,c] or [[a_t1,...],[b_t1,...],...] or already MacroTimeSeries
+    defaults = node_default_data()
+    max_supply_parsed = _parse_supply_timeseries(
+        get(data, :max_supply, nothing), time_data.resolution, defaults[:max_supply]
+    )
+    price_supply_parsed = _parse_supply_timeseries(
+        get(data, :price_supply, nothing), time_data.resolution, defaults[:price_supply]
+    )
 
     _node = Node{commodity}(;
         id = id,
@@ -100,7 +112,7 @@ function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodit
         max_supply = max_supply_parsed,
         price = get(data, :price, MacroTimeSeries()),
         price_nsd = get(data, :price_nsd, [0.0]),
-        price_supply = get(data, :price_supply, [0.0]),
+        price_supply = price_supply_parsed,
         price_unmet_policy = get(data, :price_unmet_policy, Dict{DataType,Float64}()),
         rhs_policy = get(data, :rhs_policy, Dict{DataType,Float64}())
         # filtered_data...
@@ -165,7 +177,11 @@ function any_supply_capacity(n::Node)
     return false
 end
 
-price_supply(n::Node,s::Int64) = n.price_supply[s];
+price_supply(n::Node, s::Int64) = n.price_supply[s];
+function price_supply(n::Node, s::Int64, t::Int64)
+    ts = n.price_supply[s]
+    return isempty(ts) ? 0.0 : (length(ts) == 1 ? ts[1] : ts[t])
+end
 ######### Node interface #########
 
 
@@ -259,7 +275,7 @@ function operation_model!(n::Node, model::Model)
             w = current_subperiod(n,t)
             for s in supply_segments(n)
 
-                add_to_expression!(model[:eVariableCost], subperiod_weight(n,w)*price_supply(n,s), supply_flow(n,s,t))
+                add_to_expression!(model[:eVariableCost], subperiod_weight(n,w) * price_supply(n,s,t), supply_flow(n,s,t))
 
                 add_to_expression!(get_balance(n, :demand, t), supply_flow(n, s, t))
             end

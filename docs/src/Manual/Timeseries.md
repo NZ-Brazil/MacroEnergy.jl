@@ -176,6 +176,6 @@ The number of CSV rows must match your model's time steps.
 | Method | Use Case | Example |
 |--------|----------|---------|
 | CSV with `timeseries` dict | Large datasets, multiple timeseries, shared across runs | `"demand": {"timeseries": {"path": "system/demand.csv", "header": "Zone1"}}` |
-| CSV with `timeseries` + `header` + `segments` | Multi-segment time series (e.g. max_supply) | `"max_supply": {"timeseries": {"path": "system/max_supply.csv", "header": "bioherb_MA", "segments": 3}}` |
+| CSV with `timeseries` + `header` + `segments` | Multi-segment time series (e.g. max_supply, price_supply) | `"max_supply": {"timeseries": {"path": "system/max_supply.csv", "header": "bioherb_MA", "segments": 3}}` |
 | Single-value vector in JSON | Constant parameters | `"price": [15.0]` |
 | Vector in JSON | Short timeseries, programmatically generated data | `"demand": [100, 110, 120, ...]` |

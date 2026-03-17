@@ -306,7 +306,7 @@ function compute_supply_cost(n::Node)::Float64
     for t in time_steps(n)
         w = current_subperiod(n, t)
         for s in supply_segments(n)
-            supply_cost += subperiod_weight(n, w) * price_supply(n, s) * value(supply_flow(n, s, t))
+            supply_cost += subperiod_weight(n, w) * price_supply(n, s, t) * value(supply_flow(n, s, t))
         end
     end
     return supply_cost
