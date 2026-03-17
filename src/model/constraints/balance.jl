@@ -75,3 +75,19 @@ function set_constraint_dual!(
 
     return nothing
 end
+
+function set_constraint_dual!(
+    constraint::BalanceConstraint,
+    t::Transformation
+)
+    if ismissing(constraint.constraint_ref)
+        error("BalanceConstraint on vertex $(id(t)) has no constraint reference")
+    end
+
+    constraint.constraint_dual = Dict{Symbol, Vector{Float64}}()
+    for balance_id in balance_ids(t)
+        constraint.constraint_dual[balance_id] = [dual(constraint.constraint_ref[balance_id, t_idx]) for t_idx in time_steps(t, balance_id)]
+    end
+
+    return nothing
+end

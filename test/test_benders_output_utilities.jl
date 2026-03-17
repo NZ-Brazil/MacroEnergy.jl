@@ -11,7 +11,7 @@ import MacroEnergy: populate_slack_vars_from_subproblems!, populate_constraint_d
 import MacroEnergy: merge_distributed_slack_vars_dicts, merge_distributed_balance_duals
 import MacroEnergy: BalanceConstraint
 import MacroEnergy: empty_system
-import MacroEnergy: Node, Electricity, TimeData, System
+import MacroEnergy: Node, Electricity, TimeData, System, UniformResolution, NaturalGas
 
 function test_benders_output_utilities()
 
@@ -280,9 +280,8 @@ function test_benders_output_utilities()
             optimize!(model_2)
             
             # Create mock timedata
-            timedata_1 = TimeData{Electricity}(;
-                time_interval = time_indices_1,
-                hours_per_timestep = 1,
+            timedata_1 = TimeData(;
+                resolution = UniformResolution(1, 5),
                 period_index = 1,
                 subperiods = [1:5],
                 subperiod_indices = [1],
@@ -290,9 +289,8 @@ function test_benders_output_utilities()
                 subperiod_map = Dict(1 => 1)
             )
 
-            timedata_2 = TimeData{Electricity}(;
-                time_interval = time_indices_2,
-                hours_per_timestep = 1,
+            timedata_2 = TimeData(;
+                resolution = UniformResolution(1, 5),
                 period_index = 1,
                 subperiods = [6:10],
                 subperiod_indices = [2],
@@ -411,18 +409,16 @@ function test_benders_output_utilities()
             optimize!(model)
             
             # Create mock timedata
-            timedata_1 = TimeData{Electricity}(;
-                time_interval = 1:2,
-                hours_per_timestep = 1,
+            timedata_1 = TimeData(;
+                resolution = UniformResolution(1, 2),
                 period_index = 1,
                 subperiods = [1:2],
                 subperiod_indices = [1],
                 subperiod_weights = Dict(1 => 2.0),
                 subperiod_map = Dict(1 => 1)
             )
-            timedata_2 = TimeData{NaturalGas}(;
-                time_interval = 3:4,
-                hours_per_timestep = 1,
+            timedata_2 = TimeData(;
+                resolution = UniformResolution(1, 2),
                 period_index = 1,
                 subperiods = [3:4],
                 subperiod_indices = [2],
@@ -461,9 +457,8 @@ function test_benders_output_utilities()
         end
         
         @testset "Empty Slack Variables" begin
-            timedata = TimeData{Electricity}(;
-                time_interval = 1:2,
-                hours_per_timestep = 1,
+            timedata = TimeData(;
+                resolution = UniformResolution(1, 2),
                 period_index = 1,
                 subperiods = [1:2],
                 subperiod_indices = [1],
@@ -507,11 +502,10 @@ function test_benders_output_utilities()
             @objective(model, Min, sum(x))
             optimize!(model)
             
-            timedata = TimeData{Electricity}(;
-                time_interval = time_indices,
-                hours_per_timestep = 1,
+            timedata = TimeData(;
+                resolution = UniformResolution(1, 3),
                 period_index = 1,
-                subperiods = [1:length(time_indices)],
+                subperiods = [1:3],
                 subperiod_indices = [1],
                 subperiod_weights = Dict(1 => 2.0),
                 subperiod_map = Dict(1 => 1)
@@ -561,9 +555,8 @@ function test_benders_output_utilities()
             @objective(model, Min, x)
             optimize!(model)
             
-            timedata = TimeData{Electricity}(;
-                time_interval = 1:1,
-                hours_per_timestep = 1,
+            timedata = TimeData(;
+                resolution = UniformResolution(1, 1),
                 period_index = 1,
                 subperiods = [1:1],
                 subperiod_indices = [1],
@@ -599,9 +592,8 @@ function test_benders_output_utilities()
         end
         
         @testset "Node Without BalanceConstraint" begin
-            timedata = TimeData{Electricity}(;
-                time_interval = 1:1,
-                hours_per_timestep = 1,
+            timedata = TimeData(;
+                resolution = UniformResolution(1, 1),
                 period_index = 1,
                 subperiods = [1:1],
                 subperiod_indices = [1],
@@ -631,9 +623,8 @@ function test_benders_output_utilities()
     @testset "Prepare Duals Benders" begin
         
         @testset "Move Slack Variables to Planning Problem" begin
-            timedata = TimeData{Electricity}(;
-                time_interval = 1:3,
-                hours_per_timestep = 1,
+            timedata = TimeData(;
+                resolution = UniformResolution(1, 3),
                 period_index = 1,
                 subperiods = [1:3],
                 subperiod_indices = [1],
@@ -669,9 +660,8 @@ function test_benders_output_utilities()
         
         @testset "Move Constraint Duals to Planning Problem" begin
             # Create planning problem node with BalanceConstraint
-            timedata = TimeData{Electricity}(;
-                time_interval = 1:3,
-                hours_per_timestep = 1,
+            timedata = TimeData(;
+                resolution = UniformResolution(1, 3),
                 period_index = 1,
                 subperiods = [1:3],
                 subperiod_indices = [1],
@@ -738,9 +728,8 @@ function test_benders_output_utilities()
             optimize!(model_1)
             
             # Subproblem node
-            timedata_1 = TimeData{Electricity}(;
-                time_interval = 1:3,
-                hours_per_timestep = 1,
+            timedata_1 = TimeData(;
+                resolution = UniformResolution(1, 3),
                 period_index = 1,
                 subperiods = [1:3],
                 subperiod_indices = [1],
@@ -766,9 +755,8 @@ function test_benders_output_utilities()
             optimize!(model_2)
             
             # Subproblem node
-            timedata_2 = TimeData{Electricity}(;
-                time_interval = 4:6,
-                hours_per_timestep = 1,
+            timedata_2 = TimeData(;
+                resolution = UniformResolution(1, 3),
                 period_index = 1,
                 subperiods = [4:6],
                 subperiod_indices = [2],
@@ -793,13 +781,12 @@ function test_benders_output_utilities()
             collected = collect_local_slack_vars(subproblems_local)
             
             # Planning node
-            timedata_planning = TimeData{Electricity}(;
-                time_interval = 1:6,
-                hours_per_timestep = 1,
+            timedata_planning = TimeData(;
+                resolution = UniformResolution(1, 6),
                 period_index = 1,
-                subperiods = [1:3,4:6],
-                subperiod_indices = [1,2],
-                subperiod_weights = Dict(1 => 2, 2 => 5.0),
+                subperiods = [1:3, 4:6],
+                subperiod_indices = [1, 2],
+                subperiod_weights = Dict(1 => 2.0, 2 => 5.0),
                 subperiod_map = Dict(1 => 1, 2 => 2)
             )
             plan_node = Node{Electricity}(

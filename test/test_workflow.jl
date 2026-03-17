@@ -39,6 +39,7 @@ import MacroEnergy:
     compute_undiscounted_costs!,
     get_optimal_discounted_costs,
     get_optimal_undiscounted_costs,
+    scale_constraints!,
     write_capacity,
     write_costs,
     write_undiscounted_costs,
@@ -54,7 +55,7 @@ include("test_timedata.jl")
 const test_path = joinpath(@__DIR__, "test_inputs")
 const system_data_true_path = joinpath(@__DIR__, "test_inputs/system_data_true.json")
 const optim = is_gurobi_available() ? Gurobi.Optimizer : HiGHS.Optimizer
-const obj_true = 1.5512721762979626e11
+const obj_true = 1.552015977384846e11
 
 function test_configure_settings(data::NamedTuple, data_true::T) where {T<:JSON3.Object}
     @test data.ConstraintScaling == data_true.ConstraintScaling
@@ -136,13 +137,12 @@ end
 function test_load(e_in::AbstractEdge{T}, e_true::S) where {T<:Commodity,S<:JSON3.Object}
     @test e_in.start_vertex.id == Symbol(e_true.start_vertex)
     @test e_in.end_vertex.id == Symbol(e_true.end_vertex)
-    @test typesymbol(commodity_type(e_in.timedata)) == Symbol(e_true.timedata)
     @test e_in.unidirectional == get(e_true, :unidirectional, true)
     @test e_in.has_capacity == get(e_true, :has_capacity, false)
     @test e_in.can_retire == get(e_true, :can_retire, false)
     @test e_in.can_expand == get(e_true, :can_expand, false)
     @test e_in.capacity_size == get(e_true, :capacity_size, 1.0)
-    @test e_in.availability == get(e_true, :availability, Float64[])
+    @test e_in.availability.data == get(e_true, :availability, Float64[])
     @test e_in.min_capacity == get(e_true, :min_capacity, 0.0)
     e_true_max_capacity =
         get(e_true, :max_capacity, "Inf") == "Inf" ? Inf : get(e_true, :max_capacity, Inf)
@@ -181,9 +181,8 @@ function test_load(n_in::Node{T}, n_true::S) where {T<:Commodity,S<:JSON3.Object
     @test Symbol(T) == Symbol(n_true.type)
     n_true_instance_data = n_true.instance_data
     @test n_in.id == Symbol(n_true_instance_data.id)
-    @test typesymbol(commodity_type(n_in.timedata)) == Symbol(n_true_instance_data.timedata)
-    @test n_in.demand == get(n_true_instance_data, :demand, Vector{Float64}())
-    @test n_in.price == get(n_true_instance_data, :price, Float64[])
+    @test n_in.demand.data == get(n_true_instance_data, :demand, Vector{Float64}())
+    @test n_in.price.data == get(n_true_instance_data, :price, Float64[])
     @test n_in.max_nsd == get(n_true_instance_data, :max_nsd, [0.0])
     @test n_in.price_nsd == get(n_true_instance_data, :price_nsd, [0.0])
     @test n_in.price_unmet_policy ==
@@ -205,14 +204,12 @@ end
 
 function test_load(t_in::Transformation, t_true::T) where {T<:JSON3.Object}
     @test t_in.id == Symbol(t_true.id)
-    @test typesymbol(commodity_type(t_in.timedata)) == Symbol(t_true.timedata)
     test_load(t_in.constraints, get(t_true, :constraints, Vector{AbstractTypeConstraint}()))
     return nothing
 end
 
 function test_load(s_in::AbstractStorage{T}, s_true::S) where {T<:Commodity,S<:JSON3.Object}
     @test s_in.id == Symbol(s_true.id)
-    @test Symbol(commodity_type(s_in.timedata)) == Symbol(s_true.timedata)
     @test s_in.capacity == get(s_true, :capacity, 0.0)
     @test s_in.new_capacity == get(s_true, :new_capacity, 0.0)
     @test s_in.retired_capacity == get(s_true, :retired_capacity, 0.0)
@@ -272,6 +269,7 @@ function test_model_generation_and_optimization()
     case = load_case(test_path)
     optimizer = create_optimizer(optim)
     model = generate_model(case,optimizer)
+    scale_constraints!(model)
     optimize!(model)
     macro_objval = objective_value(model)
 

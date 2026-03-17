@@ -14,6 +14,8 @@ import MacroEnergy:
     Node,
     TimeData,
     System,
+    UniformResolution,
+    time_steps,
     balance_ids,
     constraint_dual,
     current_subperiod,
@@ -31,7 +33,6 @@ import MacroEnergy:
     set_logger,
     set_optimizer,
     subperiod_weight,
-    time_interval,
     write_balance_duals,
     write_co2_cap_duals,
     write_duals
@@ -140,7 +141,7 @@ function test_set_constraint_dual!(case, model)
         # Check that demand key is present
         if :demand in node_balance_ids
             demand_duals = duals_dict[:demand]
-            @test length(demand_duals) == length(test_node.timedata.time_interval)
+            @test length(demand_duals) == length(time_steps(test_node))
             @test all(isfinite, demand_duals)
         end
     end
@@ -182,7 +183,7 @@ function test_write_balance_duals(case, model)
             test_node = findfirst(n -> n isa Node{Electricity}, system.locations)
             if !isnothing(test_node)
                 node = system.locations[test_node]
-                @test nrow(df) == length(node.timedata.time_interval)
+                @test nrow(df) == length(time_steps(node))
             end
 
             # Verify that the duals are consistent with the "true results"
@@ -313,11 +314,11 @@ function test_dual_values_consistency(case, model)
                 
                 # Get the duals for the demand balance equation
                 demand_duals = duals_dict[:demand]
-                weights = Float64[subperiod_weight(test_node, current_subperiod(test_node, t)) for t in time_interval(test_node)]
+                weights = Float64[subperiod_weight(test_node, current_subperiod(test_node, t)) for t in time_steps(test_node)]
                 demand_duals_rescaled = demand_duals ./ weights
 
                 @test all(isfinite, demand_duals)
-                @test length(demand_duals_rescaled) == length(test_node.timedata.time_interval)
+                @test length(demand_duals_rescaled) == length(time_steps(test_node))
                 
                 # Test that duals are consistent with the true results
                 balance_duals_describe_true_node = balance_duals_describe_true[balance_duals_describe_true.variable .== node_id, :]
@@ -364,7 +365,7 @@ function test_multiple_balance_ids(case, model)
                 for balance_id in node_balance_ids
                     @test haskey(duals_dict, balance_id)
                     @test duals_dict[balance_id] isa Vector{Float64}
-                    @test length(duals_dict[balance_id]) == length(vertex.timedata.time_interval)
+                    @test length(duals_dict[balance_id]) == length(time_steps(vertex))
                 end
             end
         end
@@ -377,12 +378,13 @@ function test_error_handling()
         # Test with node that has no constraint reference
         test_node = Node{Electricity}(
             id=:test_node,
-            timedata=TimeData{Electricity}(
-                time_interval=1:3,
-                hours_per_timestep=1,
+            timedata=TimeData(
+                resolution=UniformResolution(1, 3),
+                period_index=1,
                 subperiods=[1:3],
                 subperiod_indices=[1],
-                subperiod_weights=Dict(1 => 1.0)
+                subperiod_weights=Dict(1 => 1.0),
+                subperiod_map=Dict(1 => 1)
             )
         )
         

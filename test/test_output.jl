@@ -19,7 +19,7 @@ import MacroEnergy:
     capital_recovery_period,
     current_subperiod,
     subperiod_weight,
-    time_interval,
+    time_steps,
     start_vertex,
     price,
     total_years,
@@ -84,7 +84,7 @@ function test_writing_output()
             subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
             subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         ),
-        price = [10.0, 11.0, 12.0],
+        price = MacroTimeSeries([10.0, 11.0, 12.0], UniformResolution(10, 30)),
         price_supply = [MacroTimeSeries([100.0], UniformResolution(10, 30)), MacroTimeSeries([110.0], UniformResolution(10, 30)), MacroTimeSeries([120.0], UniformResolution(10, 30))],
         max_supply = [MacroTimeSeries([100.0], UniformResolution(10, 30)), MacroTimeSeries([110.0], UniformResolution(10, 30)), MacroTimeSeries([120.0], UniformResolution(10, 30))],
         supply_flow = zeros(3, 3),  # 3 segments × 3 time steps
@@ -462,12 +462,13 @@ function test_writing_output()
         # Create nodes with non-served demand variables
         node_with_nsd = Node{Electricity}(;
             id=:node_nsd,
-            timedata=TimeData{Electricity}(;
-                time_interval=1:3,
-                hours_per_timestep=10,
+            timedata=TimeData(;
+                resolution=UniformResolution(10, 30),
+                period_index=1,
                 subperiods=[1:10, 11:20, 21:30],
                 subperiod_indices=[1, 2, 3],
-                subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+                subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+                subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
             ),
             max_nsd=[0.1, 0.2],  # 2 segments
             non_served_demand=[1.0 2.0 3.0; 4.0 5.0 6.0]  # 2 segments × 3 time steps
@@ -507,12 +508,13 @@ function test_writing_output()
         # Test with list of nodes
         node_with_nsd2 = Node{Electricity}(;
             id=:node_nsd2,
-            timedata=TimeData{Electricity}(;
-                time_interval=1:3,
-                hours_per_timestep=10,
+            timedata=TimeData(;
+                resolution=UniformResolution(10, 30),
+                period_index=1,
                 subperiods=[1:10, 11:20, 21:30],
                 subperiod_indices=[1, 2, 3],
-                subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+                subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+                subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
             ),
             max_nsd=[0.1],  # 1 segment
             non_served_demand=reshape([7.0, 8.0, 9.0], 1, 3)  # 1 segment × 3 time steps
@@ -524,12 +526,13 @@ function test_writing_output()
         # Test empty result for node without NSD
         node_without_nsd = Node{Electricity}(;
             id=:node_no_nsd,
-            timedata=TimeData{Electricity}(;
-                time_interval=1:3,
-                hours_per_timestep=10,
+            timedata=TimeData(;
+                resolution=UniformResolution(10, 30),
+                period_index=1,
                 subperiods=[1:10, 11:20, 21:30],
                 subperiod_indices=[1, 2, 3],
-                subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+                subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+                subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
             )
         )
         result_empty = get_optimal_non_served_demand(node_without_nsd, 1.0)
@@ -540,12 +543,13 @@ function test_writing_output()
         # Create storage with storage_level values
         storage_for_test = Storage{Electricity}(;
             id=:storage_test,
-            timedata=TimeData{Electricity}(;
-                time_interval=1:3,
-                hours_per_timestep=10,
+            timedata=TimeData(;
+                resolution=UniformResolution(10, 30),
+                period_index=1,
                 subperiods=[1:10, 11:20, 21:30],
                 subperiod_indices=[1, 2, 3],
-                subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+                subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+                subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
             ),
             storage_level=[10.0, 20.0, 30.0]
         )
@@ -580,12 +584,13 @@ function test_writing_output()
         # Test with list of storages
         storage_for_test2 = Storage{Electricity}(;
             id=:storage_test2,
-            timedata=TimeData{Electricity}(;
-                time_interval=1:3,
-                hours_per_timestep=10,
+            timedata=TimeData(;
+                resolution=UniformResolution(10, 30),
+                period_index=1,
                 subperiods=[1:10, 11:20, 21:30],
                 subperiod_indices=[1, 2, 3],
-                subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+                subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+                subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
             ),
             storage_level=[40.0, 50.0, 60.0]
         )
@@ -631,12 +636,13 @@ function test_writing_output()
 
     @testset "Curtailment Output Functions Tests" begin
         # Create VRE asset with edge that has capacity, flow, and availability
-        vre_timedata = TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=1,
+        vre_timedata = TimeData(;
+            resolution=UniformResolution(1, 3),
+            period_index=1,
             subperiods=[1:1, 2:2, 3:3],
             subperiod_indices=[1, 2, 3],
-            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
+            subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         )
         vre_transform = Transformation(;
             id=:vre_transform,
@@ -650,7 +656,7 @@ function test_writing_output()
             has_capacity=true,
             capacity=100.0,
             flow=[1.0, 2.0, 3.0],
-            availability=[0.5, 0.6, 0.7]
+            availability=MacroTimeSeries([0.5, 0.6, 0.7], UniformResolution(1, 3))
         )
         vre_asset = VRE(:vre_asset, vre_transform, vre_edge)
 
@@ -697,34 +703,48 @@ function test_writing_output()
         @test isempty(result_empty)
 
         # Test write_curtailment
-        test_curtailment_path = joinpath(abspath(mktempdir(".")), "curtailment.csv")
-        @test_nowarn write_curtailment(test_curtailment_path, system_with_vre)
-        @test isfile(test_curtailment_path)
-        written = CSV.read(test_curtailment_path, DataFrame)
-        @test size(written, 1) == 3
-        @test written[1, :value] ≈ 49.0
-        @test written[2, :value] ≈ 58.0
-        @test written[3, :value] ≈ 67.0
-        @test "value" in names(written)
-        rm(test_curtailment_path) # clean up
+        test_dir = abspath(mktempdir("."))
+        try
+            test_curtailment_path = joinpath(test_dir, "curtailment.csv")
+            @test_nowarn write_curtailment(test_curtailment_path, system_with_vre)
+            @test isfile(test_curtailment_path)
+            written = CSV.read(test_curtailment_path, DataFrame)
+            @test size(written, 1) == 3
+            @test written[1, :value] ≈ 49.0
+            @test written[2, :value] ≈ 58.0
+            @test written[3, :value] ≈ 67.0
+            @test "value" in names(written)
+        finally
+            rm(test_dir, recursive = true, force = true)
+        end
 
         # Test write_curtailment with wide layout
         system_with_vre.settings = (OutputLayout="wide",)
-        test_curtailment_path = joinpath(abspath(mktempdir(".")), "curtailment_wide.csv")
-        @test_nowarn write_curtailment(test_curtailment_path, system_with_vre)
-        @test isfile(test_curtailment_path)
-        written = CSV.read(test_curtailment_path, DataFrame)
-        @test size(written, 1) == 3
-        @test written[1, :vre_asset] ≈ 49.0
-        @test written[2, :vre_asset] ≈ 58.0
-        @test written[3, :vre_asset] ≈ 67.0
+        test_dir = abspath(mktempdir("."))
+        try
+            test_curtailment_path = joinpath(test_dir, "curtailment_wide.csv")
+            @test_nowarn write_curtailment(test_curtailment_path, system_with_vre)
+            @test isfile(test_curtailment_path)
+            written = CSV.read(test_curtailment_path, DataFrame)
+            @test size(written, 1) == 3
+            @test written[1, :vre_asset] ≈ 49.0
+            @test written[2, :vre_asset] ≈ 58.0
+            @test written[3, :vre_asset] ≈ 67.0
+        finally
+            rm(test_dir, recursive = true, force = true)
+        end
 
         # Test write_curtailment with system without VRE (no file written, no error)
-        test_empty_path = joinpath(abspath(mktempdir(".")), "curtailment_empty.csv")
-        @test_nowarn write_curtailment(test_empty_path, system)
-        # When empty, write_curtailment returns early and may not create file
-        # (get_optimal_curtailment returns empty, so no write occurs)
-        @test !isfile(test_empty_path)
+        test_dir = abspath(mktempdir("."))
+        try
+            test_empty_path = joinpath(test_dir, "curtailment_empty.csv")
+            @test_nowarn write_curtailment(test_empty_path, system)
+            # When empty, write_curtailment returns early and may not create file
+            # (get_optimal_curtailment returns empty, so no write occurs)
+            @test !isfile(test_empty_path)
+        finally
+            rm(test_dir, recursive = true, force = true)
+        end
     end
 
     # Test get_macro_objs functions
@@ -939,13 +959,13 @@ function test_writing_output()
 
     @testset "get_detailed_costs" begin
         # Add time_data to system (required by get_detailed_costs)
-        electricity_timedata = TimeData{Electricity}(;
-            time_interval=1:3,
-            hours_per_timestep=1,
+        electricity_timedata = TimeData(;
+            resolution=UniformResolution(1, 3),
+            period_index=1,
             subperiods=[1:1, 2:2, 3:3],
             subperiod_indices=[1, 2, 3],
             subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2),
-            period_index=1
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3)
         )
         node1.timedata = electricity_timedata
         edge_to_transformation.timedata = electricity_timedata
@@ -979,21 +999,21 @@ function test_writing_output()
         variable_om_raw = sum(
             subperiod_weight(edge_to_transformation, current_subperiod(edge_to_transformation, t)) *
             variable_om_cost(edge_to_transformation) * value(flow(edge_to_transformation, t))
-            for t in time_interval(edge_to_transformation)
+            for t in time_steps(edge_to_transformation)
         )
         fuel_raw_transformation = sum(
             subperiod_weight(edge_to_transformation, current_subperiod(edge_to_transformation, t)) * price(start_vertex(edge_to_transformation), t) * value(flow(edge_to_transformation, t))
-            for t in time_interval(edge_to_transformation)
+            for t in time_steps(edge_to_transformation)
         )
         fuel_raw_storage = sum(
             subperiod_weight(edge_to_storage, current_subperiod(edge_to_storage, t)) * price(start_vertex(edge_to_storage), t) * value(flow(edge_to_storage, t))
-            for t in time_interval(edge_to_storage)
+            for t in time_steps(edge_to_storage)
         )
         fuel_raw_total = fuel_raw_transformation + fuel_raw_storage
         # NonServedDemand from node1: sum over segment and time of (weight * price_nsd * nsd)
         nsd_raw_total = sum(
             subperiod_weight(node1, current_subperiod(node1, t)) * price_non_served_demand(node1, s) * value(non_served_demand(node1, s, t))
-            for s in segments_non_served_demand(node1), t in time_interval(node1)
+            for s in segments_non_served_demand(node1), t in time_steps(node1)
         )
         capacity_val = value(capacity(edge_to_transformation))
         new_cap_val = value(new_capacity(edge_to_transformation))
@@ -1058,13 +1078,13 @@ function test_writing_output()
         # Empty / zero-cost system
         empty_dir = abspath(mktempdir("."))
         empty_sys = empty_system(empty_dir)
-        empty_timedata = TimeData{Electricity}(;
-            time_interval=1:1,
-            hours_per_timestep=1,
+        empty_timedata = TimeData(;
+            resolution=UniformResolution(1, 1),
+            period_index=1,
             subperiods=[1:1],
             subperiod_indices=[1],
             subperiod_weights=Dict(1 => 1.0),
-            period_index=1
+            subperiod_map=Dict(1 => 1)
         )
         empty_sys.time_data = Dict(:Electricity => empty_timedata)
         empty_settings = (PeriodLengths=[1], DiscountRate=0.0, SolutionAlgorithm=MacroEnergy.Monolithic())

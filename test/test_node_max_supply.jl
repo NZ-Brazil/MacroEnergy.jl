@@ -191,38 +191,42 @@ end
     # Convention: segment 1 = header, segment 2 = header_2, segment 3 = header_3, ...
     time_data = make_time_data()
     tmpdir = abspath(mktempdir("."))
-    csv_path = joinpath(tmpdir, "max_supply.csv")
-    df = DataFrame(
-        conv_test = [10.0, 11.0, 12.0],
-        conv_test_2 = [20.0, 21.0, 22.0],
-        conv_test_3 = [30.0, 31.0, 32.0]
-    )
-    CSV.write(csv_path, df)
-    sys = empty_system(tmpdir)
-    data = Dict(
-        :id => :test,
-        :max_supply => Dict(
-            :timeseries => Dict(
-                :path => "max_supply.csv",
-                :header => "conv_test",
-                :segments => 3
-            )
-        ),
-        :demand => [0.0],
-        :balance_data => Dict(:demand => Dict{Symbol,Float64}())
-    )
-    load_time_series_data!(sys, data)
-    loaded = data[:max_supply]
-    @test loaded isa Vector{Vector{Float64}}
-    @test length(loaded) == 3
-    @test loaded[1] == [10.0, 11.0, 12.0]
-    @test loaded[2] == [20.0, 21.0, 22.0]
-    @test loaded[3] == [30.0, 31.0, 32.0]
-    data[:price_supply] = [40.0, 60.0, 80.0]  # legacy, must match segment count
-    n = Node(data, time_data, Electricity)
-    @test max_supply(n, 1, 1) == 10.0
-    @test max_supply(n, 1, 3) == 12.0
-    @test max_supply(n, 3, 2) == 31.0
+    try
+        csv_path = joinpath(tmpdir, "max_supply.csv")
+        df = DataFrame(
+            conv_test = [10.0, 11.0, 12.0],
+            conv_test_2 = [20.0, 21.0, 22.0],
+            conv_test_3 = [30.0, 31.0, 32.0]
+        )
+        CSV.write(csv_path, df)
+        sys = empty_system(tmpdir)
+        data = Dict(
+            :id => :test,
+            :max_supply => Dict(
+                :timeseries => Dict(
+                    :path => "max_supply.csv",
+                    :header => "conv_test",
+                    :segments => 3
+                )
+            ),
+            :demand => [0.0],
+            :balance_data => Dict(:demand => Dict{Symbol,Float64}())
+        )
+        load_time_series_data!(sys, data)
+        loaded = data[:max_supply]
+        @test loaded isa Vector{Vector{Float64}}
+        @test length(loaded) == 3
+        @test loaded[1] == [10.0, 11.0, 12.0]
+        @test loaded[2] == [20.0, 21.0, 22.0]
+        @test loaded[3] == [30.0, 31.0, 32.0]
+        data[:price_supply] = [40.0, 60.0, 80.0]  # legacy, must match segment count
+        n = Node(data, time_data, Electricity)
+        @test max_supply(n, 1, 1) == 10.0
+        @test max_supply(n, 1, 3) == 12.0
+        @test max_supply(n, 3, 2) == 31.0
+    finally
+        rm(tmpdir, recursive = true, force = true)
+    end
 end
 
 @testset "price_supply: Parsing (legacy and time-varying)" begin
@@ -255,38 +259,42 @@ end
 @testset "price_supply: Import from file (header + segments convention)" begin
     time_data = make_time_data()
     tmpdir = abspath(mktempdir("."))
-    csv_path = joinpath(tmpdir, "price_supply.csv")
-    df = DataFrame(
-        conv_test = [40.0, 41.0, 42.0],
-        conv_test_2 = [60.0, 61.0, 62.0],
-        conv_test_3 = [80.0, 81.0, 82.0]
-    )
-    CSV.write(csv_path, df)
-    sys = empty_system(tmpdir)
-    data = Dict(
-        :id => :test,
-        :max_supply => [100.0, 200.0, 300.0],
-        :price_supply => Dict(
-            :timeseries => Dict(
-                :path => "price_supply.csv",
-                :header => "conv_test",
-                :segments => 3
-            )
-        ),
-        :demand => [0.0],
-        :balance_data => Dict(:demand => Dict{Symbol,Float64}())
-    )
-    load_time_series_data!(sys, data)
-    loaded = data[:price_supply]
-    @test loaded isa Vector{Vector{Float64}}
-    @test length(loaded) == 3
-    @test loaded[1] == [40.0, 41.0, 42.0]
-    @test loaded[2] == [60.0, 61.0, 62.0]
-    @test loaded[3] == [80.0, 81.0, 82.0]
-    n = Node(data, time_data, Electricity)
-    @test price_supply(n, 1, 1) == 40.0
-    @test price_supply(n, 1, 3) == 42.0
-    @test price_supply(n, 3, 2) == 81.0
+    try
+        csv_path = joinpath(tmpdir, "price_supply.csv")
+        df = DataFrame(
+            conv_test = [40.0, 41.0, 42.0],
+            conv_test_2 = [60.0, 61.0, 62.0],
+            conv_test_3 = [80.0, 81.0, 82.0]
+        )
+        CSV.write(csv_path, df)
+        sys = empty_system(tmpdir)
+        data = Dict(
+            :id => :test,
+            :max_supply => [100.0, 200.0, 300.0],
+            :price_supply => Dict(
+                :timeseries => Dict(
+                    :path => "price_supply.csv",
+                    :header => "conv_test",
+                    :segments => 3
+                )
+            ),
+            :demand => [0.0],
+            :balance_data => Dict(:demand => Dict{Symbol,Float64}())
+        )
+        load_time_series_data!(sys, data)
+        loaded = data[:price_supply]
+        @test loaded isa Vector{Vector{Float64}}
+        @test length(loaded) == 3
+        @test loaded[1] == [40.0, 41.0, 42.0]
+        @test loaded[2] == [60.0, 61.0, 62.0]
+        @test loaded[3] == [80.0, 81.0, 82.0]
+        n = Node(data, time_data, Electricity)
+        @test price_supply(n, 1, 1) == 40.0
+        @test price_supply(n, 1, 3) == 42.0
+        @test price_supply(n, 3, 2) == 81.0
+    finally
+        rm(tmpdir, recursive = true, force = true)
+    end
 end
 
 @testset "price_supply: scaling! does not error" begin
