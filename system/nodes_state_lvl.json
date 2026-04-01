@@ -797,6 +797,15 @@
                             "path": "system/fuel_prices.csv"
                         }
                     }
+                },
+                {
+                    "id": "coal_imported",
+                    "price": {
+                        "timeseries": {
+                            "header": "coal_price_imported",
+                            "path": "system/fuel_prices.csv"
+                        }
+                    }
                 }
             ]
         },
