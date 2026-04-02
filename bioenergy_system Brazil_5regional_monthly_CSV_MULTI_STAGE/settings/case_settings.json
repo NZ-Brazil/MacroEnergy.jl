@@ -1,5 +1,5 @@
 {
-  "PeriodLengths": [8760,8760,8760,8760],
+  "PeriodLengths": [8760,8760,8760,8760,8760,8760],
   "DiscountRate": 0.045,
   "SolutionAlgorithm": "Myopic"
 }

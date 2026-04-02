@@ -1,0 +1,12 @@
+해당 모델은 CO2 flow conservation 테스트를 위한
+- Integrated system with Fuelenduse
+- 2 stage
+- 1460 timestep
+
+
+** Biomass transform의 co2_content 확인하기
+** 특히 sugarcane - bagasse/ethanol에서 content가 잘 보존되는지 확인하기
+** Residue가 합쳐질때 co2_content가 
+=================== 여기까지는 확인을 했다 =============================
+
+** 지금은 flow등을 확인하고자함

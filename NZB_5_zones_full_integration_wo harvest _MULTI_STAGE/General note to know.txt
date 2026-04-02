@@ -1,0 +1,12 @@
+======== 03/13 ======
+
+1. CO2 emission cap 은 봐야될듯 ( 아무것도 안했을때의 co2 emission이 얼마인지)
+  == BioGenic co2 flow는 여전히 점검이 필요하다  (NZB_1zones_full_integration_wo_harvest 에서 다루면 좋을듯)
+
+  - 이거는 "NZB_1zone_for_co2_validation" 에서 확인할수있을것
+
+2. Fuel end use 는 여전히 연결을 해야한다. 
+
+======================
+
+Next?

@@ -212,7 +212,7 @@ include("model/assets/fischertropsch.jl")
 include("model/assets/beccsatj.jl") 
 include("model/assets/beccscharcoal.jl")
 include("model/assets/beccsdiesel.jl")
-
+include("model/assets/fuelsenduse_generalized.jl")
 include("config/configure_settings.jl")
 include("config/case_settings.jl")
 include_all_in_folder("load_inputs")

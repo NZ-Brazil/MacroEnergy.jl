@@ -11,10 +11,10 @@
                 "path": "settings/macro_settings.json"
             },
             "nodes": {
-                "path": "system/nodes_1.json"
+                "path": "system/nodes_2025.json"
             },
             "assets": {
-                "path": "assets/assets_1"
+                "path": "assets/assets_2025"
             },
             "time_data": {
                 "path": "system/time_data.json"
@@ -31,10 +31,10 @@
                 "path": "settings/macro_settings.json"
             },
             "nodes": {
-                "path": "system/nodes_2.json"
+                "path": "system/nodes_2030.json"
             },
             "assets": {
-                "path": "assets/assets_2"
+                "path": "assets/assets_2030"
             },
             "time_data": {
                 "path": "system/time_data.json"
@@ -51,10 +51,10 @@
                 "path": "settings/macro_settings.json"
             },
             "nodes": {
-                "path": "system/nodes_3.json"
+                "path": "system/nodes_2035.json"
             },
             "assets": {
-                "path": "assets/assets_3"
+                "path": "assets/assets2035"
             },
             "time_data": {
                 "path": "system/time_data.json"
@@ -71,10 +71,50 @@
                 "path": "settings/macro_settings.json"
             },
             "nodes": {
-                "path": "system/nodes_4.json"
+                "path": "system/nodes_2040.json"
             },
             "assets": {
-                "path": "assets/assets_4"
+                "path": "assets/assets_2040"
+            },
+            "time_data": {
+                "path": "system/time_data.json"
+            }
+        },
+        {
+            "commodities": {
+                "path": "system/commodities.json"
+            },
+            "locations": {
+                "path": "locations"
+            },
+            "settings": {
+                "path": "settings/macro_settings.json"
+            },
+            "nodes": {
+                "path": "system/nodes_2045.json"
+            },
+            "assets": {
+                "path": "assets/assets_2045"
+            },
+            "time_data": {
+                "path": "system/time_data.json"
+            }
+        },
+        {
+            "commodities": {
+                "path": "system/commodities.json"
+            },
+            "locations": {
+                "path": "locations"
+            },
+            "settings": {
+                "path": "settings/macro_settings.json"
+            },
+            "nodes": {
+                "path": "system/nodes_2050.json"
+            },
+            "assets": {
+                "path": "assets/assets_2050"
             },
             "time_data": {
                 "path": "system/time_data.json"
