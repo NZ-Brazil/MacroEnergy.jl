@@ -1,6 +1,6 @@
 {
     "locations": [
-        "BR_AC",
+    "BR_AC",
 	"BR_AL",
 	"BR_AM",
 	"BR_AP",
@@ -26,6 +26,27 @@
 	"BR_SC",
 	"BR_SE",
 	"BR_SP",
-	"BR_TO"
+	"BR_TO",
+	"amazonas",
+	"doce",
+	"grande",
+	"iguacu",
+	"jequitinhonha",
+	"paraiba_do_sul",
+	"parana",
+	"paranaiba",
+	"paranapanema",
+	"parnaiba",
+	"sao_francisco",
+	"tiete",
+	"tocantins",
+	"uruguai",
+	"jacui_capivari",
+	"santos",
+	"campos",
+	"reconcavo",
+	"sergipe_alagoas",
+	"potiguar",
+	"ceara"
     ]
 }
