@@ -741,12 +741,75 @@
             },
             "instance_data":[
                 {
-                    "id": "co2_storage_1",
+                    "id": "co2_storage_parana",
                     "constraints": {
                         "CO2StorageConstraint": true
                     },
                     "rhs_policy": {
-                        "CO2StorageConstraint": 4753600
+                        "CO2StorageConstraint": 1237000000
+                    }
+                },
+                {
+                    "id": "co2_storage_santos",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 751000000
+                    }
+                },
+                {
+                    "id": "co2_storage_campos",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 14600000
+                    }
+                },
+                {
+                    "id": "co2_storage_sao_francisco",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 30000000
+                    }
+                },
+                {
+                    "id": "co2_storage_reconcavo",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 3000000
+                    }
+                },
+                {
+                    "id": "co2_storage_sergipe_alagoas",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 14000000
+                    }
+                },
+                {
+                    "id": "co2_storage_potiguar",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 8773000
+                    }
+                },
+                {
+                    "id": "co2_storage_ceara",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 6700000
                     }
                 }
             ]
