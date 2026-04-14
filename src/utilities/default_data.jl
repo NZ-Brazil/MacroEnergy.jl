@@ -112,12 +112,14 @@ function node_default_data()
         :location => missing,
         :constraints => Dict{Symbol,Bool}(),
         :demand => MacroTimeSeries(),
+        :constraints => Dict{Symbol,Bool}(
+            :BalanceConstraint => true,
+        ),
         :max_nsd => [0.0],
         :min_nsd => [0.0],
         :price => MacroTimeSeries(),
         :price_nsd => [0.0],
-        :price_supply => [MacroTimeSeries([0.0], UniformResolution(1, 1))],
-        :max_supply => [MacroTimeSeries([0.0], UniformResolution(1, 1))],
+        :supply => OrderedDict{Symbol,SupplySegment}(),
         :price_unmet_policy => Dict{Symbol,Any}(),
         :rhs_policy => Dict{Symbol,Any}(),
     )

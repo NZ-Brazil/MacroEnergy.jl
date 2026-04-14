@@ -83,8 +83,30 @@ function write_balance_duals(
     filename = "balance_duals.csv"
     file_path = joinpath(results_dir, filename)
 
+    balance_duals, node_ids, _ = _extract_balance_duals(system, scaling)
+
+    df = DataFrame(balance_duals, node_ids, copycols=false)
+    write_dataframe(file_path, df)
+    @debug "Wrote $(nrow(df)) time steps and $(length(node_ids)) nodes for balance constraints to CSV file: $file_path"
+
+    return nothing
+end
+
+
+"""
+    _extract_balance_duals(system::System, scaling::Float64=1.0; with_timedata::Bool=false)
+
+Extract and rescale balance constraint duals for all nodes.
+
+Returns `(duals, node_ids, timedata_vec)` where each element of `duals`
+is the rescaled dual vector for the corresponding node.
+When `with_timedata` is `true`, `timedata_vec` contains the `TimeData` for each node
+(for time-series reconstruction); otherwise it is `nothing`.
+"""
+function _extract_balance_duals(system::System, scaling::Float64=1.0; with_timedata::Bool=false)
     balance_duals = Vector{Vector{Float64}}()
     node_ids = Vector{Symbol}()
+    timedata_vec = with_timedata ? Vector{TimeData}() : nothing
 
     for node in filter(n -> n isa Node, system.locations)
         constraint = get_constraint_by_type(node, BalanceConstraint)
@@ -99,7 +121,7 @@ function write_balance_duals(
             set_constraint_dual!(constraint, node)
         end
         
-        # Get the dictornary of dual values for all balance equations
+        # Get the dictionary of dual values for all balance equations
         duals_dict = constraint_dual(constraint)
         
         # Export only the :demand balance duals (skip if not present)
@@ -113,6 +135,7 @@ function write_balance_duals(
 
         # Rescale dual values by subperiod weights
         push!(balance_duals, duals_dict[:demand] ./ (weights .* scaling))
+        with_timedata && push!(timedata_vec, node.timedata)
     end
 
     # Find the maximum length across all dual vectors
@@ -124,11 +147,7 @@ function write_balance_duals(
         [v; fill(missing, max_length - length(v))] 
         for v in balance_duals
     ]    
-    df = DataFrame(padded_duals, node_ids, copycols=false)
-    write_dataframe(file_path, df)
-    @debug "Wrote $(nrow(df)) time steps and $(length(node_ids)) nodes for balance constraints to CSV file: $file_path"
-
-    return nothing
+    return padded_duals, node_ids, timedata_vec
 end
 
 """
@@ -141,9 +160,9 @@ Extracts dual values from CO2 cap policy budget constraints and exports them to
 
 # Output Format
 Long-format CSV with columns:
-- `node`: Node ID
-- `co2_shadow_price`: Carbon price
-- `co2_penalty_cost`: Total penalty cost across subperiods (if slack variables exist)
+- `Node`: Node ID
+- `CO2_Shadow_Price`: Carbon price (shadow price of the CO2 cap constraint)
+- `CO2_Slack`: Total penalty cost across subperiods (if slack variables exist)
 
 # Arguments
 - `results_dir::AbstractString`: Directory where CSV file will be written
@@ -171,7 +190,7 @@ function write_co2_cap_duals(
 
     node_ids = Vector{Symbol}()
     co2_shadow_prices = Vector{Float64}()
-    co2_slack_vars = Vector{Float64}()
+    co2_slack_vars = Vector{Union{Float64, Missing}}()
 
     for node in filter(n -> n isa Node, system.locations)
         # Skip nodes without CO2 cap policy budget constraint
@@ -200,6 +219,9 @@ function write_co2_cap_duals(
             end
 
             push!(co2_slack_vars, co2_slack_sum)
+        else
+            # No slack variables for this node
+            push!(co2_slack_vars, missing)
         end
     end
     

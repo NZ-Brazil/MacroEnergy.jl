@@ -112,6 +112,18 @@ MacroEnergy.write_duals
 MacroEnergy.write_flow
 ```
 
+## `write_full_timeseries`
+
+```@docs
+MacroEnergy.write_full_timeseries
+```
+
+## `write_balance_duals_full_timeseries`
+
+```@docs
+MacroEnergy.write_balance_duals_full_timeseries
+```
+
 ## `write_non_served_demand`
 
 ```@docs
@@ -128,6 +140,12 @@ MacroEnergy.write_settings
 
 ```@docs
 MacroEnergy.write_storage_level
+```
+
+## `write_time_weights`
+
+```@docs
+MacroEnergy.write_time_weights
 ```
 
 ## `write_undiscounted_costs`

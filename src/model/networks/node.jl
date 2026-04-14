@@ -4,16 +4,15 @@ macro AbstractNodeBaseAttributes()
         demand::MacroTimeSeries = $node_defaults[:demand]
         min_nsd::Vector{Float64} = $node_defaults[:min_nsd]
         max_nsd::Vector{Float64} = $node_defaults[:max_nsd]
-        max_supply::Vector{MacroTimeSeries} = $node_defaults[:max_supply]
         non_served_demand::JuMPVariable = Matrix{VariableRef}(undef, 0, 0)
         policy_budgeting_vars::Dict = Dict()
         policy_budgeting_constraints::Dict{DataType,JuMPConstraint} = Dict{DataType,JuMPConstraint}()  # Store policy budget constraint references
         policy_slack_vars::Dict = Dict()
         price::MacroTimeSeries = $node_defaults[:price]
         price_nsd::Vector{Float64} = $node_defaults[:price_nsd]
-        price_supply::Vector{MacroTimeSeries} = $node_defaults[:price_supply]
         price_unmet_policy::Dict{DataType,Float64} = Dict{DataType,Float64}()
         rhs_policy::Dict{DataType,Float64} = Dict{DataType,Float64}()
+        supply::OrderedDict{Symbol,SupplySegment} = $node_defaults[:supply]
         supply_flow::JuMPVariable = Matrix{VariableRef}(undef, 0, 0)
     end)
 end
@@ -33,16 +32,15 @@ end
     # Fields
     - demand::MacroTimeSeries: Time series of demand values
     - max_nsd::Vector{Float64}: Maximum allowed non-served demand for each segment
-    - max_supply::Vector{MacroTimeSeries}: Maximum supply per segment (time-varying)
     - non_served_demand::Union{JuMPVariable,Matrix{Float64}}: JuMP variables or matrix representing unmet demand
     - policy_budgeting_vars::Dict: Policy budgeting variables for constraints
     - policy_budgeting_constraints::Dict{DataType,JuMPConstraint}: Policy budget constraint references (sum across subperiods, keyed by :ConstraintType)
     - policy_slack_vars::Dict: Policy slack variables for constraints
     - price::MacroTimeSeries: Time series of prices
     - price_nsd::Vector{Float64}: Penalties for non-served demand by segment
-    - price_supply::Vector{MacroTimeSeries}: Supply costs by segment (time-varying)
     - price_unmet_policy::Dict{DataType,Float64}: Mapping of policy types to penalty costs
     - rhs_policy::Dict{DataType,Float64}: Mapping of policy types to right-hand side values
+    - supply::OrderedDict{Symbol,SupplySegment}: Supply segments keyed by segment name, each storing price, minimum, and maximum supply vectors
     - supply_flow::Union{JuMPVariable,Matrix{Float64}}: JuMP variables or matrix representing supply flows
 
     Note: Base attributes are inherited from AbstractVertex via @AbstractVertexBaseAttributes macro.
@@ -76,11 +74,14 @@ function _parse_supply_timeseries(raw, resolution, default)
 end
 
 function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodity::DataType)
+    node_data = copy(data)
+    supply = get(node_data, :supply, OrderedDict{Symbol,SupplySegment}())
+
     node_kwargs = Base.fieldnames(Node)
     filtered_data = Dict{Symbol, Any}(
-        k => v for (k,v) in data if k in node_kwargs
+        k => v for (k,v) in node_data if k in node_kwargs
     )
-    id = Symbol(data[:id])
+    id = Symbol(node_data[:id])
     remove_keys = [:id, :timedata]
     for key in remove_keys
         if haskey(filtered_data, key)
@@ -107,14 +108,13 @@ function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodit
         id = id,
         timedata = time_data,
         demand = get(data, :demand, MacroTimeSeries()),
-        location = as_symbol_or_missing(get(data, :location, missing)),
-        max_nsd = get(data, :max_nsd, [0.0]),
-        max_supply = max_supply_parsed,
-        price = get(data, :price, MacroTimeSeries()),
-        price_nsd = get(data, :price_nsd, [0.0]),
-        price_supply = price_supply_parsed,
-        price_unmet_policy = get(data, :price_unmet_policy, Dict{DataType,Float64}()),
-        rhs_policy = get(data, :rhs_policy, Dict{DataType,Float64}())
+        location = as_symbol_or_missing(get(node_data, :location, missing)),
+        max_nsd = get(node_data, :max_nsd, [0.0]),
+        price = get(node_data, :price, Vector{Float64}()),
+        price_nsd = get(node_data, :price_nsd, [0.0]),
+        price_unmet_policy = get(node_data, :price_unmet_policy, Dict{DataType,Float64}()),
+        rhs_policy = get(node_data, :rhs_policy, Dict{DataType,Float64}()),
+        supply = supply
         # filtered_data...
     )
     
@@ -157,31 +157,21 @@ rhs_policy(n::Node, c::DataType) = rhs_policy(n)[c];
 segments_non_served_demand(n::Node) = 1:length(n.max_nsd);
 supply_flow(n::Node) = n.supply_flow;
 supply_flow(n::Node, s::Int64, t::Int64) = supply_flow(n)[s, t];
-supply_segments(n::Node) = eachindex(n.max_supply);
-max_supply(n::Node) = n.max_supply;
-function max_supply(n::Node, s::Int64)
-    ts = n.max_supply[s]
-    return isempty(ts) ? 0.0 : (length(ts) == 1 ? ts[1] : ts[1])
-end
-function max_supply(n::Node, s::Int64, t::Int64)
-    ts = n.max_supply[s]
-    return isempty(ts) ? 0.0 : (length(ts) == 1 ? ts[1] : ts[t])
-end
-
-function any_supply_capacity(n::Node)
-    for s in supply_segments(n)
-        for t in time_steps(n)
-            max_supply(n, s, t) > 0 && return true
-        end
-    end
-    return false
-end
-
-price_supply(n::Node, s::Int64) = n.price_supply[s];
-function price_supply(n::Node, s::Int64, t::Int64)
-    ts = n.price_supply[s]
-    return isempty(ts) ? 0.0 : (length(ts) == 1 ? ts[1] : ts[t])
-end
+supply(n::Node) = n.supply;
+supply_segment_names(n::Node) = collect(keys(supply(n)));
+supply_segment_name(n::Node, s::Int64) = supply_segment_names(n)[s];
+supply_segments(n::Node) = eachindex(supply_segment_names(n));
+min_supply(n::Node) = [segment.min for segment in values(supply(n))];
+min_supply(n::Node, segment_name::Symbol) = get(supply(n), segment_name, SupplySegment(price=Float64[], min=[0.0], max=[Inf])).min;
+min_supply(n::Node,s::Int64) = min_supply(n, supply_segment_name(n, s));
+min_supply(n::Node, s::Int64, t::Int64) = length(min_supply(n, s)) == 1 ? min_supply(n, s)[1] : min_supply(n, s)[t];
+max_supply(n::Node) = [segment.max for segment in values(supply(n))];
+max_supply(n::Node, segment_name::Symbol) = supply(n)[segment_name].max;
+max_supply(n::Node,s::Int64) = max_supply(n, supply_segment_name(n, s));
+max_supply(n::Node, s::Int64, t::Int64) = length(max_supply(n, s)) == 1 ? max_supply(n, s)[1] : max_supply(n, s)[t];
+price_supply(n::Node, segment_name::Symbol) = supply(n)[segment_name].price;
+price_supply(n::Node,s::Int64) = price_supply(n, supply_segment_name(n, s));
+price_supply(n::Node,s::Int64,t::Int64) = length(price_supply(n, s)) == 1 ? price_supply(n, s)[1] : price_supply(n, s)[t];
 ######### Node interface #########
 
 
@@ -261,23 +251,31 @@ function operation_model!(n::Node, model::Model)
         end
     end
 
-    if any_supply_capacity(n)
-        ub_matrix = [max_supply(n, s, t) for s in supply_segments(n), t in time_steps(n)]
+    if !isempty(supply_segments(n))
+
         n.supply_flow = @variable(
             model,
             [s in supply_segments(n), t in time_steps(n)],
             lower_bound = 0.0,
-            upper_bound = ub_matrix[s, t],
             base_name = "vSUPPLY_$(id(n))_period$(period_index(n))"
         )
 
         for t in time_steps(n)
             w = current_subperiod(n,t)
             for s in supply_segments(n)
+                sf = supply_flow(n, s, t)
+                min_sf = min_supply(n, s, t)
+                max_sf = max_supply(n, s, t)
+                if isfinite(min_sf) && min_sf > 0.0
+                    @constraint(model, sf >= min_sf)
+                end
+                if isfinite(max_sf)                    
+                    @constraint(model, sf <= max_sf)
+                end
 
-                add_to_expression!(model[:eVariableCost], subperiod_weight(n,w) * price_supply(n,s,t), supply_flow(n,s,t))
+                add_to_expression!(model[:eVariableCost], subperiod_weight(n,w) * price_supply(n,s,t), sf)
 
-                add_to_expression!(get_balance(n, :demand, t), supply_flow(n, s, t))
+                add_to_expression!(get_balance(n, :demand, t), sf)
             end
         end
 
@@ -325,7 +323,7 @@ function make(commodity::Type{<:Commodity}, input_data::AbstractDict{Symbol,Any}
             get(data, :balance_data, Dict(:exogenous => Dict{Symbol,Float64}()))
     end
 
-    if haskey(data, :location)
+    if haskey(data, :location) && data[:location] !== Symbol("")
         location_id = data[:location]
         @debug "Adding node $(node.id) to location $location_id"
         location = find_locations(system, Symbol(location_id))
