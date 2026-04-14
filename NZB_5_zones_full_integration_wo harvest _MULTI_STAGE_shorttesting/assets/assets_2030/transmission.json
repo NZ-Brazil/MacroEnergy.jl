@@ -5,7 +5,7 @@
       "transforms": {},
       "edges": {
         "transmission_edge": {
-          "unidirectional": true,
+          "lifetime": 30,
           "has_capacity": true,
           "commodity": "Electricity"
         }
@@ -25,8 +25,7 @@
             "end_vertex": "elec_NE",
             "loss_fraction": 0.012305837,
             "existing_capacity": 2500,
-            "investment_cost": 12060
-          }
+            "investment_cost": 12060          }
         }
       },    
       {
@@ -65,23 +64,6 @@
         }
       },
 
-      {
-        "id": "SE_to_NE",
-        "edges": {
-          "transmission_edge": {
-            "can_retire": false,
-            "can_expand": true,
-            "constraints": {
-              "CapacityConstraint": true
-            },
-            "start_vertex": "elec_SE",
-            "end_vertex": "elec_NE",
-            "loss_fraction": 0.012305837,
-            "existing_capacity": 2500,
-            "investment_cost": 12060
-          }
-        }
-      },
       {
         "id": "SE_to_S",
         "edges": {
