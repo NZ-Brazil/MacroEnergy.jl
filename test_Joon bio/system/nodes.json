@@ -21,7 +21,6 @@
             "type": "Electricity"
         },
         
-
         {
             "type": "Corn",
             "global_data": {
@@ -39,7 +38,6 @@
                 }
             ]
         },
-
 
         {
             "type": "Residue",
@@ -60,45 +58,48 @@
         },
 
 
-    {
-        "type": "Bagasse",
-        "global_data": {
-            "time_interval": "Biomass",
-            "constraints": {
-            "BalanceConstraint": false
-            }
-        },
-        "instance_data": [
-            {
-            "id": "bagasse_BR",
-            "location": "BR"
-            }
-        ]
-    },
-
-    {
-      "type": "Ethanol",
-      "global_data": {
-        "time_interval": "LiquidFuels",
-        "constraints": {
-          "BalanceConstraint": true
-        }
-      },
-      "instance_data": [
         {
-          "id": "ethanol_BR",
-          "demand": {
-            "timeseries": {
-              "path": "system/demand_bio.csv",
-              "header": "Demand_Ethanol"
-            }
-          }
-        }
-      ]
-    },
+            "type": "Bagasse",
+            "global_data": {
+                "time_interval": "Biomass",
+                "constraints": {
+                "BalanceConstraint": false
+                }
+            },
+            "instance_data": [
+                {
+                "id": "bagasse_BR",
+                "location": "BR"
+                }
+            ]
+        },
+
+        {
+            "type": "Ethanol",
+            "global_data": {
+                "time_interval": "LiquidFuels",
+                "constraints": {
+                "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                "id": "ethanol_BR",
+                "demand": {
+                    "timeseries": {
+                    "path": "system/demand_bio.csv",
+                    "header": "Demand_Ethanol"
+                    }
+                }
+                }
+            ]
+        },
     
         {
             "global_data": {
+                "constraints": {
+                    "BalanceConstraint": false
+                },
                 "time_interval": "NaturalGas"
             },
             "instance_data": [
@@ -110,9 +111,11 @@
             "type": "NaturalGas"
         },
 
-
         {
             "global_data": {
+                "constraints": {
+                    "BalanceConstraint": false
+                },
                 "time_interval": "CO2"
             },
             "instance_data": [
@@ -129,17 +132,20 @@
             "type": "CO2"
         },
 
-            {
-      "type": "CO2Captured",
-      "global_data": {
-        "time_interval": "CO2Captured"
-      },
-      "instance_data": [
         {
-          "id": "co2_captured_BR",
-          "location": "BR"
+            "type": "CO2Captured",
+            "global_data": {
+                "constraints": {
+                    "BalanceConstraint": false
+                },
+                "time_interval": "CO2Captured"
+            },
+            "instance_data": [
+                {
+                "id": "co2_captured_BR",
+                "location": "BR"
+                }
+            ]
         }
-      ]
-    }
     ]
 }

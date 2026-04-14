@@ -212,6 +212,7 @@
         }
       ]
     },
+
     {
       "type": "Biomass_Wood",
       "global_data": {
@@ -253,6 +254,7 @@
         }
       ]
     },
+
     {
       "type": "Bagasse",
       "global_data": {
@@ -454,6 +456,9 @@
     {
       "type": "NaturalGas",
       "global_data": {
+        "constraints": {
+          "BalanceConstraint": false
+        },
         "time_interval": "NaturalGas"
       },
       "instance_data": [
@@ -523,6 +528,9 @@
     {
       "type": "Uranium",
       "global_data": {
+        "constraints": {
+          "BalanceConstraint": false
+        },
         "time_interval": "Uranium"
       },
       "instance_data": [
@@ -542,6 +550,9 @@
  {
       "type": "Coal",
       "global_data": {
+        "constraints": {
+          "BalanceConstraint": false
+        },
         "time_interval": "Coal"
       },
       "instance_data": [
@@ -568,16 +579,19 @@
       ]
     },
 
-        {
-            "type": "Electricity",
-            "global_data": {
-                "time_interval": "Electricity"
-            },
-            "instance_data": [
-                {
-                    "id": "hydro_source"
-                }
-            ]
+    {
+        "type": "Electricity",
+        "global_data": {
+          "constraints": {
+            "BalanceConstraint": false
+          },
+          "time_interval": "Electricity"
+        },
+        "instance_data": [
+            {
+                "id": "hydro_source"
+            }
+        ]
     },
 
 
@@ -750,7 +764,10 @@
     {
       "type": "CO2",
       "global_data": {
-        "time_interval": "CO2"
+        "time_interval": "CO2",
+        "constraints": {
+          "BalanceConstraint": false
+        }
       },
       "instance_data": [
         {
@@ -771,7 +788,10 @@
     {
       "type": "CO2Captured",
       "global_data": {
-        "time_interval": "CO2Captured"
+        "time_interval": "CO2Captured",
+        "constraints": {
+          "BalanceConstraint": false
+        }
       },
       "instance_data": [
         {
