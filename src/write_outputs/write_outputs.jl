@@ -97,7 +97,7 @@ function write_outputs(case_path::AbstractString, case::Case, bd_results::Bender
         write_curtailment(joinpath(results_dir, "curtailment.csv"), period, curtailment_df[subop_indices_period])
 
         # Sub-period weights (for downstream revenue and weighted-sum calculations)
-        write_time_weights(joinpath(results_dir, "time_weights.csv"), period)
+        # write_time_weights(joinpath(results_dir, "time_weights.csv"), period)
 
         # Cost results (system level)
         costs = prepare_costs_benders(period, bd_results, subop_indices_period, settings)
@@ -183,7 +183,7 @@ function write_period_outputs(
     write_curtailment(joinpath(results_dir, "curtailment.csv"), system)
 
     # Sub-period weights (for downstream revenue and weighted-sum calculations)
-    write_time_weights(joinpath(results_dir, "time_weights.csv"), system)
+    # write_time_weights(joinpath(results_dir, "time_weights.csv"), system)
 
     # Write dual values (if enabled)
     # Scaling factor to account for discounting duals in multi-period models
