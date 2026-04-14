@@ -30,15 +30,15 @@ function postprocess!(asset::AbstractAsset, solution::Any)
 end
 
 function postprocess!(n::Node, solution::Any)
-    time_steps = collect(time_interval(n))
-    effective_price = zeros(Float64, isempty(time_steps) ? 0 : maximum(time_steps))
+    ts = collect(time_steps(n))
+    effective_price = zeros(Float64, isempty(ts) ? 0 : maximum(ts))
 
     if isempty(supply_segments(n)) || isempty(supply_flow(n))
         n.price = effective_price
         return nothing
     end
 
-    for t in time_steps
+    for t in ts
         total_supply = 0.0
         total_cost = 0.0
 

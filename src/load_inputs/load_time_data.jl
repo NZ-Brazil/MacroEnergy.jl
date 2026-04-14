@@ -215,7 +215,7 @@ function create_commodity_timedata(
         subperiod_indices = unique_rep_periods,
         subperiod_weights = Dict(unique_rep_periods .=> weights),
         subperiod_map = subperiod_map,
-        total_hours_modeled = total_hours_modeled
+        total_timesteps_modeled = total_timesteps_modeled
     )
 end
 

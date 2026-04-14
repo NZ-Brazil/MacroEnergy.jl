@@ -1,6 +1,6 @@
 {
   "transmission": {
-    "type": "TransmissionLink",
+    "type": "OneWayTransmissionLink",
     "global_data": {
       "transforms": {},
       "edges": {

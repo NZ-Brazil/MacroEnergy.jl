@@ -683,7 +683,7 @@ ustart(e::EdgeWithUC, t::Int64) = ustart(e)[t];
 ##### End of EdgeWithUC interface #####
 
 function add_operation_model_varcosts!(e::EdgeWithUC, model::Model)
-    for t in time_interval(e)
+    for t in time_steps(e)
 
         w = current_subperiod(e,t)
         vom_cost = variable_om_cost(e)
@@ -837,6 +837,24 @@ function update_startup_fuel_balance!(e::EdgeWithUC)
 end
 
 function add_flow_to_vertex_balances!(e::AbstractEdge, v::AbstractVertex, effective_flow, outgoing::Bool)
+    # effective_flow is <: AbstractVector{AffExpr} or AbstractVector{VariableRef}
+    if outgoing
+        flow_dir = -1.0
+    else
+        flow_dir = 1.0
+    end
+    for i in balance_ids(v)
+        balance_coeff = flow_dir * balance_data(e, v, i)
+        if balance_coeff != 0.0
+            balance_expr = get_balance(v,i)
+            for t in time_steps(e)
+                add_to_expression!(balance_expr[t], balance_coeff, effective_flow[t])
+            end
+        end
+    end
+end
+
+function add_flow_to_vertex_balances!(e::AbstractEdge, v::Transformation, effective_flow, outgoing::Bool)
     # effective_flow is <: AbstractVector{AffExpr} or AbstractVector{VariableRef}
     if outgoing
         flow_dir = -1.0

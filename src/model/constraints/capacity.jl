@@ -15,13 +15,13 @@ Add a capacity constraint to the edge `e`. If the edge is unidirectional, the fu
 \end{aligned}
 ```
 
-for each time `t` in `time_interval(e)` for the edge `e` and each `i` in `{0, 1}`. The function `availability` returns the time series of the capacity factor of the edge at time `t`.
+for each time `t` in `time_steps(e)` for the edge `e` and each `i` in `{0, 1}`. The function `availability` returns the time series of the capacity factor of the edge at time `t`.
 """
 function add_model_constraint!(ct::CapacityConstraint, e::UnidirectionalEdge, model::Model)
     if has_capacity(e) 
         ct.constraint_ref = @constraint(
             model,
-            [t in time_interval(e)],
+            [t in time_steps(e)],
             flow(e, t) <= availability(e, t) * capacity(e)
         )
     else

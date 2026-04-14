@@ -70,7 +70,7 @@ function reconstruct_timeseries(vals::Vector{Float64}, timedata::TimeData)
     subperiod_map     = timedata.subperiod_map
     subperiods        = timedata.subperiods
     subperiod_indices = timedata.subperiod_indices
-    total_hours       = timedata.total_hours_modeled
+    total_hours       = timedata.total_timesteps_modeled
     hours_per_subperiod = length(first(subperiods)) # assumes all subperiods have the same number of hours
 
     # Precompute rep-period-id → position lookup
@@ -154,7 +154,7 @@ function get_full_timeseries_flow(system::System)
 end
 
 function _full_ts_flow(obj::AbstractEdge, obj_asset_map::Dict{Symbol,Base.RefValue{<:AbstractAsset}})
-    time_axis = time_interval(obj)
+    time_axis = time_steps(obj)
     flow_sign = get_flow_sign(obj)
     vals = Float64[value(flow(obj, t)) * flow_sign for t in time_axis]
     full_vals = reconstruct_timeseries(vals, obj.timedata)
@@ -208,7 +208,7 @@ function get_full_timeseries_non_served_demand(system::System)
 end
 
 function _full_ts_nsd(node::Node)
-    time_axis = time_interval(node)
+    time_axis = time_steps(node)
     num_segments = length(segments_non_served_demand(node))
 
     rows = DataFrame[]
@@ -258,14 +258,14 @@ end
 function get_full_timeseries_storage_level(system::System)
     storages, storage_asset_map = get_storages(system, return_ids_map=true)
     isempty(storages) && return DataFrame()
-    non_empty = filter(s -> !isempty(time_interval(s)), storages)
+    non_empty = filter(s -> !isempty(time_steps(s)), storages)
     isempty(non_empty) && return DataFrame()
     storage_df = reduce(vcat, [_full_ts_storage(s, storage_asset_map) for s in non_empty])
     storage_df[!, (!isa).(eachcol(storage_df), Vector{Missing})]
 end
 
 function _full_ts_storage(storage::AbstractStorage, storage_asset_map::Dict{Symbol,Base.RefValue{<:AbstractAsset}})
-    time_axis = time_interval(storage)
+    time_axis = time_steps(storage)
     vals = Float64[value(storage_level(storage, t)) for t in time_axis]
     full_vals = reconstruct_timeseries(vals, storage.timedata)
     n = length(full_vals)
@@ -318,7 +318,7 @@ function get_full_timeseries_curtailment(system::System)
 end
 
 function _full_ts_curtailment(obj::AbstractEdge, obj_asset_map::Dict{Symbol,Base.RefValue{<:AbstractAsset}})
-    time_axis = time_interval(obj)
+    time_axis = time_steps(obj)
     cap_val = Float64(value(capacity(obj)))
     vals = Float64[max(0.0, cap_val * availability(obj, t) - value(flow(obj, t))) for t in time_axis]
     full_vals = reconstruct_timeseries(vals, obj.timedata)

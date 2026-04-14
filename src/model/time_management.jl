@@ -7,7 +7,7 @@ Base.@kwdef mutable struct TimeData <: AbstractTimeData
     subperiod_map::Dict{Int64,Int64} = Dict{Int64,Int64}()
     # precomputed lookup for timestep-to-subperiod mapping
     _timestep_to_subperiod::Dict{Int64,Int64} = Dict{Int64,Int64}()
-    total_hours_modeled::Int64 = 8760
+    total_timesteps_modeled::Int64 = 8760
 end
 
 """
@@ -39,7 +39,7 @@ time_steps(y::Union{AbstractVertex,AbstractEdge}) = time_steps(y.timedata.resolu
 modeled_subperiods(y::Union{AbstractVertex,AbstractEdge}) = sort(collect(keys(y.timedata.subperiod_map)))
 subperiod_map(y::Union{AbstractVertex,AbstractEdge}) = y.timedata.subperiod_map;
 subperiod_map(y::Union{AbstractVertex,AbstractEdge}, n::Int64) = subperiod_map(y)[n];
-total_hours_modeled(y::Union{AbstractVertex,AbstractEdge}) = y.timedata.total_hours_modeled;
+total_timesteps_modeled(y::Union{AbstractVertex,AbstractEdge}) = y.timedata.total_timesteps_modeled;
 ######### TimeData interface #########
 
 

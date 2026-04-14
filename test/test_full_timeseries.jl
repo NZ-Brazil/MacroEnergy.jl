@@ -23,7 +23,7 @@ function test_reconstruct_timeseries()
             subperiod_indices = [1, 2],
             subperiod_weights = Dict(1 => 3.0, 2 => 3.0),
             subperiod_map   = Dict(1=>1, 2=>2, 3=>1, 4=>2, 5=>1, 6=>2),
-            total_hours_modeled = 18
+            total_timesteps_modeled = 18
         )
 
         vals = Float64[10, 20, 30, 40, 50, 60]  # rep-period values
@@ -49,7 +49,7 @@ function test_reconstruct_timeseries()
             subperiod_indices = [1, 2],
             subperiod_weights = Dict(1 => 2.5, 2 => 2.5),
             subperiod_map   = Dict(1=>1, 2=>2, 3=>1, 4=>2),
-            total_hours_modeled = 15
+            total_timesteps_modeled = 15
         )
 
         vals = Float64[1, 2, 3, 4, 5, 6]
@@ -74,7 +74,7 @@ function test_reconstruct_timeseries()
             subperiod_indices = [1, 2],
             subperiod_weights = Dict(1 => 2.0, 2 => 1.0),
             subperiod_map   = Dict(1=>2, 2=>1, 3=>1),
-            total_hours_modeled = 11
+            total_timesteps_modeled = 11
         )
 
         vals = Float64[1, 2, 3, 4, 5, 6]

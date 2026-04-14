@@ -8,7 +8,7 @@ macro AbstractNodeBaseAttributes()
         policy_budgeting_vars::Dict = Dict()
         policy_budgeting_constraints::Dict{DataType,JuMPConstraint} = Dict{DataType,JuMPConstraint}()  # Store policy budget constraint references
         policy_slack_vars::Dict = Dict()
-        price::MacroTimeSeries = $node_defaults[:price]
+        price::Vector{Float64} = Vector{Float64}()
         price_nsd::Vector{Float64} = $node_defaults[:price_nsd]
         price_unmet_policy::Dict{DataType,Float64} = Dict{DataType,Float64}()
         rhs_policy::Dict{DataType,Float64} = Dict{DataType,Float64}()
@@ -56,23 +56,6 @@ function commodity_type(t::Type{Node{<:T}}) where {T}
     return commodity_type(Node{ub_type})
 end
 
-"""Parse supply/price_supply: [a,b,c], [[a_t1,...],[b_t1,...]], or Vector{MacroTimeSeries}."""
-function _parse_supply_timeseries(raw, resolution, default)
-    (raw === nothing || isempty(raw)) && return default
-    # Vector{Number} -> Vector{MacroTimeSeries}
-    if all(x -> x isa Number, raw)
-        return [MacroTimeSeries([Float64(v)], resolution) for v in raw]
-    # Vector{Vector{Number}} -> Vector{MacroTimeSeries}
-    elseif all(x -> x isa AbstractVector, raw)
-        return [MacroTimeSeries(Float64.(collect(v)), resolution) for v in raw]
-    # Vector{MacroTimeSeries} is already parsed
-    elseif all(x -> x isa MacroTimeSeries, raw)
-        return raw
-    else
-        return default
-    end
-end
-
 function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodity::DataType)
     node_data = copy(data)
     supply = get(node_data, :supply, OrderedDict{Symbol,SupplySegment}())
@@ -89,25 +72,13 @@ function make_node(data::AbstractDict{Symbol,Any}, time_data::TimeData, commodit
         end
     end
     # Time series
-    if haskey(data, :demand) && isa(data[:demand], Vector{T} where {T<:Real})
-        data[:demand] = MacroTimeSeries(data[:demand], time_data.resolution)
+    if haskey(node_data, :demand) && isa(node_data[:demand], Vector{T} where {T<:Real})
+        node_data[:demand] = MacroTimeSeries(node_data[:demand], time_data.resolution)
     end
-    if haskey(data, :price) && isa(data[:price], Vector{T} where {T<:Real})
-        data[:price] = MacroTimeSeries(data[:price], time_data.resolution)
-    end
-    # Parse supply timeseries: legacy [a,b,c] or [[a_t1,...],[b_t1,...],...] or already MacroTimeSeries
-    defaults = node_default_data()
-    max_supply_parsed = _parse_supply_timeseries(
-        get(data, :max_supply, nothing), time_data.resolution, defaults[:max_supply]
-    )
-    price_supply_parsed = _parse_supply_timeseries(
-        get(data, :price_supply, nothing), time_data.resolution, defaults[:price_supply]
-    )
-
     _node = Node{commodity}(;
         id = id,
         timedata = time_data,
-        demand = get(data, :demand, MacroTimeSeries()),
+        demand = get(node_data, :demand, MacroTimeSeries()),
         location = as_symbol_or_missing(get(node_data, :location, missing)),
         max_nsd = get(node_data, :max_nsd, [0.0]),
         price = get(node_data, :price, Vector{Float64}()),

@@ -39,7 +39,7 @@ function add_model_constraint!(ct::RampingLimitConstraint, e::EdgeWithoutUC, mod
             [t in time_steps(e)],
             flow(e, t) - flow(e, timestepbefore(t, 1, subperiods(e))) +
             regulation_term[t] +
-            reserves_term[t] - ramp_up_fraction(e) * capacity(e)) * time_interval_length(t,time_resolution(e)
+            reserves_term[t] - ramp_up_fraction(e) * capacity(e) * time_interval_length(t,time_resolution(e))
         )
 
         eRampDown = @expression(
@@ -47,7 +47,7 @@ function add_model_constraint!(ct::RampingLimitConstraint, e::EdgeWithoutUC, mod
             [t in time_steps(e)],
             flow(e, timestepbefore(t, 1, subperiods(e))) - flow(e, t) - regulation_term[t] +
             reserves_term[timestepbefore(t, 1, subperiods(e))] -
-            ramp_down_fraction(e) * capacity(e)) * time_interval_length(t,time_resolution(e)
+            ramp_down_fraction(e) * capacity(e) * time_interval_length(t,time_resolution(e))
         )
 
         ramp_expr_dict = Dict(:RampUp => eRampUp, :RampDown => eRampDown)
