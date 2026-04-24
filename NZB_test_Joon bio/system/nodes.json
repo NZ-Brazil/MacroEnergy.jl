@@ -1,0 +1,151 @@
+{
+    "nodes": [
+        {
+            "type": "Electricity",
+            "global_data": {
+                "constraints": {
+                    "BalanceConstraint": true
+                },
+                "time_interval": "Electricity"
+            },
+            "instance_data": [
+                {
+                    "demand": {
+                        "timeseries": {
+                            "header": "elec_demand_BR",
+                            "path": "system/demand.csv"
+                        }
+                    },
+                    "id": "elec_BR"
+                }
+            ]
+        },
+        
+        {
+            "type": "Corn",
+            "global_data": {
+                "time_interval": "Biomass",
+                "constraints": {
+                "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                "id": "corn_BR",
+                "location": "BR",
+                    "max_supply": [41500000.23],
+                    "price_supply": [8000]
+                }
+            ]
+        },
+
+        {
+            "type": "Residue",
+            "global_data": {
+                "time_interval": "Biomass",
+                "constraints": {
+                "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                "id": "residue_BR",
+                "location": "BR",
+                    "max_supply": [2000, 3000, 5000],
+                    "price_supply": [1, 1.5, 1.6]
+                }
+            ]
+        },
+
+
+        {
+            "type": "Bagasse",
+            "global_data": {
+                "time_interval": "Biomass",
+                "constraints": {
+                "BalanceConstraint": false
+                }
+            },
+            "instance_data": [
+                {
+                "id": "bagasse_BR",
+                "location": "BR"
+                }
+            ]
+        },
+
+        {
+            "type": "Ethanol",
+            "global_data": {
+                "time_interval": "LiquidFuels",
+                "constraints": {
+                "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                "id": "ethanol_BR",
+                "demand": {
+                    "timeseries": {
+                    "path": "system/demand_bio.csv",
+                    "header": "Demand_Ethanol"
+                    }
+                }
+                }
+            ]
+        },
+    
+        {
+            "type": "NaturalGas",
+                "global_data": {
+                "constraints": {
+                    "BalanceConstraint": false
+                },
+                "time_interval": "NaturalGas"
+            },
+            "instance_data": [
+                {
+                    "price": [1850],
+                    "id": "BR_NG"
+                }
+            ]
+        },
+
+        {
+            "global_data": {
+                "constraints": {
+                    "BalanceConstraint": false
+                },
+                "time_interval": "CO2"
+            },
+            "instance_data": [
+                {
+                    "constraints": {
+                        "CO2CapConstraint": false
+                    },
+                    "rhs_policy": {
+                        "CO2CapConstraint": 18000
+                    },
+                    "id": "co2_sink"
+                }
+            ],
+            "type": "CO2"
+        },
+
+        {
+            "type": "CO2Captured",
+            "global_data": {
+                "constraints": {
+                    "BalanceConstraint": false
+                },
+                "time_interval": "CO2Captured"
+            },
+            "instance_data": [
+                {
+                "id": "co2_captured_BR",
+                "location": "BR"
+                }
+            ]
+        }
+    ]
+}
