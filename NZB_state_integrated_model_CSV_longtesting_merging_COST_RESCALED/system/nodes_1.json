@@ -678,10 +678,10 @@
                 {
                     "id": "co2_emitted_BR",
                     "constraints": {
-                        "CO2CapConstraint": false
+                        "CO2CapConstraint": true
                     },
                     "rhs_policy": {
-                        "CO2CapConstraint": 0
+                        "CO2CapConstraint": 600000000
                     }
                 }
             ]
