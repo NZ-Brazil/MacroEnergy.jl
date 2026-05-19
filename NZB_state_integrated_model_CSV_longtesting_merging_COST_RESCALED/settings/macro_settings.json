@@ -4,5 +4,6 @@
   "OverwriteResults": false,
   "DualExportsEnabled": false,
   "OutputLayout": "long",
-  "EnableJuMPDirectModel": true
+  "EnableJuMPDirectModel": true,
+  "EnableJuMPStringNames": false
 }
