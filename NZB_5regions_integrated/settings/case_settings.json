@@ -1,0 +1,14 @@
+{
+  "SolutionAlgorithm": "Myopic",
+  "PeriodLengths": [10, 10, 10],
+  "DiscountRate": 0.01,
+  "MyopicSettings": {
+    "ReturnModels": false,
+    "Restart": {
+      "enabled": true,
+      "folder": "results",
+      "from_period": 1
+    },
+    "StopAfterPeriod": 3
+  }
+}

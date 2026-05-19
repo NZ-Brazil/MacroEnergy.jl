@@ -1,0 +1,33 @@
+{
+  "locations": [
+    "BR",
+    "BR_N",
+    "BR_NE",
+    "BR_CW",
+    "BR_SE",
+    "BR_S",
+    "Amazonas",
+    "Campos",
+    "Ceara",
+    "Doce",
+    "Espirito_Santo",
+    "Grande",
+    "Iguacu",
+    "Jacui_capivari",
+    "Jequitinhonha",
+    "Paraiba_do_sul",
+    "Parana",
+    "Paranaiba",
+    "Paranapanema",
+    "Parecis",
+    "Parnaiba",
+    "Potiguar",
+    "Reconcavo",
+    "Santos",
+    "Sao_francisco",
+    "Sergipe_alagoas",
+    "Tiete",
+    "Tocantins",
+    "Uruguai"
+  ]
+}
