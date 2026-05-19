@@ -17,7 +17,7 @@
   "ReferenceClock": 1,
   "NumberOfSubperiods": 1,
   "HoursPerSubperiod": {
-    "Electricity": 8760,
+    "Electricity": 730,
     "NaturalGas": 8760,
     "Hydrogen": 8760,
     "Ammonia": 8760,
