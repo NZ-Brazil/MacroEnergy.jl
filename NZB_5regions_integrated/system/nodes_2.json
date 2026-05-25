@@ -268,7 +268,106 @@
         }
       ]
     },
-
+    {
+            "type": "CO2Captured",
+            "global_data": {
+                "time_interval": "CO2Captured",
+                "constraints": {
+                    "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                    "id": "co2_transported_BR_N"
+                },
+                {
+                    "id": "co2_transported_BR_NE"
+                },
+                {
+                    "id": "co2_transported_BR_CW"
+                },
+                {
+                    "id": "co2_transported_BR_SE"
+                },
+                {
+                    "id": "co2_transported_BR_S"
+                }
+            ]
+        },
+        {
+            "type": "CO2Captured",
+            "global_data": {
+                "time_interval": "CO2Captured",
+                "constraints": {
+                    "BalanceConstraint": false
+                }
+            },
+            "instance_data": [
+                {
+                    "id": "co2_storage_Parana",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 332000000
+                    }
+                },
+                {
+                    "id": "co2_storage_Sao_Francisco",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 108000000
+                    }
+                },
+                {
+                    "id": "co2_storage_Reconcavo",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 7000000
+                    }
+                },
+                {
+                    "id": "co2_storage_Sergipe_Alagoas",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 7000000
+                    }
+                },
+                {
+                    "id": "co2_storage_Potiguar",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 8000000
+                    }
+                },
+                {
+                    "id": "co2_storage_Parecis",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 89000000
+                    }
+                },
+                {
+                    "id": "co2_storage_Espirito_Santo",
+                    "constraints": {
+                        "CO2StorageConstraint": true
+                    },
+                    "rhs_policy": {
+                        "CO2StorageConstraint": 4000000
+                    }
+                }
+            ]
+        },
     {
       "type": "NaturalGas",
       "global_data": {
