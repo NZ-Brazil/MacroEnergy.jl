@@ -22,7 +22,7 @@
                     "location": "BR_AC",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_AC"
                         }
                     }
@@ -32,7 +32,7 @@
                     "location": "BR_AL",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_AL"
                         }
                     }
@@ -42,7 +42,7 @@
                     "location": "BR_AP",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_AP"
                         }
                     }
@@ -52,7 +52,7 @@
                     "location": "BR_AM",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_AM"
                         }
                     }
@@ -62,7 +62,7 @@
                     "location": "BR_BA",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_BA"
                         }
                     }
@@ -72,7 +72,7 @@
                     "location": "BR_CE",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_CE"
                         }
                     }
@@ -82,7 +82,7 @@
                     "location": "BR_DF",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_DF"
                         }
                     }
@@ -92,7 +92,7 @@
                     "location": "BR_ES",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_ES"
                         }
                     }
@@ -102,7 +102,7 @@
                     "location": "BR_GO",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_GO"
                         }
                     }
@@ -112,7 +112,7 @@
                     "location": "BR_MA",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_MA"
                         }
                     }
@@ -122,7 +122,7 @@
                     "location": "BR_MT",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_MT"
                         }
                     }
@@ -132,7 +132,7 @@
                     "location": "BR_MS",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_MS"
                         }
                     }
@@ -142,7 +142,7 @@
                     "location": "BR_MG",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_MG"
                         }
                     }
@@ -152,7 +152,7 @@
                     "location": "BR_PA",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_PA"
                         }
                     }
@@ -162,7 +162,7 @@
                     "location": "BR_PB",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_PB"
                         }
                     }
@@ -172,7 +172,7 @@
                     "location": "BR_PR",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_PR"
                         }
                     }
@@ -182,7 +182,7 @@
                     "location": "BR_PE",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_PE"
                         }
                     }
@@ -192,7 +192,7 @@
                     "location": "BR_PI",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_PI"
                         }
                     }
@@ -202,7 +202,7 @@
                     "location": "BR_RJ",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_RJ"
                         }
                     }
@@ -212,7 +212,7 @@
                     "location": "BR_RN",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_RN"
                         }
                     }
@@ -222,7 +222,7 @@
                     "location": "BR_RS",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_RS"
                         }
                     }
@@ -232,7 +232,7 @@
                     "location": "BR_RO",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_RO"
                         }
                     }
@@ -242,7 +242,7 @@
                     "location": "BR_RR",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_RR"
                         }
                     }
@@ -252,7 +252,7 @@
                     "location": "BR_SC",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_SC"
                         }
                     }
@@ -262,7 +262,7 @@
                     "location": "BR_SP",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_SP"
                         }
                     }
@@ -272,7 +272,7 @@
                     "location": "BR_SE",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_SE"
                         }
                     }
@@ -282,7 +282,7 @@
                     "location": "BR_TO",
                     "demand": {
                         "timeseries": {
-                            "path": "system/elec_demand_2.csv",
+                            "path": "system/elec_demand_2035.csv",
                             "header": "elec_BR_TO"
                         }
                     }
@@ -399,7 +399,7 @@
                     "location": "BR_AC",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_AC"
                         }
                     }
@@ -409,7 +409,7 @@
                     "location": "BR_AL",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_AL"
                         }
                     }
@@ -419,7 +419,7 @@
                     "location": "BR_AP",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_AP"
                         }
                     }
@@ -429,7 +429,7 @@
                     "location": "BR_AM",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_AM"
                         }
                     }
@@ -439,7 +439,7 @@
                     "location": "BR_BA",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_BA"
                         }
                     }
@@ -449,7 +449,7 @@
                     "location": "BR_CE",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_CE"
                         }
                     }
@@ -459,7 +459,7 @@
                     "location": "BR_DF",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_DF"
                         }
                     }
@@ -469,7 +469,7 @@
                     "location": "BR_ES",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_ES"
                         }
                     }
@@ -479,7 +479,7 @@
                     "location": "BR_GO",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_GO"
                         }
                     }
@@ -489,7 +489,7 @@
                     "location": "BR_MA",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_MA"
                         }
                     }
@@ -499,7 +499,7 @@
                     "location": "BR_MT",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_MT"
                         }
                     }
@@ -509,7 +509,7 @@
                     "location": "BR_MS",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_MS"
                         }
                     }
@@ -519,7 +519,7 @@
                     "location": "BR_MG",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_MG"
                         }
                     }
@@ -529,7 +529,7 @@
                     "location": "BR_PA",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_PA"
                         }
                     }
@@ -539,7 +539,7 @@
                     "location": "BR_PB",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_PB"
                         }
                     }
@@ -549,7 +549,7 @@
                     "location": "BR_PR",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_PR"
                         }
                     }
@@ -559,7 +559,7 @@
                     "location": "BR_PE",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_PE"
                         }
                     }
@@ -569,7 +569,7 @@
                     "location": "BR_PI",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_PI"
                         }
                     }
@@ -579,7 +579,7 @@
                     "location": "BR_RJ",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_RJ"
                         }
                     }
@@ -589,7 +589,7 @@
                     "location": "BR_RN",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_RN"
                         }
                     }
@@ -599,7 +599,7 @@
                     "location": "BR_RS",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_RS"
                         }
                     }
@@ -609,7 +609,7 @@
                     "location": "BR_RO",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_RO"
                         }
                     }
@@ -619,7 +619,7 @@
                     "location": "BR_RR",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_RR"
                         }
                     }
@@ -629,7 +629,7 @@
                     "location": "BR_SC",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_SC"
                         }
                     }
@@ -639,7 +639,7 @@
                     "location": "BR_SP",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_SP"
                         }
                     }
@@ -649,7 +649,7 @@
                     "location": "BR_SE",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_SE"
                         }
                     }
@@ -659,7 +659,7 @@
                     "location": "BR_TO",
                     "demand": {
                         "timeseries": {
-                            "path": "system/h2_demand.csv",
+                            "path": "system/h2_demand_2035.csv",
                             "header": "h2_BR_TO"
                         }
                     }
@@ -1014,7 +1014,7 @@
                     "id": "natgas_BR",
                     "price": {
                         "timeseries": {
-                            "path": "system/fuel_prices.csv",
+                            "path": "system/fuel_prices_2035.csv",
                             "header": "natgas_price_BR"
                         }
                     }
@@ -1023,7 +1023,7 @@
                     "id": "natgas_LNG_BR",
                     "price": {
                         "timeseries": {
-                            "path": "system/fuel_prices.csv",
+                            "path": "system/fuel_prices_2035.csv",
                             "header": "natgas_LNG_price_BR"
                         }
                     }
@@ -1043,7 +1043,7 @@
                     "id": "coal_BR",
                     "price": {
                         "timeseries": {
-                            "path": "system/fuel_prices.csv",
+                            "path": "system/fuel_prices_2035.csv",
                             "header": "coal_price_BR"
                         }
                     }
@@ -1052,7 +1052,7 @@
                     "id": "coal_imported",
                     "price": {
                         "timeseries": {
-                            "path": "system/fuel_prices.csv",
+                            "path": "system/fuel_prices_2035.csv",
                             "header": "coal_price_imported"
                         }
                     }
@@ -1072,7 +1072,7 @@
                     "id": "uranium_BR",
                     "price": {
                         "timeseries": {
-                            "path": "system/fuel_prices.csv",
+                            "path": "system/fuel_prices_2035.csv",
                             "header": "uranium_price_BR"
                         }
                     }
@@ -6240,7 +6240,7 @@
                     "location": "BR",
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand.csv",
+                            "path": "system/demand_2035.csv",
                             "header": "Demand_Charcoal"
                         }
                     }
@@ -6261,7 +6261,7 @@
                     "id": "nh3_demand_BR",
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand.csv",
+                            "path": "system/demand_2035.csv",
                             "header": "Demand_Ammonia"
                         }
                     }
@@ -6289,7 +6289,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_LF.csv",
+                            "path": "system/demand_2035_LF.csv",
                             "header": "Demand_Ethanol"
                         }
                     }
@@ -6317,7 +6317,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_LF.csv",
+                            "path": "system/demand_2035_LF.csv",
                             "header": "Demand_Gasoline"
                         }
                     }
@@ -6350,7 +6350,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_LF.csv",
+                            "path": "system/demand_2035_LF.csv",
                             "header": "Demand_Flexfuel"
                         }
                     }
@@ -6374,7 +6374,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_LF.csv",
+                            "path": "system/demand_2035_LF.csv",
                             "header": "Demand_Jetfuel"
                         }
                     }
@@ -6401,7 +6401,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_LF.csv",
+                            "path": "system/demand_2035_LF.csv",
                             "header": "Demand_SAF_Jetfuel"
                         }
                     }
@@ -6434,7 +6434,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_LF.csv",
+                            "path": "system/demand_2035_LF.csv",
                             "header": "Demand_fossil_Jetfuel"
                         }
                     }
@@ -6464,7 +6464,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_LF.csv",
+                            "path": "system/demand_2035_LF.csv",
                             "header": "Demand_BioDiesel"
                         }
                     }
@@ -6480,7 +6480,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_LF.csv",
+                            "path": "system/demand_2035_LF.csv",
                             "header": "Demand_Diesel"
                         }
                     }
