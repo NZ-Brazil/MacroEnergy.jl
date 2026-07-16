@@ -6289,7 +6289,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_2040_LF.csv",
+                            "path": "system/system/demand_LF_2040.csv",
                             "header": "Demand_Ethanol"
                         }
                     }
@@ -6317,7 +6317,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_2040_LF.csv",
+                            "path": "system/system/demand_LF_2040.csv",
                             "header": "Demand_Gasoline"
                         }
                     }
@@ -6350,7 +6350,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_2040_LF.csv",
+                            "path": "system/system/demand_LF_2040.csv",
                             "header": "Demand_Flexfuel"
                         }
                     }
@@ -6374,7 +6374,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_2040_LF.csv",
+                            "path": "system/system/demand_LF_2040.csv",
                             "header": "Demand_Jetfuel"
                         }
                     }
@@ -6401,7 +6401,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_2040_LF.csv",
+                            "path": "system/system/demand_LF_2040.csv",
                             "header": "Demand_SAF_Jetfuel"
                         }
                     }
@@ -6434,7 +6434,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_2040_LF.csv",
+                            "path": "system/system/demand_LF_2040.csv",
                             "header": "Demand_fossil_Jetfuel"
                         }
                     }
@@ -6464,7 +6464,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_2040_LF.csv",
+                            "path": "system/system/demand_LF_2040.csv",
                             "header": "Demand_BioDiesel"
                         }
                     }
@@ -6480,7 +6480,7 @@
                     },
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_2040_LF.csv",
+                            "path": "system/system/demand_LF_2040.csv",
                             "header": "Demand_Diesel"
                         }
                     }
