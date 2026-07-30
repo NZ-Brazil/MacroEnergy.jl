@@ -28,6 +28,8 @@
     { "name": "JetFuel_SAF", "acts_like": "LiquidFuels" },
     { "name": "JetFuel_Fossil", "acts_like": "LiquidFuels" },
     { "name": "Diesel", "acts_like": "LiquidFuels" },
-    { "name": "Ethanol", "acts_like": "LiquidFuels" }
+    { "name": "Ethanol", "acts_like": "LiquidFuels" },
+    { "name": "AviationGasoline", "acts_like": "LiquidFuels" },
+    { "name": "HeavyFuelOil", "acts_like": "LiquidFuels" }
   ]
 }
