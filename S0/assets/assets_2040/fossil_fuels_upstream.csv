@@ -1,8 +1,8 @@
 Type,id,edges--fuel_edge--unidirectional,edges--fuel_edge--commodity,edges--fuel_edge--has_capacity,edges--co2_edge--end_vertex,edges--co2_edge--unidirectional,edges--co2_edge--commodity,edges--co2_edge--has_capacity,edges--fossil_fuel_edge--unidirectional,edges--fossil_fuel_edge--commodity,edges--fossil_fuel_edge--has_capacity,transforms--constraints--BalanceConstraint,transforms--emission_rate,transforms--timedata,edges--fuel_edge--end_vertex,edges--fossil_fuel_edge--start_vertex
-FossilFuelsUpstream,Gasoline_fossil_Upstream,TRUE,Gasoline,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,Gasoline,FALSE,TRUE,0,LiquidFuels,gasoline_demand_BR,gasoline_fossil_BR
-FossilFuelsUpstream,Diesel_fossil_Upstream,TRUE,Diesel,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,Diesel,FALSE,TRUE,0,LiquidFuels,diesel_demand_BR,diesel_fossil_BR
-FossilFuelsUpstream,NaturalGas_Upstream,TRUE,NaturalGas,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,NaturalGas,FALSE,TRUE,0,LiquidFuels,naturalgas_demand_BR,naturalgas_BR
-FossilFuelsUpstream,JetFuel_Fossil_Upstream,TRUE,JetFuel_Fossil,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,JetFuel_Fossil,FALSE,TRUE,0,LiquidFuels,jetfuel_fossil_mandate_demand_BR,jetfuel_fossil_BR
-FossilFuelsUpstream,AviationGasoline_Upstream,TRUE,AviationGasoline,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,AviationGasoline,FALSE,TRUE,0,LiquidFuels,aviationgasoline_demand_BR,aviationgasoline_BR
-FossilFuelsUpstream,HeavyFuelOil_Upstream,TRUE,HeavyFuelOil,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,HeavyFuelOil,FALSE,TRUE,0,LiquidFuels,heavyfueloil_demand_BR,heavyfueloil_BR
-FossilFuelsUpstream,Coal_national_Upstream,TRUE,Coal,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,Coal,FALSE,TRUE,0,LiquidFuels,coal_demand_BR,coal_BR
+FossilFuelsUpstream,Gasoline_fossil_Upstream,TRUE,Gasoline,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,Gasoline,FALSE,TRUE,0.257202,LiquidFuels,gasoline_demand_BR,gasoline_fossil_BR
+FossilFuelsUpstream,Diesel_fossil_Upstream,TRUE,Diesel,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,Diesel,FALSE,TRUE,0.270707,LiquidFuels,diesel_demand_BR,diesel_fossil_BR
+FossilFuelsUpstream,NaturalGas_Upstream,TRUE,NaturalGas,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,NaturalGas,FALSE,TRUE,0.204247,LiquidFuels,naturalgas_demand_BR,naturalgas_BR
+FossilFuelsUpstream,JetFuel_Fossil_Upstream,TRUE,JetFuel_Fossil,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,JetFuel_Fossil,FALSE,TRUE,0.259812,LiquidFuels,jetfuel_fossil_mandate_demand_BR,jetfuel_fossil_BR
+FossilFuelsUpstream,AviationGasoline_Upstream,TRUE,AviationGasoline,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,AviationGasoline,FALSE,TRUE,0.253958,LiquidFuels,aviationgasoline_demand_BR,aviationgasoline_BR
+FossilFuelsUpstream,HeavyFuelOil_Upstream,TRUE,HeavyFuelOil,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,HeavyFuelOil,FALSE,TRUE,0.279938,LiquidFuels,heavyfueloil_demand_BR,heavyfueloil_BR
+FossilFuelsUpstream,Coal_national_Upstream,TRUE,Coal,FALSE,co2_emitted_BR,TRUE,CO2,FALSE,TRUE,Coal,FALSE,TRUE,0.349235,LiquidFuels,coal_demand_BR,coal_BR
