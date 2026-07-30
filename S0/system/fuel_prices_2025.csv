@@ -1,4 +1,4 @@
-Time_Index,natgas_price_BR,natgas_LNG_price_BR,coal_price_BR,coal_price_imported,uranium_price_BR
+Time_Index,natgas_price_BR,natgas_LNG_price_BR,coal_price_BR,coal_price_imported,uranium_price_BR,gasoline_fossil_price_BR,diesel_fossil_price_BR,jetfuel_fossil_price_BR,aviationgasoline_price_BR,heavyfueloil_price_BR
 1,127.7,127.7,25,24.6,8.3
 2,127.7,127.7,25,24.6,8.3
 3,127.7,127.7,25,24.6,8.3
