@@ -681,7 +681,7 @@
                         "CO2CapConstraint": false
                     },
                     "rhs_policy": {
-                        "CO2CapConstraint": 0
+                        "CO2CapConstraint": 500000000000
                     }
                 }
             ]
@@ -1027,22 +1027,6 @@
                             "header": "natgas_LNG_price_BR"
                         }
                     }
-                },
-                {
-                    "id": "naturalgas_demand_BR",
-                    "CMOUT_constraints": {
-                        "BalanceConstraint": false,
-                        "AggregatedDemandConstraint": true
-                    },
-                    "CMOUT_rhs_policy": {
-                        "AggregatedDemandConstraint": 76877727
-                    },
-                    "demand": {
-                        "timeseries": {
-                            "path": "system/demand_2025.csv",
-                            "header": "Demand_NaturalGas"
-                        }
-                    }
                 }
             ]
         },
@@ -1070,22 +1054,6 @@
                         "timeseries": {
                             "path": "system/fuel_prices_2025.csv",
                             "header": "coal_price_imported"
-                        }
-                    }
-                },
-                {
-                    "id": "coal_demand_BR",
-                    "CMOUT_constraints": {
-                        "BalanceConstraint": false,
-                        "AggregatedDemandConstraint": true
-                    },
-                    "CMOUT_rhs_policy": {
-                        "AggregatedDemandConstraint": 76877727
-                    },
-                    "demand": {
-                        "timeseries": {
-                            "path": "system/demand_2025.csv",
-                            "header": "Demand_Coal"
                         }
                     }
                 }
@@ -6525,72 +6493,6 @@
                         "timeseries": {
                             "path": "system/fuel_prices_2025.csv",
                             "header": "Diesel_fossil_price_BR"
-                        }
-                    }
-                }
-            ]
-        },
-        {
-            "type": "AviationGasoline",
-            "global_data": {
-                "time_interval": "LiquidFuels"
-            },
-            "instance_data": [
-                {
-                    "id": "aviationgasoline_demand_BR",
-                    "CMout_constraints": {
-                        "BalanceConstraint": false,
-                        "AggregatedDemandConstraint": true
-                    },
-                    "CMout_rhs_policy": {
-                        "AggregatedDemandConstraint": 3939869
-                    },
-                    "demand": {
-                        "timeseries": {
-                            "path": "system/demand_LF_2025.csv",
-                            "header": "Demand_AviationGasoline"
-                        }
-                    }
-                },
-                {
-                    "id": "aviationgasoline_BR",
-                    "price_supply": {
-                        "timeseries": {
-                            "path": "system/fuel_prices_2025.csv",
-                            "header": "AviationGasoline_price_BR"
-                        }
-                    }
-                }
-            ]
-        },
-        {
-            "type": "HeavyFuelOil",
-            "global_data": {
-                "time_interval": "LiquidFuels"
-            },
-            "instance_data": [
-                {
-                    "id": "heavyfueloil_demand_BR",
-                    "CMout_constraints": {
-                        "BalanceConstraint": false,
-                        "AggregatedDemandConstraint": true
-                    },
-                    "CMout_rhs_policy": {
-                        "AggregatedDemandConstraint": 3939869
-                    },
-                    "demand": {
-                        "timeseries": {
-                            "path": "system/demand_LF_2025.csv",
-                            "header": "Demand_HeavyFuelOil"
-                        }
-                    }
-                },
-                {
-                    "id": "heavyfueloil_BR",
-                    "price_supply": {
-                        "timeseries": {
-                            "path": "system/fuel_prices_2025.csv",
-                            "header": "HeavyFuelOil_price_BR"
                         }
                     }
                 }
