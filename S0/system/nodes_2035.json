@@ -681,7 +681,7 @@
                         "CO2CapConstraint": true
                     },
                     "rhs_policy": {
-                        "CO2CapConstraint": 40000000
+                        "CO2CapConstraint": 500000000000
                     }
                 }
             ]
@@ -997,24 +997,6 @@
                     },
                     "rhs_policy": {
                         "CO2StorageConstraint": 17000000
-                    }
-                },
-                {
-                    "id": "co2_storage_Espirito_Santo",
-                    "constraints": {
-                        "CO2StorageConstraint": true
-                    },
-                    "rhs_policy": {
-                        "CO2StorageConstraint": 6700000
-                    }
-                },
-                {
-                    "id": "co2_storage_Ceara",
-                    "constraints": {
-                        "CO2StorageConstraint": true
-                    },
-                    "rhs_policy": {
-                        "CO2StorageConstraint": 6700000
                     }
                 }
             ]
@@ -6342,12 +6324,13 @@
                 },
                 {
                     "id": "gasoline_fossil_BR",
-                    "max_supply": [
-                        100000000
-                    ],
-                    "price_supply": [
-                        81.2
-                    ]
+                    "price_supply": {
+                        "timeseries": {
+                            "path": "system/fuel_prices_2035.csv",
+                            "header": "Gasoline_price_BR"
+                        
+                        }
+                    }
                 }
             ]
         },
@@ -6434,12 +6417,13 @@
             "instance_data": [
                 {
                     "id": "jetfuel_fossil_BR",
-                    "max_supply": [
-                        100000000
-                    ],
-                    "price_supply": [
-                        72.7
-                    ]
+                    "price_supply": {
+                        "timeseries": {
+                            "path": "system/fuel_prices_2035.csv",
+                            "header": "JetFuel_fossil_price_BR"
+                        
+                        }
+                    }
                 },
                 {
                     "id": "jetfuel_fossil_mandate_demand_BR",
@@ -6505,12 +6489,12 @@
                 },
                 {
                     "id": "diesel_fossil_BR",
-                    "max_supply": [
-                        1000000000
-                    ],
-                    "price_supply": [
-                        71
-                    ]
+                    "price_supply": {
+                        "timeseries": {
+                            "path": "system/fuel_prices_2035.csv",
+                            "header": "Diesel_fossil_price_BR"
+                        }
+                    }
                 }
             ]
         },
