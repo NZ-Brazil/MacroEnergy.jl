@@ -3172,19 +3172,19 @@
            {
               "id": "cornstover_BR_AC",
               "max_supply": [
-                15.48
+                11.49
               ],
               "price_supply": [
-                19.38
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_AL",
               "max_supply": [
-                6.5
+                4.53
               ],
               "price_supply": [
-                19.45
+                56.8
               ]
             },
             {
@@ -3199,217 +3199,217 @@
             {
               "id": "cornstover_BR_AM",
               "max_supply": [
-                0.7
+                0.45
               ],
               "price_supply": [
-                19.38
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_BA",
               "max_supply": [
-                348.73
+                260.34
               ],
               "price_supply": [
-                19.37
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_CE",
               "max_supply": [
-                37.47
+                26.52
               ],
               "price_supply": [
-                19.22
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_DF",
               "max_supply": [
-                35.75
+                26.74
               ],
               "price_supply": [
-                19.34
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_ES",
               "max_supply": [
-                6.49
+                4.68
               ],
               "price_supply": [
-                19.38
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_GO",
               "max_supply": [
-                1649.32
+                1232.31
               ],
               "price_supply": [
-                20.17
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_MA",
               "max_supply": [
-                279.85
+                208.83
               ],
               "price_supply": [
-                21.43
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_MT",
               "max_supply": [
-                5734.88
+                4289.35
               ],
               "price_supply": [
-                19.56
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_MS",
               "max_supply": [
-                1534.45
+                1147.77
               ],
               "price_supply": [
-                19.65
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_MG",
               "max_supply": [
-                932.76
+                693.26
               ],
               "price_supply": [
-                19.21
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_PA",
               "max_supply": [
-                197.35
+                147.37
               ],
               "price_supply": [
-                20.42
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_PB",
               "max_supply": [
-                1.62
+                0.87
               ],
               "price_supply": [
-                19.38
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_PR",
               "max_supply": [
-                2040.4
+                1526.22
               ],
               "price_supply": [
-                18.87
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_PE",
               "max_supply": [
-                4.04
+                2.17
               ],
               "price_supply": [
-                19.38
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_PI",
               "max_supply": [
-                0.0
+                229.35
               ],
               "price_supply": [
-                0.0
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_RJ",
               "max_supply": [
-                1.01
+                0.76
               ],
               "price_supply": [
-                19.38
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_RN",
               "max_supply": [
-                0.98
+                0.65
               ],
               "price_supply": [
-                19.38
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_RS",
               "max_supply": [
-                448.04
+                333.66
               ],
               "price_supply": [
-                18.78
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_RO",
               "max_supply": [
-                194.37
+                145.12
               ],
               "price_supply": [
-                21.0
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_RR",
               "max_supply": [
-                8.94
+                6.5
               ],
               "price_supply": [
-                20.96
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_SC",
               "max_supply": [
-                293.33
+                218.57
               ],
               "price_supply": [
-                18.84
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_SP",
               "max_supply": [
-                545.22
+                404.36
               ],
               "price_supply": [
-                19.03
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_SE",
               "max_supply": [
-                99.09
+                73.86
               ],
               "price_supply": [
-                19.38
+                56.8
               ]
             },
             {
               "id": "cornstover_BR_TO",
               "max_supply": [
-                272.47
+                203.45
               ],
               "price_supply": [
-                20.54
+                56.8
               ]
             }
       ]
@@ -4465,10 +4465,10 @@
             {
               "id": "ricestraw_BR_AL",
               "max_supply": [
-                1.87
+                1.03
               ],
               "price_supply": [
-                19.45
+                57
               ]
             },
             {
@@ -4483,10 +4483,10 @@
             {
               "id": "ricestraw_BR_AM",
               "max_supply": [
-                0.68
+                0.38
               ],
               "price_supply": [
-                19.38
+                57
               ]
             },
             {
@@ -4501,10 +4501,10 @@
             {
               "id": "ricestraw_BR_CE",
               "max_supply": [
-                1.51
+                0.69
               ],
               "price_supply": [
-                19.22
+                57
               ]
             },
             {
@@ -4528,55 +4528,55 @@
             {
               "id": "ricestraw_BR_GO",
               "max_supply": [
-                10.39
+                5.74
               ],
               "price_supply": [
-                20.17
+                57
               ]
             },
             {
               "id": "ricestraw_BR_MA",
               "max_supply": [
-                16.48
+                7.92
               ],
               "price_supply": [
-                21.43
+                57
               ]
             },
             {
               "id": "ricestraw_BR_MT",
               "max_supply": [
-                36.72
+                19.55
               ],
               "price_supply": [
-                19.56
+                57
               ]
             },
             {
               "id": "ricestraw_BR_MS",
               "max_supply": [
-                4.77
+                2.53
               ],
               "price_supply": [
-                19.65
+                57
               ]
             },
             {
               "id": "ricestraw_BR_MG",
               "max_supply": [
-                0.76
+                0.28
               ],
               "price_supply": [
-                19.21
+                57
               ]
             },
             {
               "id": "ricestraw_BR_PA",
               "max_supply": [
-                12.83
+                6.76
               ],
               "price_supply": [
-                20.42
+                57
               ]
             },
             {
@@ -4591,10 +4591,10 @@
             {
               "id": "ricestraw_BR_PR",
               "max_supply": [
-                16.14
+                8.76
               ],
               "price_supply": [
-                18.87
+                57
               ]
             },
             {
@@ -4609,10 +4609,10 @@
             {
               "id": "ricestraw_BR_PI",
               "max_supply": [
-                8.23
+                3.76
               ],
               "price_supply": [
-                21.75
+                57
               ]
             },
             {
@@ -4636,64 +4636,64 @@
             {
               "id": "ricestraw_BR_RS",
               "max_supply": [
-                814.47
+                449.13
               ],
               "price_supply": [
-                18.78
+                57
               ]
             },
             {
               "id": "ricestraw_BR_RO",
               "max_supply": [
-                12.33
+                6.58
               ],
               "price_supply": [
-                21.0
+                57
               ]
             },
             {
               "id": "ricestraw_BR_RR",
               "max_supply": [
-                9.91
+                5.47
               ],
               "price_supply": [
-                20.96
+                57
               ]
             },
             {
               "id": "ricestraw_BR_SC",
               "max_supply": [
-                133.32
+                72.98
               ],
               "price_supply": [
-                18.84
+                57
               ]
             },
             {
               "id": "ricestraw_BR_SP",
               "max_supply": [
-                5.17
+                2.48
               ],
               "price_supply": [
-                19.03
+                57
               ]
             },
             {
               "id": "ricestraw_BR_SE",
               "max_supply": [
-                4.43
+                2.37
               ],
               "price_supply": [
-                19.38
+                57
               ]
             },
             {
               "id": "ricestraw_BR_TO",
               "max_supply": [
-                67.42
+                36.91
               ],
               "price_supply": [
-                20.54
+                57
               ]
             }
           ]
@@ -6020,7 +6020,7 @@
                 }
             },
             "instance_data": [
-                {
+              {
               "id": "forestry_residue_BR_AC",
               "max_supply": [
                 0.0
@@ -6032,19 +6032,19 @@
             {
               "id": "forestry_residue_BR_AL",
               "max_supply": [
-                25.65
+                0.0
               ],
               "price_supply": [
-                13.49
+                0.0
               ]
             },
             {
               "id": "forestry_residue_BR_AP",
               "max_supply": [
-                56.58
+                0.0
               ],
               "price_supply": [
-                13.51
+                0.0
               ]
             },
             {
@@ -6059,136 +6059,136 @@
             {
               "id": "forestry_residue_BR_BA",
               "max_supply": [
-                537.29
+                164.58
               ],
               "price_supply": [
-                13.37
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_CE",
               "max_supply": [
-                1.73
+                0.0
               ],
               "price_supply": [
-                13.38
+                0.0
               ]
             },
             {
               "id": "forestry_residue_BR_DF",
               "max_supply": [
-                1.03
+                0.0
               ],
               "price_supply": [
-                13.82
+                0.0
               ]
             },
             {
               "id": "forestry_residue_BR_ES",
               "max_supply": [
-                263.68
+                81.84
               ],
               "price_supply": [
-                13.8
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_GO",
               "max_supply": [
-                112.19
+                55.1
               ],
               "price_supply": [
-                13.7
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_MA",
               "max_supply": [
-                234.91
+                37.08
               ],
               "price_supply": [
-                13.32
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_MT",
               "max_supply": [
-                173.4
+                59.52
               ],
               "price_supply": [
-                13.66
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_MS",
               "max_supply": [
-                1312.81
+                386.34
               ],
               "price_supply": [
-                13.67
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_MG",
               "max_supply": [
-                2019.57
+                600.53
               ],
               "price_supply": [
-                13.68
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_PA",
               "max_supply": [
-                132.34
+                0.0
               ],
               "price_supply": [
-                13.35
+                0.0
               ]
             },
             {
               "id": "forestry_residue_BR_PB",
               "max_supply": [
-                0.87
+                0.0
               ],
               "price_supply": [
-                13.42
+                0.0
               ]
             },
             {
               "id": "forestry_residue_BR_PR",
               "max_supply": [
-                909.07
+                245.28
               ],
               "price_supply": [
-                13.65
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_PE",
               "max_supply": [
-                1.69
+                0.0
               ],
               "price_supply": [
-                13.58
+                0.0
               ]
             },
             {
               "id": "forestry_residue_BR_PI",
               "max_supply": [
-                24.39
+                0.0
               ],
               "price_supply": [
-                13.45
+                0.0
               ]
             },
             {
               "id": "forestry_residue_BR_RJ",
               "max_supply": [
-                25.56
+                0.0
               ],
               "price_supply": [
-                13.78
+                0.0
               ]
             },
             {
@@ -6203,19 +6203,19 @@
             {
               "id": "forestry_residue_BR_RS",
               "max_supply": [
-                774.76
+                256.41
               ],
               "price_supply": [
-                13.5
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_RO",
               "max_supply": [
-                5.31
+                0.0
               ],
               "price_supply": [
-                13.68
+                0.0
               ]
             },
             {
@@ -6230,37 +6230,37 @@
             {
               "id": "forestry_residue_BR_SC",
               "max_supply": [
-                733.21
+                125.56
               ],
               "price_supply": [
-                13.82
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_SP",
               "max_supply": [
-                1098.45
+                339.16
               ],
               "price_supply": [
-                13.9
+                45.1
               ]
             },
             {
               "id": "forestry_residue_BR_SE",
               "max_supply": [
-                4.48
+                0.0
               ],
               "price_supply": [
-                13.89
+                0.0
               ]
             },
             {
               "id": "forestry_residue_BR_TO",
               "max_supply": [
-                90.48
+                23.42
               ],
               "price_supply": [
-                13.68
+                45.1
               ]
             }
             ]
