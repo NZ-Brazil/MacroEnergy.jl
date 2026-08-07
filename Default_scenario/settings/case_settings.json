@@ -3,6 +3,7 @@
   "DiscountRate": 0.045,
   "SolutionAlgorithm": "Myopic",
   "WriteFullTimeseries": true,
+  "ParameterScaling": true,
   
     "MyopicSettings": {
     "Restart": {
