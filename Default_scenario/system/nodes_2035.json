@@ -6522,12 +6522,12 @@
                 },
                 {
                     "id": "gasoline_fossil_BR",
-                    "price": {
-                        "timeseries": {
-                            "path": "system/fuel_prices_2035.csv",
-                            "header": "gasoline_fossil_price_BR"
-                        }
-                    }
+                    "max_supply": [
+                        100000000
+                    ],
+                    "price_supply": [
+                        32.3723698828436
+                    ]
                 }
             ]
         },
@@ -6659,12 +6659,12 @@
             "instance_data": [
                 {
                     "id": "jetfuel_fossil_BR",
-                    "price": {
-                        "timeseries": {
-                            "path": "system/fuel_prices_2035.csv",
-                            "header": "jetfuel_fossil_price_BR"
-                        }
-                    }
+                    "max_supply": [
+                        100000000
+                    ],
+                    "price_supply": [
+                        68.1368077686693
+                    ]
                 },
                 {
                     "id": "jetfuel_fossil_mandate_demand_BR",
@@ -6741,12 +6741,12 @@
                 },
                 {
                     "id": "diesel_fossil_BR",
-                    "price": {
-                        "timeseries": {
-                            "path": "system/fuel_prices_2035.csv",
-                            "header": "diesel_fossil_price_BR"
-                        }
-                    }
+                    "max_supply": [
+                        100000000
+                    ],
+                    "price_supply": [
+                        44.9159983630818
+                    ]
                 }
             ]
         },
