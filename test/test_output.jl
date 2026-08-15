@@ -5,6 +5,7 @@ using Random
 using MacroEnergy
 using CSV
 using DataFrames
+using OrderedCollections: OrderedDict
 import MacroEnergy:
     TimeData,
     compute_annualized_costs!,
@@ -21,6 +22,7 @@ import MacroEnergy:
     time_interval,
     start_vertex,
     price,
+    price_supply,
     total_years,
     present_value_factor,
     present_value_annuity_factor,
@@ -31,6 +33,8 @@ import MacroEnergy:
     new_capacity,
     storage_level,
     non_served_demand,
+    supply_flow,
+    supply_segments,
     segments_non_served_demand,
     price_non_served_demand,
     max_non_served_demand,
@@ -63,9 +67,12 @@ import MacroEnergy:
     Node,
     Storage,
     Transformation,
-    Edge,
+    UnidirectionalEdge,
     filter_edges_by_commodity!,
     write_curtailment,
+    write_time_weights,
+    write_capex,
+    get_capex,
     VRE
 
 
@@ -82,9 +89,12 @@ function test_writing_output()
             subperiod_weights=Dict(1 => 0.3, 2 => 0.5, 3 => 0.2)
         ),
         price = [10.0, 11.0, 12.0],
-        price_supply = [100.0, 110.0, 120.0],
-        max_supply = [100.0, 110.0, 120.0],
-        supply_flow = zeros(3, 3),  # 3 segments × 3 time steps
+        supply = OrderedDict(
+            :seg1 => MacroEnergy.SupplySegment(price = [10.0, 11.0, 12.0], min = [0.0], max = [100.0]),
+            :seg2 => MacroEnergy.SupplySegment(price = [110.0], min = [0.0], max = [110.0]),
+            :seg3 => MacroEnergy.SupplySegment(price = [120.0], min = [0.0], max = [120.0]),
+        ),
+        supply_flow = [12.0 15.0 18.0; 0.0 0.0 0.0; 0.0 0.0 0.0],
         non_served_demand = [1.0 2.0 3.0; 4.0 5.0 6.0; 7.0 8.0 9.0],
         max_nsd=[10.0, 11.0, 12.0],
         price_nsd = [100.0, 110.0, 120.0],
@@ -125,7 +135,7 @@ function test_writing_output()
         )
     )
 
-    edge_between_nodes = Edge{Electricity}(;
+    edge_between_nodes = UnidirectionalEdge{Electricity}(;
         id=:edge1,
         start_vertex=node1,
         end_vertex=node2,
@@ -140,7 +150,7 @@ function test_writing_output()
         flow=[1.0, 2.0, 3.0]
     )
 
-    edge_to_storage = Edge{Electricity}(;
+    edge_to_storage = UnidirectionalEdge{Electricity}(;
         id=:edge2,
         start_vertex=node1,
         end_vertex=storage,
@@ -155,7 +165,7 @@ function test_writing_output()
         flow=[4.0, 5.0, 6.0]
     )
 
-    edge_to_transformation = Edge{Electricity}(;
+    edge_to_transformation = UnidirectionalEdge{Electricity}(;
         id=:edge3,
         start_vertex=node1,
         end_vertex=transformation,
@@ -171,7 +181,7 @@ function test_writing_output()
         flow=[7.0, 8.0, 9.0]
     )
 
-    edge_from_storage = Edge{Electricity}(;
+    edge_from_storage = UnidirectionalEdge{Electricity}(;
         id=:edge4,
         start_vertex=storage,
         end_vertex=node2,
@@ -186,7 +196,7 @@ function test_writing_output()
         flow=[10.0, 11.0, 12.0]
     )
 
-    edge_from_transformation = Edge{Electricity}(;
+    edge_from_transformation = UnidirectionalEdge{Electricity}(;
         id=:edge5,
         start_vertex=transformation,
         end_vertex=node2,
@@ -201,7 +211,7 @@ function test_writing_output()
         flow=[13.0, 14.0, 15.0]
     )
 
-    edge_storage_transformation = Edge{Electricity}(;
+    edge_storage_transformation = UnidirectionalEdge{Electricity}(;
         id=:edge6,
         start_vertex=storage,
         end_vertex=transformation,
@@ -216,7 +226,7 @@ function test_writing_output()
         flow=[16.0, 17.0, 18.0]
     )
 
-    edge_from_transformation1 = Edge{NaturalGas}(;
+    edge_from_transformation1 = UnidirectionalEdge{NaturalGas}(;
         id=:edge3ng,
         start_vertex=transformation,
         end_vertex=node1,
@@ -231,7 +241,7 @@ function test_writing_output()
         flow=[7.0, 8.0, 9.0]
     )
 
-    edge_from_transformation2 = Edge{CO2}(;
+    edge_from_transformation2 = UnidirectionalEdge{CO2}(;
         id=:edge3co2,
         start_vertex=transformation,
         end_vertex=node1,
@@ -361,7 +371,7 @@ function test_writing_output()
 
     @testset "DataFrame Output Functions Tests" begin
         # Test get_optimal_capacity_by_field
-        result = get_optimal_capacity_by_field(mock_edges, (capacity,), 2.0, obj_asset_map)
+        result = get_optimal_capacity_by_field(mock_edges, (capacity,), 2.0; obj_asset_map=obj_asset_map)
         @test result isa DataFrame
         @test size(result, 1) == 6  # 6 edges × 1 field
         
@@ -371,7 +381,7 @@ function test_writing_output()
         @test result[1, :resource_id] == :asset1
         @test result[1, :component_id] == :edge1
         @test result[1, :resource_type] == "ThermalPower{NaturalGas}"
-        @test result[1, :component_type] == "Edge{Electricity}"
+        @test result[1, :component_type] == "UnidirectionalEdge{Electricity}"
         @test result[1, :variable] == :capacity
         @test result[1, :year] === missing
         @test result[1, :value] == 200.0
@@ -383,9 +393,39 @@ function test_writing_output()
         @test result_fast[1, :value] == 100.0  # No scaling applied
     end
 
+    @testset "write_capacity returns pristine full results, reused for the cross-period summary" begin
+        test_dir = abspath(mktempdir("."))
+        scaling = 1.0
+
+        # This mock system is built by hand (not via generate_case/configure_settings), so
+        # system.time_data and system.settings are never populated.
+        system.time_data[:Electricity] = node1.timedata
+        system.settings = MacroEnergy.configure_settings(NamedTuple())
+
+        returned = write_capacity(joinpath(test_dir, "capacity.csv"), system, scaling)
+        @test returned isa DataFrame
+        @test !isempty(returned)
+
+        # This system wasn't built via generate_case (no StartYear/case-level Year), so `year` is
+        # entirely absent (dropped as all-missing) - exactly the case write_capacity_summary
+        # falls back to a `period` column for.
+        @test !hasproperty(returned, :year)
+
+        # Filtering by commodity/asset_type restricts what's *written* to file, but the returned
+        # value stays the full, unfiltered dataset, so callers can reuse it for the cross-period
+        # summary without recomputing.
+        filtered_path = joinpath(test_dir, "capacity_filtered.csv")
+        returned_with_filter = write_capacity(filtered_path, system, scaling; commodity="Electricity")
+        @test nrow(returned_with_filter) == nrow(returned)
+        written_df = MacroEnergy.load_dataframe(filtered_path)
+        @test nrow(written_df) <= nrow(returned)
+
+        rm(test_dir, recursive=true)
+    end
+
     @testset "Flow Output Functions Tests" begin
         # Test get_optimal_flow
-        result = get_optimal_flow(mock_edges, 1.0, obj_asset_map)
+        result = get_optimal_flow(mock_edges, 1.0; obj_asset_map=obj_asset_map)
         @test result isa DataFrame
         @test size(result, 1) == 18
         
@@ -396,7 +436,7 @@ function test_writing_output()
         @test result[1, :resource_id] == :asset1
         @test result[1, :component_id] == :edge1
         @test result[1, :resource_type] == "ThermalPower{NaturalGas}"
-        @test result[1, :component_type] == "Edge{Electricity}"
+        @test result[1, :component_type] == "UnidirectionalEdge{Electricity}"
         @test result[1, :variable] == :flow
         @test result[1, :year] === missing
         @test result[1, :time] === 1
@@ -584,33 +624,33 @@ function test_writing_output()
         # Test with asset map (using existing storage and asset_ref2 from test setup)
         storage_asset_map = Dict{Symbol, Base.RefValue{<:MacroEnergy.AbstractAsset}}(:storage1 => asset_ref2)
         
-        result_with_map = get_optimal_storage_level(storage, 1.0, storage_asset_map)
+        result_with_map = get_optimal_storage_level(storage, 1.0; storage_asset_map=storage_asset_map)
         @test result_with_map[1, :resource_id] == :asset2
         @test result_with_map[1, :resource_type] == "Battery"
         @test result_with_map[1, :component_id] == :storage1
         
         # Test system-level function with filtering (using existing system)
-        result_system = get_optimal_storage_level(system)
+        result_system = get_optimal_storage_level(system, 1.0)
         @test result_system isa DataFrame
         @test size(result_system, 1) == 3  # storage1 has 3 time steps
-        
+
         # Test filtering by commodity - should return results (storage is Electricity)
-        result_filtered_commodity = get_optimal_storage_level(system, commodity="Electricity")
+        result_filtered_commodity = get_optimal_storage_level(system, 1.0, commodity="Electricity")
         @test size(result_filtered_commodity, 1) == 3
-        
+
         # Test filtering by asset type - should return results (asset is Battery)
-        result_filtered_asset = get_optimal_storage_level(system, asset_type="Battery")
+        result_filtered_asset = get_optimal_storage_level(system, 1.0, asset_type="Battery")
         @test size(result_filtered_asset, 1) == 3
-        
+
         # Test filtering with non-existent commodity - should warn and return empty
         @test_logs (:warn, "Commodities not found: [:NaturalGas] when printing storage level results") (:warn, "No storages found after filtering") begin
-            result_no_match = get_optimal_storage_level(system, commodity="NaturalGas")
+            result_no_match = get_optimal_storage_level(system, 1.0, commodity="NaturalGas")
             @test isempty(result_no_match)
         end
-        
+
         # Test filtering with non-existent asset type - should warn and return empty
         @test_logs (:warn, "Asset type(s) not found: [\"VRE\"] when printing storage level results") (:warn, "No storages found after filtering") begin
-            result_no_match_asset = get_optimal_storage_level(system, asset_type="VRE")
+            result_no_match_asset = get_optimal_storage_level(system, 1.0, asset_type="VRE")
             @test isempty(result_no_match_asset)
         end
     end
@@ -628,7 +668,7 @@ function test_writing_output()
             id=:vre_transform,
             timedata=vre_timedata
         )
-        vre_edge = Edge{Electricity}(;
+        vre_edge = UnidirectionalEdge{Electricity}(;
             id=:vre_edge,
             start_vertex=vre_transform,
             end_vertex=node1,
@@ -649,7 +689,7 @@ function test_writing_output()
         # Test get_optimal_curtailment for single edge
         vre_asset_ref = Ref(vre_asset)
         vre_edge_map = Dict{Symbol,Base.RefValue{<:AbstractAsset}}(:vre_edge => vre_asset_ref)
-        result = get_optimal_curtailment(vre_edge, 1.0, vre_edge_map)
+        result = get_optimal_curtailment(vre_edge, 1.0; obj_asset_map=vre_edge_map)
         @test result isa DataFrame
         @test size(result, 1) == 3  # 3 time steps
         # Curtailment = max(0, capacity * availability(t) - flow(t))
@@ -664,7 +704,7 @@ function test_writing_output()
         @test result[1, :resource_type] == "VRE"
 
         # Test get_optimal_curtailment at system level (with VRE)
-        result_system = get_optimal_curtailment(system_with_vre)
+        result_system = get_optimal_curtailment(system_with_vre, 1.0)
         @test result_system isa DataFrame
         @test size(result_system, 1) == 3
         @test result_system[1, :value] ≈ 49.0
@@ -672,19 +712,22 @@ function test_writing_output()
         @test result_system[3, :value] ≈ 67.0
 
         # Test scaling
-        result_scaled = get_optimal_curtailment(system_with_vre; scaling=2.0)
+        result_scaled = get_optimal_curtailment(system_with_vre, 2.0)
         @test result_scaled[1, :value] ≈ 98.0  # 49 * 2
         @test result_scaled[2, :value] ≈ 116.0 # 58 * 2
         @test result_scaled[3, :value] ≈ 134.0 # 67 * 2
 
         # Test get_optimal_curtailment for system without VRE (returns empty)
-        result_empty = get_optimal_curtailment(system)  # system has ThermalPower and Battery, no VRE
+        result_empty = get_optimal_curtailment(system, 1.0)  # system has ThermalPower and Battery, no VRE
         @test result_empty isa DataFrame
         @test isempty(result_empty)
 
+        # Test write_curtailment (use shared temp dir, clean up at end)
+        curtailment_test_dir = abspath(mktempdir("."))
+
         # Test write_curtailment
-        test_curtailment_path = joinpath(abspath(mktempdir(".")), "curtailment.csv")
-        @test_nowarn write_curtailment(test_curtailment_path, system_with_vre)
+        test_curtailment_path = joinpath(curtailment_test_dir, "curtailment.csv")
+        @test_nowarn write_curtailment(test_curtailment_path, system_with_vre, 1.0)
         @test isfile(test_curtailment_path)
         written = CSV.read(test_curtailment_path, DataFrame)
         @test size(written, 1) == 3
@@ -692,25 +735,79 @@ function test_writing_output()
         @test written[2, :value] ≈ 58.0
         @test written[3, :value] ≈ 67.0
         @test "value" in names(written)
-        rm(test_curtailment_path) # clean up
 
         # Test write_curtailment with wide layout
         system_with_vre.settings = (OutputLayout="wide",)
-        test_curtailment_path = joinpath(abspath(mktempdir(".")), "curtailment_wide.csv")
-        @test_nowarn write_curtailment(test_curtailment_path, system_with_vre)
-        @test isfile(test_curtailment_path)
-        written = CSV.read(test_curtailment_path, DataFrame)
+        test_curtailment_wide_path = joinpath(curtailment_test_dir, "curtailment_wide.csv")
+        @test_nowarn write_curtailment(test_curtailment_wide_path, system_with_vre, 1.0)
+        @test isfile(test_curtailment_wide_path)
+        written = CSV.read(test_curtailment_wide_path, DataFrame)
         @test size(written, 1) == 3
         @test written[1, :vre_asset] ≈ 49.0
         @test written[2, :vre_asset] ≈ 58.0
         @test written[3, :vre_asset] ≈ 67.0
 
         # Test write_curtailment with system without VRE (no file written, no error)
-        test_empty_path = joinpath(abspath(mktempdir(".")), "curtailment_empty.csv")
-        @test_nowarn write_curtailment(test_empty_path, system)
-        # When empty, write_curtailment returns early and may not create file
-        # (get_optimal_curtailment returns empty, so no write occurs)
+        test_empty_path = joinpath(curtailment_test_dir, "curtailment_empty.csv")
         @test !isfile(test_empty_path)
+        @test_nowarn write_curtailment(test_empty_path, system, 1.0)
+        @test !isfile(test_empty_path)
+
+        rm(curtailment_test_dir, recursive=true)
+    end
+
+    @testset "write_time_weights" begin
+        # Create minimal system with time_data for TDR (3 representative sub-periods)
+        test_dir = abspath(mktempdir("."))
+        sys_tdr = empty_system(test_dir)
+        timedata_tdr = TimeData{Electricity}(;
+            time_interval=1:9,
+            hours_per_timestep=1,
+            subperiods=[1:3, 4:6, 7:9],
+            subperiod_indices=[1, 2, 3],
+            subperiod_weights=Dict(1 => 100.0, 2 => 200.0, 3 => 300.0),
+            subperiod_map=Dict(1 => 1, 2 => 2, 3 => 3),
+        )
+        sys_tdr.time_data = Dict(:Electricity => timedata_tdr)
+
+        # Test TDR case: write and verify output
+        time_weights_path = joinpath(test_dir, "time_weights.csv")
+        write_time_weights(time_weights_path, sys_tdr)
+        @test isfile(time_weights_path)
+
+        written = CSV.read(time_weights_path, DataFrame)
+        @test Set(names(written)) == Set(["time", "subperiod_index", "weight"])
+        @test size(written, 1) == 9
+
+        # Timesteps 1–3 in subperiod 1 (weight 100), 4–6 in subperiod 2 (weight 200), 7–9 in subperiod 3 (weight 300)
+        @test written[1:3, :subperiod_index] == [1, 1, 1]
+        @test written[1:3, :weight] == [100.0, 100.0, 100.0]
+        @test written[4:6, :subperiod_index] == [2, 2, 2]
+        @test written[4:6, :weight] == [200.0, 200.0, 200.0]
+        @test written[7:9, :subperiod_index] == [3, 3, 3]
+        @test written[7:9, :weight] == [300.0, 300.0, 300.0]
+        @test written[!, :time] == collect(1:9)
+
+        # Test without TDR (single representative sub-period)
+        sys_single = empty_system(test_dir)
+        timedata_single = TimeData{Electricity}(;
+            time_interval=1:5,
+            hours_per_timestep=1,
+            subperiods=[1:5],
+            subperiod_indices=[1],
+            subperiod_weights=Dict(1 => 1.0),
+            subperiod_map=Dict(1 => 1),
+        )
+        sys_single.time_data = Dict(:Electricity => timedata_single)
+
+        time_weights_single_path = joinpath(test_dir, "time_weights_single.csv")
+        write_time_weights(time_weights_single_path, sys_single)
+        written_single = CSV.read(time_weights_single_path, DataFrame)
+        @test size(written_single, 1) == 5
+        @test all(written_single.subperiod_index .== 1)
+        @test all(written_single.weight .== 1.0)
+
+        rm(test_dir, recursive=true)
     end
 
     # Test get_macro_objs functions
@@ -936,7 +1033,7 @@ function test_writing_output()
         node1.timedata = electricity_timedata
         edge_to_transformation.timedata = electricity_timedata
         system.time_data[:Electricity] = electricity_timedata
-        settings = (PeriodLengths=[10], DiscountRate=0.5, SolutionAlgorithm=MacroEnergy.Monolithic())
+        settings = (PeriodLengths=[10], DiscountRate=0.5, SolutionAlgorithm=MacroEnergy.Monolithic(), ExpansionHorizon=MacroEnergy.PerfectForesight(),)
 
         # Add costs to edge_to_transformation
         edge_to_transformation.variable_om_cost = 1.0
@@ -975,7 +1072,13 @@ function test_writing_output()
             subperiod_weight(edge_to_storage, current_subperiod(edge_to_storage, t)) * price(start_vertex(edge_to_storage), t) * value(flow(edge_to_storage, t))
             for t in time_interval(edge_to_storage)
         )
+        # Note: edge_between_nodes (edge1) is not part of any system asset and is not
+        # returned by get_edges(system), so it does not contribute to attributed fuel costs.
         fuel_raw_total = fuel_raw_transformation + fuel_raw_storage
+        supply_raw_total = sum(
+            subperiod_weight(node1, current_subperiod(node1, t)) * price_supply(node1, s, t) * value(supply_flow(node1, s, t))
+            for s in supply_segments(node1), t in time_interval(node1)
+        )
         # NonServedDemand from node1: sum over segment and time of (weight * price_nsd * nsd)
         nsd_raw_total = sum(
             subperiod_weight(node1, current_subperiod(node1, t)) * price_non_served_demand(node1, s) * value(non_served_demand(node1, s, t))
@@ -987,7 +1090,7 @@ function test_writing_output()
         annualized_inv_cost = annualized_investment_cost(edge_to_transformation)
 
         # Undiscounted costs
-        costs_result = get_detailed_costs(system, settings)
+        costs_result = get_detailed_costs(system, settings, 1.0)
         detailed_undisc = costs_result.undiscounted
         @test detailed_undisc isa DataFrame
         @test all(c in names(detailed_undisc) for c in ["zone", "type", "category", "value"])
@@ -1004,8 +1107,8 @@ function test_writing_output()
         @test detailed_undisc.value[detailed_undisc.category .== :Investment] ≈ [inv_cf * new_cap_val]
         # VariableOM: raw * period_length
         @test detailed_undisc.value[detailed_undisc.category .== :VariableOM] ≈ [variable_om_raw * period_length]
-        # Fuel: raw * period_length (sum of all edges with fuel cost)
         @test sum(detailed_undisc.value[detailed_undisc.category .== :Fuel]) ≈ fuel_raw_total * period_length
+        @test sum(detailed_undisc.value[detailed_undisc.category .== :Supply]) ≈ (supply_raw_total - fuel_raw_total) * period_length
         # NonServedDemand: raw * period_length (from nodes with non_served_demand)
         @test sum(detailed_undisc.value[detailed_undisc.category .== :NonServedDemand]) ≈ nsd_raw_total * period_length
 
@@ -1021,13 +1124,13 @@ function test_writing_output()
         @test detailed_disc.value[detailed_disc.category .== :Investment] ≈ [inv_pv]
         # VariableOM: raw * discount_factor * opexmult
         @test detailed_disc.value[detailed_disc.category .== :VariableOM] ≈ [variable_om_raw * discount_factor * opexmult]
-        # Fuel: raw * discount_factor * opexmult (sum of all edges with fuel cost)
         @test sum(detailed_disc.value[detailed_disc.category .== :Fuel]) ≈ fuel_raw_total * discount_factor * opexmult
+        @test sum(detailed_disc.value[detailed_disc.category .== :Supply]) ≈ (supply_raw_total - fuel_raw_total) * discount_factor * opexmult
         # NonServedDemand: raw * discount_factor * opexmult
         @test sum(detailed_disc.value[detailed_disc.category .== :NonServedDemand]) ≈ nsd_raw_total * discount_factor * opexmult
 
         # Scaling
-        detailed_scaled = get_detailed_costs(system, settings; scaling=2.0).undiscounted
+        detailed_scaled = get_detailed_costs(system, settings, 2.0).undiscounted
         @test detailed_scaled.value ≈ detailed_undisc.value .* 4  # scaling^2
 
         # Restore edge for other tests
@@ -1053,9 +1156,14 @@ function test_writing_output()
             period_index=1
         )
         empty_sys.time_data = Dict(:Electricity => empty_timedata)
-        empty_settings = (PeriodLengths=[1], DiscountRate=0.0, SolutionAlgorithm=MacroEnergy.Monolithic())
+        empty_settings = (
+            PeriodLengths=[1],
+            DiscountRate=0.0,
+            SolutionAlgorithm=MacroEnergy.Monolithic(),
+            ExpansionHorizon=MacroEnergy.PerfectForesight(),
+        )
 
-        costs_empty = get_detailed_costs(empty_sys, empty_settings)
+        costs_empty = get_detailed_costs(empty_sys, empty_settings, 1.0)
         @test costs_empty.discounted isa DataFrame
         @test costs_empty.undiscounted isa DataFrame
         @test names(costs_empty.discounted) == ["zone", "type", "category", "value"]
@@ -1063,6 +1171,96 @@ function test_writing_output()
         @test isempty(costs_empty.discounted)
         @test isempty(costs_empty.undiscounted)
         rm(empty_dir, recursive = true)
+    end
+
+    @testset "get_capex and write_capex" begin
+        # In the test system:
+        #   edge_to_transformation: has_capacity=true, can_expand=false (default)
+        #   storage: has_capacity=true, can_expand=true (default)
+        # Both have investment_cost=0.0 and annualized_investment_cost=nothing by default.
+
+        # --- Structure test (all-zero baseline) ---
+        result = get_capex(system)
+        @test result isa DataFrame
+        @test :capex in result.variable
+        @test all(result.value .== 0.0)
+        @test "value" in names(result)
+        @test "component_id" in names(result)
+
+        # --- Edge: investment_cost > 0 ---
+        edge_to_transformation.can_expand = true
+        edge_to_transformation.investment_cost = 1000.0
+        edge_to_transformation.new_capacity = 8.0
+        result_inv = get_capex(system)
+        edge_row = result_inv[result_inv.component_id .== :edge3, :]
+        @test size(edge_row, 1) == 1
+        @test edge_row[1, :value] ≈ 8000.0            # 1000.0 × 8.0
+        @test edge_row[1, :variable] == :capex
+        @test edge_row[1, :resource_id] == :asset1
+        @test edge_row[1, :resource_type] == "ThermalPower{NaturalGas}"
+        @test edge_row[1, :commodity] == :Electricity
+
+        # --- Edge: only annualized_investment_cost set → back-calculate upfront cost ---
+        edge_to_transformation.investment_cost = 0.0
+        edge_to_transformation.annualized_investment_cost = 200.0
+        edge_to_transformation.wacc = 0.05
+        edge_to_transformation.capital_recovery_period = 20
+        edge_to_transformation.new_capacity = 3.0
+        result_ann = get_capex(system)
+        expected_inv = 200.0 / capital_recovery_factor(0.05, 20)
+        edge_row_ann = result_ann[result_ann.component_id .== :edge3, :]
+        @test edge_row_ann[1, :value] ≈ expected_inv * 3.0
+
+        # --- Edge: annualized_investment_cost with missing wacc (falls back to 0% discount) ---
+        edge_to_transformation.wacc = missing
+        result_mw = get_capex(system)
+        expected_inv_zero_wacc = 200.0 / capital_recovery_factor(0.0, 20)
+        edge_row_mw = result_mw[result_mw.component_id .== :edge3, :]
+        @test edge_row_mw[1, :value] ≈ expected_inv_zero_wacc * 3.0
+
+        # --- Edge: annualized_investment_cost = nothing → zero ---
+        edge_to_transformation.annualized_investment_cost = nothing
+        edge_to_transformation.new_capacity = 5.0
+        result_nothing = get_capex(system)
+        edge_row_nothing = result_nothing[result_nothing.component_id .== :edge3, :]
+        @test edge_row_nothing[1, :value] == 0.0
+
+        # --- can_expand = false → zero even with investment_cost set ---
+        edge_to_transformation.can_expand = false
+        edge_to_transformation.investment_cost = 999.0
+        result_noexp = get_capex(system)
+        edge_row_noexp = result_noexp[result_noexp.component_id .== :edge3, :]
+        @test edge_row_noexp[1, :value] == 0.0
+
+        # --- Scaling ---
+        edge_to_transformation.can_expand = true
+        edge_to_transformation.investment_cost = 500.0
+        edge_to_transformation.new_capacity = 4.0
+        result_scaled = get_capex(system, 2.0)
+        edge_row_scaled = result_scaled[result_scaled.component_id .== :edge3, :]
+        @test edge_row_scaled[1, :value] ≈ 500.0 * 4.0 * (2.0^2)   # investment_cost × new_cap × scaling^2
+
+        # --- write_capex writes a valid CSV ---
+        test_dir = abspath(mktempdir("."))
+        capex_path = joinpath(test_dir, "capex.csv")
+        @test_nowarn write_capex(capex_path, system)
+        @test isfile(capex_path)
+        written = CSV.read(capex_path, DataFrame)
+        @test "value" in names(written)
+        @test "variable" in names(written)
+        @test all(String.(written.variable) .== "capex")
+        edge_written = written[written.component_id .== "edge3", :]
+        @test size(edge_written, 1) == 1
+        @test edge_written[1, :value] ≈ 500.0 * 4.0   # write_capex uses default scaling=1.0
+        rm(test_dir, recursive=true)
+
+        # Restore edge_to_transformation to defaults
+        edge_to_transformation.can_expand = false
+        edge_to_transformation.investment_cost = 0.0
+        edge_to_transformation.annualized_investment_cost = nothing
+        edge_to_transformation.wacc = missing
+        edge_to_transformation.capital_recovery_period = 1
+        edge_to_transformation.new_capacity = 0.0
     end
 
     @testset "Detailed cost helper functions" begin
@@ -1110,7 +1308,8 @@ function test_writing_output()
         @test_nowarn MacroEnergy.write_cost_breakdown_files!(
             test_dir, detailed_costs, "long";
             prefix = "test_costs",
-            validate_model = nothing
+            validate_model = nothing,
+            scaling = 1.0
         )
         @test isfile(joinpath(test_dir, "test_costs_by_type.csv"))
         @test isfile(joinpath(test_dir, "test_costs_by_zone.csv"))
@@ -1131,7 +1330,123 @@ function test_writing_output()
     end
 end
 
+const CAPACITY_SUMMARY_ID_COLS = ["commodity", "zone", "resource_id", "component_id", "resource_type", "component_type"]
+
+function capacity_summary_row(comp, var, val; year=nothing)
+    n = length(comp)
+    base = (
+        commodity = fill(:Electricity, n),
+        zone = fill(:AZ, n),
+        resource_id = comp,
+        component_id = comp,
+        resource_type = fill("HydroRes", n),
+        component_type = fill("Edge{Electricity}", n),
+        variable = fill(var, n),
+    )
+    return isnothing(year) ? DataFrame(; base..., value = val) : DataFrame(; base..., year = fill(year, n), value = val)
+end
+
+function test_capacity_summary()
+    @testset "write_capacity_summary" begin
+        test_dir = abspath(mktempdir("."))
+
+        @testset "empty input writes nothing" begin
+            @test isnothing(MacroEnergy.write_capacity_summary(test_dir, DataFrame[], "long"))
+            @test !isfile(joinpath(test_dir, "capacity_summary.csv"))
+        end
+
+        @testset "long format, with real year" begin
+            p1 = vcat(
+                capacity_summary_row(["A", "B"], :capacity, [10.0, 20.0]; year=2026),
+                capacity_summary_row(["A", "B"], :existing_capacity, [5.0, 15.0]; year=2026),
+            )
+            p2 = vcat(
+                capacity_summary_row(["A", "B"], :capacity, [12.0, 20.0]; year=2036),
+                capacity_summary_row(["A", "B"], :existing_capacity, [10.0, 20.0]; year=2036),
+            )
+            MacroEnergy.write_capacity_summary(test_dir, [p1, p2], "long")
+            out = MacroEnergy.load_dataframe(joinpath(test_dir, "capacity_summary.csv"))
+
+            @test names(out) == ["commodity", "zone", "resource_id", "component_id", "resource_type", "component_type", "variable", "year", "value"]
+            # existing_capacity dropped for every period except the first
+            @test sort(unique(out[out.year .== 2036, :].variable)) == ["capacity"]
+            @test sort(unique(out[out.year .== 2026, :].variable)) == ["capacity", "existing_capacity"]
+            @test sum(out.value) ≈ 10.0 + 20.0 + 5.0 + 15.0 + 12.0 + 20.0
+        end
+
+        @testset "long format, no year (falls back to period, before value)" begin
+            p1 = capacity_summary_row(["A"], :capacity, [10.0])
+            p2 = capacity_summary_row(["A"], :capacity, [12.0])
+            MacroEnergy.write_capacity_summary(test_dir, [p1, p2], "long")
+            out = MacroEnergy.load_dataframe(joinpath(test_dir, "capacity_summary.csv"))
+
+            @test "period" in names(out)
+            @test !("year" in names(out))
+            @test findfirst(==("period"), names(out)) == findfirst(==("value"), names(out)) - 1
+            @test out.period == [1, 2]
+        end
+
+        @testset "wide format, with real year: column names, order, and zero-fill for a component missing from period 1" begin
+            p1 = vcat(
+                capacity_summary_row(["A", "B"], :capacity, [10.0, 20.0]; year=2026),
+                capacity_summary_row(["A", "B"], :existing_capacity, [5.0, 15.0]; year=2026),
+                capacity_summary_row(["A", "B"], :new_capacity, [5.0, 5.0]; year=2026),
+                capacity_summary_row(["A", "B"], :retired_capacity, [0.0, 0.0]; year=2026),
+            )
+            p2 = vcat(
+                capacity_summary_row(["A", "B", "C"], :capacity, [12.0, 20.0, 3.0]; year=2036),
+                capacity_summary_row(["A", "B", "C"], :existing_capacity, [10.0, 20.0, 0.0]; year=2036),
+                capacity_summary_row(["A", "B", "C"], :new_capacity, [2.0, 0.0, 3.0]; year=2036),
+                capacity_summary_row(["A", "B", "C"], :retired_capacity, [0.0, 0.0, 0.0]; year=2036),
+            )
+            MacroEnergy.write_capacity_summary(test_dir, [p1, p2], "wide")
+            out = MacroEnergy.load_dataframe(joinpath(test_dir, "capacity_summary.csv"))
+
+            @test names(out) == [
+                CAPACITY_SUMMARY_ID_COLS...,
+                "existing_capacity_2026", "new_capacity_2026", "retired_capacity_2026", "capacity_2026",
+                "new_capacity_2036", "retired_capacity_2036", "capacity_2036",
+            ]
+            row_c = only(eachrow(out[out.component_id .== "C", :]))
+            @test row_c.existing_capacity_2026 == 0.0
+            @test row_c.capacity_2026 == 0.0
+            @test row_c.capacity_2036 == 3.0
+        end
+
+        @testset "wide format, no year (falls back to _<period> suffixes)" begin
+            p1 = vcat(
+                capacity_summary_row(["A"], :capacity, [10.0]),
+                capacity_summary_row(["A"], :existing_capacity, [5.0]),
+            )
+            p2 = capacity_summary_row(["A"], :capacity, [12.0])
+            MacroEnergy.write_capacity_summary(test_dir, [p1, p2], "wide")
+            out = MacroEnergy.load_dataframe(joinpath(test_dir, "capacity_summary.csv"))
+
+            @test names(out) == [CAPACITY_SUMMARY_ID_COLS..., "existing_capacity_1", "capacity_1", "capacity_2"]
+        end
+
+        @testset "wide format includes retrofitted_capacity when present" begin
+            p1 = vcat(
+                capacity_summary_row(["A"], :capacity, [10.0]; year=2026),
+                capacity_summary_row(["A"], :existing_capacity, [5.0]; year=2026),
+                capacity_summary_row(["A"], :new_capacity, [5.0]; year=2026),
+                capacity_summary_row(["A"], :retired_capacity, [0.0]; year=2026),
+                capacity_summary_row(["A"], :retrofitted_capacity, [1.0]; year=2026),
+            )
+            MacroEnergy.write_capacity_summary(test_dir, [p1], "wide")
+            out = MacroEnergy.load_dataframe(joinpath(test_dir, "capacity_summary.csv"))
+
+            @test names(out) == [
+                CAPACITY_SUMMARY_ID_COLS...,
+                "existing_capacity_2026", "new_capacity_2026", "retired_capacity_2026", "capacity_2026", "retrofitted_capacity_2026",
+            ]
+        end
+
+        rm(test_dir, recursive=true)
+    end
+end
+
 test_writing_output()
+test_capacity_summary()
 
 end # module TestOutput
-

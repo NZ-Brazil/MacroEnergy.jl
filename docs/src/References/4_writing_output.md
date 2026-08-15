@@ -1,4 +1,4 @@
-# Output functions
+# [Output functions](@id reference-output-functions)
 
 ```@index
 Pages = ["4_writing_output.md"]
@@ -64,10 +64,33 @@ MacroEnergy.get_optimal_undiscounted_costs
 MacroEnergy.write_balance_duals
 ```
 
+## `write_benders_period_outputs!`
+```@docs
+MacroEnergy._write_benders_period_outputs
+```
+
 ## `write_capacity`
 
 ```@docs
 MacroEnergy.write_capacity
+```
+
+## `write_capex`
+
+```@docs
+MacroEnergy.write_capex
+```
+
+## `get_capex`
+
+```@docs
+MacroEnergy.get_capex
+```
+
+## `write_capacity_summary`
+
+```@docs
+MacroEnergy.write_capacity_summary
 ```
 
 ## `write_co2_cap_duals`
@@ -112,10 +135,27 @@ MacroEnergy.write_duals
 MacroEnergy.write_flow
 ```
 
+## `write_full_timeseries`
+
+```@docs
+MacroEnergy.write_full_timeseries
+```
+
+## `write_balance_duals_full_timeseries`
+
+```@docs
+MacroEnergy.write_balance_duals_full_timeseries
+```
+
 ## `write_non_served_demand`
 
 ```@docs
 MacroEnergy.write_non_served_demand
+```
+
+## `write_objective_value`
+```@docs
+MacroEnergy.write_objective_value
 ```
 
 ## `write_settings`
@@ -130,6 +170,12 @@ MacroEnergy.write_settings
 MacroEnergy.write_storage_level
 ```
 
+## `write_time_weights`
+
+```@docs
+MacroEnergy.write_time_weights
+```
+
 ## `write_undiscounted_costs`
 ```@docs
 MacroEnergy.write_undiscounted_costs
@@ -140,14 +186,14 @@ MacroEnergy.write_undiscounted_costs
 MacroEnergy.write_dataframe
 ```
 
+## `write_to_json`
+```@docs
+MacroEnergy.write_to_json
+```
+
 ## `MacroEnergy.write_outputs`
 ```@docs
 MacroEnergy.MacroEnergy.write_outputs
-```
-
-## `MacroEnergy.write_outputs_myopic`
-```@docs
-MacroEnergy.write_outputs_myopic
 ```
 
 ## `MacroEnergy.write_period_outputs`

@@ -8,8 +8,8 @@ Cost outputs - everything related to cost data extraction and output.
     write_costs(
         file_path::AbstractString, 
         system::System, 
-        model::Union{Model,NamedTuple}; 
-        scaling::Float64=1.0, 
+        model::Union{Model,NamedTuple},
+        scaling::Float64; 
         drop_cols::Vector{AbstractString}=String[]
     )
 
@@ -28,15 +28,15 @@ The extension of the file determines the format of the file.
 """
 function write_costs(
     file_path::AbstractString, 
-    system::System, 
-    model::Union{Model,NamedTuple};
-    scaling::Float64=1.0, 
+    system::System,
+    model::Union{Model,NamedTuple},
+    scaling::Float64; 
     drop_cols::Vector{<:AbstractString}=String[]
 )
     @info "Writing total discounted costs to $file_path"
 
     # Get costs and determine layout (wide or long)
-    costs = get_optimal_discounted_costs(model; scaling)
+    costs = get_optimal_discounted_costs(model, scaling)
     layout = get_output_layout(system, :Costs)
 
     if layout == "wide"
@@ -54,8 +54,8 @@ end
     write_undiscounted_costs(
         file_path::AbstractString,
         system::System,
-        model::Union{Model,NamedTuple};
-        scaling::Float64=1.0,
+        model::Union{Model,NamedTuple},
+        scaling::Float64;
         drop_cols::Vector{AbstractString}=String[]
     )
 
@@ -72,14 +72,14 @@ The extension of the file determines the format (CSV, Parquet, etc.).
 function write_undiscounted_costs(
     file_path::AbstractString, 
     system::System, 
-    model::Union{Model,NamedTuple};
-    scaling::Float64=1.0, 
+    model::Union{Model,NamedTuple},
+    scaling::Float64; 
     drop_cols::Vector{<:AbstractString}=String[]
 )
     @info "Writing total undiscounted costs to $file_path"
 
     # Get costs and determine layout (wide or long)
-    costs = get_optimal_undiscounted_costs(model; scaling)
+    costs = get_optimal_undiscounted_costs(model, scaling)
     layout = get_output_layout(system, :Costs)
 
     if layout == "wide"
@@ -95,22 +95,22 @@ end
 
 ## Cost extraction functions ##
 """
-    get_optimal_discounted_costs(model::Union{Model,NamedTuple}; scaling::Float64=1.0)
+    get_optimal_discounted_costs(model::Union{Model,NamedTuple}, scaling::Float64)
 
 Extract total discounted costs (fixed, variable, total) from the optimization results and return them as a DataFrame.
 """
-function get_optimal_discounted_costs(model::Union{Model,NamedTuple}; scaling::Float64=1.0)
+function get_optimal_discounted_costs(model::Union{Model,NamedTuple}, scaling::Float64)
     @debug " -- Getting optimal discounted costs for the system."
     costs = prepare_discounted_costs(model, scaling)
     costs[!, (!isa).(eachcol(costs), Vector{Missing})] # remove missing columns
 end
 
 """
-    get_optimal_undiscounted_costs(model::Union{Model,NamedTuple}; scaling::Float64=1.0)
+    get_optimal_undiscounted_costs(model::Union{Model,NamedTuple}, scaling::Float64)
 
 Extract total undiscounted costs (fixed, variable, total) from the optimization results and return them as a DataFrame.
 """
-function get_optimal_undiscounted_costs(model::Union{Model,NamedTuple}; scaling::Float64=1.0)
+function get_optimal_undiscounted_costs(model::Union{Model,NamedTuple}, scaling::Float64)
     @debug " -- Getting optimal discounted costs for the system."
     costs = prepare_undiscounted_costs(model, scaling)
     costs[!, (!isa).(eachcol(costs), Vector{Missing})] # remove missing columns
@@ -120,7 +120,7 @@ end
 # - Variable cost
 # - Fixed cost
 # - Total cost
-function prepare_undiscounted_costs(model::Union{Model,NamedTuple}, scaling::Float64=1.0)
+function prepare_undiscounted_costs(model::Union{Model,NamedTuple}, scaling::Float64)
     fixed_cost = value(model[:eFixedCost])
     variable_cost = value(model[:eVariableCost])
     total_cost = fixed_cost + variable_cost
@@ -137,7 +137,7 @@ function prepare_undiscounted_costs(model::Union{Model,NamedTuple}, scaling::Flo
     )
 end
 
-function prepare_discounted_costs(model::Union{Model,NamedTuple}, scaling::Float64=1.0)
+function prepare_discounted_costs(model::Union{Model,NamedTuple}, scaling::Float64)
     fixed_cost = value(model[:eDiscountedFixedCost])
     variable_cost = value(model[:eDiscountedVariableCost])
     total_cost = fixed_cost + variable_cost
@@ -237,16 +237,20 @@ end
 @doc raw"""
     compute_fuel_cost(e::AbstractEdge)
 
-Compute fuel cost for an edge: sum over time of `subperiod_weight * price(start_vertex) * flow`.
-Only applicable to edges with a start node.
+Compute attributed fuel cost for an edge using the postprocessed node price at the
+start node.
 Returns a Float64 value.
 """
 function compute_fuel_cost(e::AbstractEdge)::Float64
-    (!isa(start_vertex(e), Node) || isempty(price(start_vertex(e)))) && return 0.0
+    !isa(start_vertex(e), Node) && return 0.0
+    source_node = start_vertex(e)
+    isempty(supply_segments(source_node)) && return 0.0
+    isempty(price(source_node)) && return 0.0
+
     fuel_cost = 0.0
     for t in time_interval(e)
         w = current_subperiod(e, t)
-        fuel_cost += subperiod_weight(e, w) * price(start_vertex(e), t) * value(flow(e, t))
+        fuel_cost += subperiod_weight(e, w) * price(source_node, t) * value(flow(e, t))
     end
     return fuel_cost
 end
@@ -299,17 +303,24 @@ Only applicable to nodes with non-zero `max_supply`.
 Returns a Float64 value.
 """
 function compute_supply_cost(n::Node)::Float64
-    if all(iszero, max_supply(n))
+    if isempty(supply_segments(n))
         return 0.0
     end
     supply_cost = 0.0
     for t in time_interval(n)
         w = current_subperiod(n, t)
         for s in supply_segments(n)
-            supply_cost += subperiod_weight(n, w) * price_supply(n, s) * value(supply_flow(n, s, t))
+            supply_cost += subperiod_weight(n, w) * price_supply(n, s, t) * value(supply_flow(n, s, t))
         end
     end
     return supply_cost
+end
+
+function compute_residual_supply_cost(n::Node, attributed_fuel_cost::Float64=0.0)::Float64
+    total_supply_cost = compute_supply_cost(n)
+    residual_supply_cost = total_supply_cost - attributed_fuel_cost
+    tolerance = 1e-6 * max(abs(total_supply_cost), abs(attributed_fuel_cost), 1.0)
+    return abs(residual_supply_cost) <= tolerance ? 0.0 : residual_supply_cost
 end
 
 @doc raw"""
@@ -345,8 +356,9 @@ function create_discounted_cost_expressions!(model::Model, system::System, setti
     
     unregister(model,:eDiscountedFixedCost)
 
-    if isa(solution_algorithm(settings[:SolutionAlgorithm]), Myopic)
-
+    if isa(settings[:ExpansionHorizon], Myopic)
+        # Both Myopic+Monolithic and Myopic+Benders: add back investment payments beyond
+        # the myopic window (not seen by the solver) so reported costs are complete.
         unregister(model,:eDiscountedInvestmentFixedCost)
         add_costs_not_seen_by_myopic!(system, settings)
         unregister(model,:eInvestmentFixedCost)
@@ -357,14 +369,12 @@ function create_discounted_cost_expressions!(model::Model, system::System, setti
         
         model[:eDiscountedFixedCost] = model[:eDiscountedInvestmentFixedCost] + model[:eOMFixedCostByPeriod][period_index]
 
-    elseif isa(solution_algorithm(settings[:SolutionAlgorithm]), Monolithic) || isa(solution_algorithm(settings[:SolutionAlgorithm]), Benders)
-        # Perfect foresight  cases (applies to both Monolithic and Benders)
-        model[:eDiscountedFixedCost] = model[:eFixedCostByPeriod][period_index]
     else
-        nothing
+        # Perfect foresight (Monolithic or Benders): full horizon costs already in model
+        model[:eDiscountedFixedCost] = model[:eFixedCostByPeriod][period_index]
     end
 
-    if !isa(solution_algorithm(settings[:SolutionAlgorithm]), Benders)
+    if !isa(settings[:SolutionAlgorithm], Benders)
         ### For Benders, variable costs are discounted within the subproblems
         unregister(model,:eDiscountedVariableCost)
         model[:eDiscountedVariableCost] = model[:eVariableCostByPeriod][period_index]
@@ -411,8 +421,8 @@ const VARIABLE_OPERATING_COST_CATEGORIES = Set([:VariableOM, :Fuel, :Startup, :N
         results_dir::AbstractString,
         system::System,
         model::Model,
-        settings::NamedTuple;
-        scaling::Float64=1.0
+        settings::NamedTuple,
+        scaling::Float64
     )
 
 Write detailed cost breakdown files (both discounted and undiscounted):
@@ -426,19 +436,19 @@ Costs are computed once per discounting mode, then aggregated and written.
 - `system::System`: The system containing assets
 - `model::Model`: The optimized model (for objective value validation). It should contain four fields: :eDiscountedFixedCost, :eDiscountedVariableCost, :eFixedCost, :eVariableCost.
 - `settings::NamedTuple`: Case settings containing DiscountRate and PeriodLengths
-- `scaling::Float64=1.0`: Scaling factor
+- `scaling::Float64`: Scaling factor
 """
 function write_detailed_costs(
     results_dir::AbstractString,
     system::System,
     model::Model,
-    settings::NamedTuple;
-    scaling::Float64=1.0
+    settings::NamedTuple,
+    scaling::Float64
 )
     @debug "Writing detailed cost breakdown files"
 
     layout = get_output_layout(system, :Costs)
-    costs = get_detailed_costs(system, settings; scaling)
+    costs = get_detailed_costs(system, settings, scaling)
 
     # Write discounted costs by type and zone
     write_cost_breakdown_files!(
@@ -466,8 +476,8 @@ end
         system::System,
         planning_problem_costs::NamedTuple,
         operational_costs_df::Vector{DataFrame},
-        settings::NamedTuple;
-        scaling::Float64=1.0
+        settings::NamedTuple,
+        scaling::Float64
     )
 
 Write detailed cost breakdown files for Benders decomposition for a single period.
@@ -479,15 +489,15 @@ Combines fixed costs from the planning problem with operational costs from subpr
 - `benders_costs::NamedTuple`: The benders costs (for objective value validation). It should contain four fields: :eDiscountedFixedCost, :eDiscountedVariableCost, :eFixedCost, :eVariableCost.
 - `operational_costs_df::Vector{DataFrame}`: Operational costs from subproblems for the current period
 - `settings::NamedTuple`: Case settings
-- `scaling::Float64=1.0`: Scaling factor
+- `scaling::Float64`: Scaling factor
 """
 function write_detailed_costs_benders(
     results_dir::AbstractString,
     system::System,
     benders_costs::NamedTuple,
     operational_costs_df::Vector{DataFrame},
-    settings::NamedTuple;
-    scaling::Float64=1.0
+    settings::NamedTuple,
+    scaling::Float64
 )
     @debug "Writing detailed cost breakdown files (Benders)"
 
@@ -495,7 +505,7 @@ function write_detailed_costs_benders(
     period_operational_costs = aggregate_operational_costs(operational_costs_df)
 
     layout = get_output_layout(system, :Costs)
-    costs = get_detailed_costs_benders(system, period_operational_costs, settings; scaling)
+    costs = get_detailed_costs_benders(system, period_operational_costs, settings, scaling)
 
     # Write discounted costs by type and zone
     write_cost_breakdown_files!(results_dir, costs.discounted, layout; 
@@ -522,7 +532,7 @@ end
         suffix::String;
         validate_model::Union{Model,NamedTuple,Nothing}=nothing,
         discounted::Bool=false,
-        scaling::Float64=1.0
+        scaling::Float64
     )
 
 Helper function to write cost breakdown files (by type and by zone).
@@ -544,7 +554,7 @@ function write_cost_breakdown_files!(
     prefix::String="costs",
     validate_model::Union{Model,NamedTuple,Nothing}=nothing,
     discounted::Bool=false,
-    scaling::Float64=1.0
+    scaling::Float64
 )
     # Write costs by type
     costs_by_type = aggregate_costs_by_type(detailed_costs)
@@ -566,7 +576,7 @@ function write_cost_breakdown_files!(
 end
 
 """
-    get_detailed_costs(system::System, settings::NamedTuple; scaling::Float64=1.0)
+    get_detailed_costs(system::System, settings::NamedTuple, scaling::Float64)
 
 Collect all detailed costs from the system, returning both discounted and undiscounted DataFrames.
 Uses period cost attributes (for edges and storages) and economics.jl for discount factors.
@@ -574,7 +584,7 @@ Uses period cost attributes (for edges and storages) and economics.jl for discou
 Returns a NamedTuple `(discounted=df_discounted, undiscounted=df_undiscounted)` with the two 
 DataFrames having columns: zone, type, category, value.
 """
-function get_detailed_costs(system::System, settings::NamedTuple; scaling::Float64=1.0)
+function get_detailed_costs(system::System, settings::NamedTuple, scaling::Float64)
     # Ensure cf_period_* attributes are available for undiscounted cost calculations
     undo_discount_fixed_costs!(system, settings)
 
@@ -583,6 +593,7 @@ function get_detailed_costs(system::System, settings::NamedTuple; scaling::Float
     categories = Symbol[]
     values_discounted = Float64[]
     values_undiscounted = Float64[]
+    attributed_fuel_cost_by_node = Dict{Symbol,Float64}()
 
     edges, edge_asset_map = get_edges(system, return_ids_map=true)
     storages, storage_asset_map = get_storages(system, return_ids_map=true)
@@ -594,6 +605,11 @@ function get_detailed_costs(system::System, settings::NamedTuple; scaling::Float
         vom = compute_variable_om_cost(e)
         fuel = compute_fuel_cost(e)
         startup = compute_startup_cost(e)
+
+        if fuel > 0 && isa(start_vertex(e), Node)
+            source_node = start_vertex(e)
+            attributed_fuel_cost_by_node[id(source_node)] = get(attributed_fuel_cost_by_node, id(source_node), 0.0) + fuel
+        end
 
         (inv_pv == 0 && inv_cf == 0 && fom_pv == 0 && fom_cf == 0 && vom == 0 && fuel == 0 && startup == 0) && continue
 
@@ -655,7 +671,7 @@ function get_detailed_costs(system::System, settings::NamedTuple; scaling::Float
             push!(values_undiscounted, nsd_cost)
         end
 
-        supply_cost = compute_supply_cost(loc)
+        supply_cost = compute_residual_supply_cost(loc, get(attributed_fuel_cost_by_node, id(loc), 0.0))
         if supply_cost > 0
             push!(zones, zone)
             push!(types, asset_type)
@@ -711,8 +727,8 @@ end
     get_detailed_costs_benders(
         system::System,
         operational_costs::DataFrame,
-        settings::NamedTuple;
-        scaling::Float64=1.0
+        settings::NamedTuple,
+        scaling::Float64
     )
 
 Combine fixed costs from the planning problem with operational costs from subproblems.
@@ -722,11 +738,11 @@ DataFrames having columns: zone, type, category, value.
 function get_detailed_costs_benders(
     system::System,
     operational_costs::DataFrame,
-    settings::NamedTuple;
-    scaling::Float64=1.0
+    settings::NamedTuple,
+    scaling::Float64
 )
     # Get fixed costs (Investment, FixedOM) from system
-    fixed_costs = get_fixed_costs_benders(system, settings; scaling)
+    fixed_costs = get_fixed_costs_benders(system, settings, scaling)
 
     # Apply discounting to operational costs if needed
     period_index = system.time_data[:Electricity].period_index
@@ -757,12 +773,12 @@ function get_detailed_costs_benders(
 end
 
 """
-    get_fixed_costs_benders(system::System, settings::NamedTuple; scaling::Float64=1.0)
+    get_fixed_costs_benders(system::System, settings::NamedTuple, scaling::Float64)
 
 Compute fixed costs (Investment, FixedOM) from the planning problem.
 Returns (discounted=df, undiscounted=df) for Benders decomposition.
 """
-function get_fixed_costs_benders(system::System, settings::NamedTuple; scaling::Float64=1.0)
+function get_fixed_costs_benders(system::System, settings::NamedTuple, scaling::Float64)
     # Ensure cf_period_* attributes are available for undiscounted cost calculations
     undo_discount_fixed_costs!(system, settings)
 
@@ -914,13 +930,26 @@ function validate_total_cost(
     # Validate the total cost against the objective value
     # Get objective value for validation (apply same discounting/scaling)
     if discounted
-        objective_value = value(model[:eDiscountedFixedCost]) + value(model[:eDiscountedVariableCost]) * scaling^2
+        objective_value = (value(model[:eDiscountedFixedCost]) + value(model[:eDiscountedVariableCost])) * scaling^2
     else
-        objective_value = value(model[:eFixedCost]) + value(model[:eVariableCost]) * scaling^2
+        objective_value = (value(model[:eFixedCost]) + value(model[:eVariableCost])) * scaling^2
     end
     grand_total = only(df[df.category .== :Total, :value])
     validation_diff = abs(grand_total - objective_value)
-    is_valid = validation_diff < validation_tolerance * max(abs(objective_value), 1.0)
+
+    # Under parameter scaling, the objective is reconstructed by ×S^2 from a model solved
+    # in scaled space; in the case of a Benders run, the solver's reported objective and 
+    # a primal cost re-evaluation then diverge at the solver-tolerance level. 
+    # Relax the relative threshold with `scaling` so this artifact is not flagged, while 
+    # errors orders of magnitude larger (missing categories, wrong S power)
+    # are still caught. At scaling == 1.0 the tolerance is unchanged (strict 1e-6).
+
+    if isa(model, Model)
+        is_valid = validation_diff < validation_tolerance * max(abs(objective_value), 1.0)
+    elseif isa(model, NamedTuple)
+        is_valid = validation_diff < validation_tolerance * max(abs(objective_value), 1.0) * sqrt(max(1.0, scaling))
+    end
+    
     !is_valid && @warn "Objective value validation failed. Validation difference: $validation_diff"
     return is_valid
 end

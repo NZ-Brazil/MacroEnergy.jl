@@ -249,8 +249,8 @@ If [`MaxStorageLevelConstraint`](@ref max_storage_level_constraint_ref) or [`Min
 
 | Field | Type | Description | Units | Default |
 |--------------|---------|------------|----------------|----------|
-| `storage_max_storage_level` | Float64 | Maximum storage level as fraction of capacity | fraction | 1.0 |
-| `storage_min_storage_level` | Float64 | Minimum storage level as fraction of capacity | fraction | 0.0 |
+| `storage_max_storage_level` | Vector{Float64} | Maximum storage level as fraction of capacity | fraction | [1.0] |
+| `storage_min_storage_level` | Vector{Float64} | Minimum storage level as fraction of capacity | fraction | [0.0] |
 
 **Storage charge/discharge ratio constraint**
 
@@ -296,8 +296,8 @@ The `Battery` asset is defined as follows:
 struct Battery <: AbstractAsset
     id::AssetId
     battery_storage::AbstractStorage{<:Electricity}
-    discharge_edge::Edge{<:Electricity}
-    charge_edge::Edge{<:Electricity}
+    discharge_edge::UnidirectionalEdge{<:Electricity}
+    charge_edge::UnidirectionalEdge{<:Electricity}
 end
 ```
 
@@ -306,7 +306,7 @@ end
 ### Default constructor
 
 ```julia
-Battery(id::AssetId, storage::AbstractStorage{<:Electricity}, discharge_edge::Edge{<:Electricity}, charge_edge::Edge{<:Electricity})
+Battery(id::AssetId, storage::AbstractStorage{<:Electricity}, discharge_edge::UnidirectionalEdge{<:Electricity}, charge_edge::UnidirectionalEdge{<:Electricity})
 ```
 
 ### Factory constructor
