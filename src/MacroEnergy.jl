@@ -4,6 +4,7 @@ using CSV, JSON3, GZip, Parquet2
 using Dates
 using DuckDB
 using DataFrames
+using JSONTables
 using OrderedCollections
 using JuMP
 using HiGHS
@@ -22,7 +23,7 @@ using Logging
 using LoggingExtras
 
 import MacroEnergyScaling: scale_constraints!
-import JuMP: set_optimizer, set_optimizer_attributes
+import JuMP: set_optimizer, set_optimizer_attributes, optimize!
 
 import Base: /, push!, merge!
 
@@ -82,11 +83,18 @@ abstract type PlanningConstraint <: AbstractTypeConstraint end
 abstract type AbstractSolutionAlgorithm end
 struct Benders <: AbstractSolutionAlgorithm end
 struct Monolithic <: AbstractSolutionAlgorithm end
-struct Myopic <: AbstractSolutionAlgorithm end
 solution_algorithm(::AbstractSolutionAlgorithm) = Monolithic() # default to monolithic
 solution_algorithm(::Benders) = Benders()
 solution_algorithm(::Monolithic) = Monolithic()
-solution_algorithm(::Myopic) = Myopic()
+
+## Expansion horizons
+
+abstract type AbstractExpansionHorizon end
+struct PerfectForesight <: AbstractExpansionHorizon end
+struct Myopic <: AbstractExpansionHorizon end
+expansion_horizon(::AbstractExpansionHorizon) = PerfectForesight() # default to perfect foresight
+expansion_horizon(::PerfectForesight) = PerfectForesight()
+expansion_horizon(::Myopic) = Myopic()
 
 # global constants
 const ME_DEPOT_PATH = joinpath(homedir(), ".macroenergy")
@@ -138,8 +146,24 @@ function include_all_in_folder(folder::AbstractString, root_path::AbstractString
     return nothing
 end
 
-# include files
-include_all_in_folder("utilities")
+include_all_in_folder("model/types/")
+
+include("utilities/file_io/json.jl")
+include("utilities/file_io/csv.jl")
+include("utilities/file_io/duckdb.jl")
+include("utilities/file_io/read_file.jl")
+include("utilities/asset_diagrams.jl")
+include("utilities/benchmarking.jl")
+include("utilities/comparisons.jl")
+include("utilities/default_data.jl")
+include("utilities/download_examples.jl")
+include("utilities/economics.jl")
+include("utilities/logging.jl")
+include("utilities/model_templates.jl")
+include("utilities/run_tools.jl")
+include("utilities/user_additions.jl")
+include("utilities/utilities.jl")
+include_all_in_folder("utilities/model_converters")
 
 include("model/units.jl")
 include("model/time_management.jl")
@@ -157,10 +181,12 @@ include("model/optimizer.jl")
 include("model/generate_model.jl")
 include("model/retrofit.jl")
 include("model/scaling.jl")
-include("model/solver.jl")
 include("model/myopic.jl")
 include_all_in_folder("model/constraints")
 include_all_in_folder("model/benders")
+include("model/solver.jl")
+
+include("utilities/postprocessing.jl")
 
 include("model/assets/battery.jl")
 include("model/assets/electrolyzer.jl")
@@ -169,6 +195,7 @@ include("model/assets/gasstorage.jl")
 include("model/assets/thermalhydrogen.jl")
 include("model/assets/thermalpower.jl")
 include("model/assets/transmissionlink.jl")
+include("model/assets/onewaytransmissionlink.jl")
 include("model/assets/vre.jl")
 include("model/assets/thermalammonia.jl")
 include("model/assets/thermalammoniaccs.jl")
@@ -185,8 +212,8 @@ include("model/assets/beccsliquidfuels.jl")
 include("model/assets/beccsnaturalgas.jl")
 include("model/assets/hydrores.jl")
 include("model/assets/mustrun.jl")
-include("model/assets/fossilfuelsupstream.jl")
-include("model/assets/fuelsenduse.jl")
+include("model/assets/upstreamemissions.jl")
+include("model/assets/downstreamemissions.jl")
 include("model/assets/syntheticnaturalgas.jl")
 include("model/assets/syntheticliquidfuels.jl")
 include("model/assets/syntheticammonia.jl")
@@ -243,20 +270,24 @@ export AbstractAsset,
     CO2StorageConstraint,
     CapacityConstraint,
     Commodity,
+    update_node_supply_inputs,
     create_optimizer,
     DirectReductionElectricArcFurnace,
     DirectReductionElectricArcFurnaceCCS,
     Edge,
+    UnidirectionalEdge,
+    BidirectionalEdge,
     EdgeWithUC,
+    EdgeWithoutUC,
     Electricity,
     Electrolyzer,
     ElectricDAC,
     ElectricArcFurnace,
     ElectricHeating,
     ElectricSteam,
-    FossilFuelsUpstream,
+    UpstreamEmissions,
     FuelCell,
-    FuelsEndUse,
+    DownstreamEmissions,
     ThermalHeating,
     ThermalSteam,
     GasStorage,
@@ -287,21 +318,23 @@ export AbstractAsset,
     MaxNonServedDemandConstraint,
     MaxNonServedDemandPerSegmentConstraint,
     MaxStorageLevelConstraint,
+    MaxInitStorageLevelConstraint,
     MinCapacityConstraint,
     MinDownTimeConstraint,
     MinFlowConstraint,
     MinStorageOutflowConstraint,
     MinStorageLevelConstraint,
+    MinInitStorageLevelConstraint,
     MinUpTimeConstraint,
     MustRun,
     MustRunConstraint,
     NaturalGas,
     NaturalGasDAC,
-    NaturalGasFossilUpstream,
     Node,
     OperationConstraint,
     PlanningConstraint,
     PolicyConstraint,
+    postprocess!,
     RampingLimitConstraint,
     run_case,
     solve_case,
@@ -322,10 +355,14 @@ export AbstractAsset,
     ThermalHydrogenCCS,
     ThermalPowerCCS,
     TransmissionLink,
+    OneWayTransmissionLink,
     Transformation,
     Uranium,
     VRE,
     write_capacity,
+    write_capacity_summary,
+    write_capex,
+    get_capex,
     write_costs,
     write_dataframe,
     write_detailed_costs,
@@ -336,6 +373,8 @@ export AbstractAsset,
     write_outputs,
     write_storage_level,
     write_curtailment,
+    write_full_timeseries,
+    write_time_weights,
     template_system,
     template_node,
     template_location,
@@ -350,6 +389,7 @@ export AbstractAsset,
     example_contents,
     authenticate_github,
     mermaid_diagram,
-    save_mermaid_diagram
+    save_mermaid_diagram,
+    write_to_json
     
 end # module MacroEnergy

@@ -35,6 +35,7 @@ const pages = [
             "Adding Assets constraints" => "Guides/User Guide/user_asset_constraints.md",
             "Configuring Settings" => "Guides/User Guide/user_settings.md",
             "Running Models" => "Guides/User Guide/user_run_model.md",
+            "Solution Modes" => "Guides/User Guide/user_solution_modes.md",
             "Writing Results" => "Guides/User Guide/user_write_results.md",
             "Using Multi-Period Models" => "Guides/User Guide/user_multiperiod.md",
             "Exploring the Asset library" => "Guides/User Guide/user_using_asset_libary.md",
@@ -59,8 +60,23 @@ const pages = [
     "Manual" => [
         "Introduction" => "Manual/manual_introduction.md",
         "Inputs" => "Manual/Inputs.md",
+        "Time Data" => "Manual/TimeData.md",
         "Timeseries" => "Manual/Timeseries.md",
-        "Outputs" => "Manual/Outputs.md",
+        "Outputs" => [
+            "Overview" => "Manual/Outputs.md",
+            "Capacity" => "Manual/outputs/capacity.md",
+            "Costs" => "Manual/outputs/costs.md",
+            "Flows" => "Manual/outputs/flows.md",
+            "Storage Level" => "Manual/outputs/storage_level.md",
+            "Curtailment" => "Manual/outputs/curtailment.md",
+            "Non-Served Demand" => "Manual/outputs/non_served_demand.md",
+            "Time Weights" => "Manual/outputs/time_weights.md",
+            "Duals" => "Manual/outputs/duals.md",
+            "Full Time Series" => "Manual/outputs/full_timeseries.md",
+            "Benders Convergence" => "Manual/outputs/benders.md",
+            "Settings" => "Manual/outputs/settings_output.md",
+            "Log File" => "Manual/outputs/log_file.md",
+        ],
         "System" => "Manual/System.md",
         "Model" => "Manual/Model.md",
         "Sectors" => "Manual/Sectors.md",
@@ -79,6 +95,7 @@ const pages = [
             "Manual/assets/battery.md",
             "Manual/assets/beccselectricity.md",
             "Manual/assets/beccshydrogen.md",
+            "Manual/assets/downstreamemissions.md",
             "Manual/assets/electricdac.md",
             "Manual/assets/electricheating.md",
             "Manual/assets/electricsteam.md",
@@ -92,6 +109,7 @@ const pages = [
             "Manual/assets/integrateddirectreductionelectricarcfurnace.md",
             "Manual/assets/mustrun.md",
             "Manual/assets/natgasdaq.md",
+            "Manual/assets/onewaytransmissionlink.md",
             "Manual/assets/standalonelectricarcfurnace.md",
             "Manual/assets/syntheticammonia.md",
             "Manual/assets/syntheticmethanol.md",
@@ -100,18 +118,22 @@ const pages = [
             "Manual/assets/thermalmethanol.md",
             "Manual/assets/thermalpower.md",
             "Manual/assets/transmissionlink.md",
+            "Manual/assets/upstreamemissions.md",
             "Manual/assets/vre.md"
         ],
         "Financial Assumptions" => "Manual/Financial_assumptions.md",
         "Multi-Period Accounting" => "Manual/Multi_period_accounting.md"
     ],
     "How to contribute" => "how_to_contribute.md",
+    hide("Maintainers guide" => "maintainers.md"),
+    "Changelog" => "changelog.md",
     "References" => [
         "Introduction" => "References/1_introduction.md",
         "Reading input data" => "References/2_reading_input.md",
         "Macro Objects" => "References/3_macro_objects.md",
         "Writing output data" => "References/4_writing_output.md",
         "Utilities" => "References/5_utilities.md",
+        "Constraint utilities" => "References/ref_constraints.md",
         "Downloading examples" => "References/ref_download_examples.md",
         "Running a Macro Model" => "References/ref_run_case.md",
         # "Asset Library" => "References/2_assets.md", TODO: think if we should include this
@@ -157,5 +179,3 @@ deploydocs(;
     devurl="dev",
     push_preview=true,
 )
-
-
