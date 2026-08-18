@@ -1034,35 +1034,38 @@
             ]
         },
         {
-          "type": "NaturalGas",
-          "global_data": {
-            "time_interval": "NaturalGas",
-            "constraints": {
-                "BalanceConstraint": true,
-                "MaxNonServedDemandConstraint": true,
-                "MaxNonServedDemandPerSegmentConstraint": true
+            "type": "NaturalGas",
+            "global_data": {
+                "time_interval": "NaturalGas",
+                "constraints": {
+                    "BalanceConstraint": true,
+                    "MaxNonServedDemandConstraint": true,
+                    "MaxNonServedDemandPerSegmentConstraint": true
+                },
+                "max_nsd": [
+                    1
+                ],
+                "price_nsd": [
+                    1000000
+                ]
             },
-            "max_nsd": [
-                1
-            ],
-            "price_nsd": [
-                1000000
-            ]  
-          },
-          "instance_data": [
-            {
-              "id": "natgas_nonfossil_BR"
-            },
-              {
-              "id": "natgas_BR",
-              "demand": {
-                  "timeseries": {
-                      "path": "system/demand_2045.csv",
-                      "header": "Demand_NaturalGas"
-                  }
-              }
-            }
-          ]
+            "instance_data": [
+                {
+                    "id": "natgas_nonfossil_BR"
+                },
+                {
+                    "id": "natgas_BR"
+                },
+                {
+                    "id": "natgas_demand_BR",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/demand_2045.csv",
+                            "header": "Demand_NaturalGas"
+                        }
+                    }
+                }
+            ]
         },
         {
             "type": "Coal",
