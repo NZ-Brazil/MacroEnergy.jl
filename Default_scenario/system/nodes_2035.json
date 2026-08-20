@@ -1024,10 +1024,14 @@
             "instance_data": [
                 {
                     "id": "natgas_fossil_BR",
-                    "price": {
-                        "timeseries": {
-                            "path": "system/fuel_prices_2035.csv",
-                            "header": "natgas_price_BR"
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2035.csv"
+                                }
+                            }
                         }
                     }
                 }
@@ -1076,21 +1080,30 @@
                 }
             },
             "instance_data": [
+
                 {
                     "id": "coal_BR",
-                    "price": {
-                        "timeseries": {
-                            "path": "system/fuel_prices_2035.csv",
-                            "header": "coal_price_BR"
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "coal_price_BR",
+                                    "path": "system/fuel_prices_2035.csv"
+                                }
+                            }
                         }
                     }
                 },
                 {
                     "id": "coal_imported",
-                    "price": {
-                        "timeseries": {
-                            "path": "system/fuel_prices_2035.csv",
-                            "header": "coal_price_imported"
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "coal_price_imported",
+                                    "path": "system/fuel_prices_2035.csv"
+                                }
+                            }
                         }
                     }
                 }
@@ -1107,10 +1120,14 @@
             "instance_data": [
                 {
                     "id": "uranium_BR",
-                    "price": {
-                        "timeseries": {
-                            "path": "system/fuel_prices_2035.csv",
-                            "header": "uranium_price_BR"
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "uranium_price_BR",
+                                    "path": "system/fuel_prices_2035.csv"
+                                }
+                            }
                         }
                     }
                 }
