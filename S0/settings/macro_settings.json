@@ -1,0 +1,9 @@
+{
+  "ConstraintScaling": false,
+  "WriteSubcommodities": true,
+  "OverwriteResults": false,
+  "DualExportsEnabled": true,
+  "OutputLayout": "long",
+  "EnableJuMPDirectModel": true,
+  "EnableJuMPStringNames": false
+}
