@@ -687,7 +687,7 @@
                 {
                     "id": "co2_source",
                     "max_supply": [
-                        35446.7483603887
+                        40628.028065721
                     ],
                     "price_supply": [
                         0
@@ -817,6 +817,98 @@
                 },
                 {
                     "id": "co2_captured_tmp"
+                }
+            ]
+        },
+        {
+            "type": "CO2Captured",
+            "global_data": {
+                "time_interval": "CO2Captured",
+                "constraints": {
+                    "BalanceConstraint": true
+                }
+            },
+            "instance_data": [
+                {
+                    "id": "co2_captured_DAC_BR_AC"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_AL"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_AP"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_AM"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_BA"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_CE"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_DF"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_ES"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_GO"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_MA"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_MT"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_MS"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_MG"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_PA"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_PB"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_PR"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_PE"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_PI"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_RJ"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_RN"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_RS"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_RO"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_RR"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_SC"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_SP"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_SE"
+                },
+                {
+                    "id": "co2_captured_DAC_BR_TO"
                 }
             ]
         },
