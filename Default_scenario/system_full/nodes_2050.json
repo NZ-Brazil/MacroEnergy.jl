@@ -6524,7 +6524,10 @@
             },
             "instance_data": [
                 {
-                    "id": "charcoal_BR",
+                    "id": "charcoal_BR"
+                },
+                {
+                    "id": "charcoal_demand_BR",
                     "location": "BR",
                     "demand": {
                         "timeseries": {
