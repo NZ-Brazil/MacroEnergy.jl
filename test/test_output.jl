@@ -1284,6 +1284,15 @@ function test_writing_output()
         @test sum(by_zone[by_zone.zone .== "z1", :].value) ≈ 15.0
         @test sum(by_zone[by_zone.zone .== "z2", :].value) ≈ 28.0
 
+        # Test aggregate_costs_by_type_zone
+        by_type_zone = MacroEnergy.aggregate_costs_by_type_zone(vcat(costs_df,
+            DataFrame(zone = ["z2"], type = ["A"], category = [:Investment], value = [7.0])))
+        @test size(by_type_zone, 1) == 5  # (A,z1) × 2 categories, (B,z2) × 2, (A,z2) × 1
+        @test only(by_type_zone[(by_type_zone.type .== "A") .& (by_type_zone.zone .== "z2"), :value]) ≈ 7.0
+        wide_type_zone = MacroEnergy.reshape_costs_wide(by_type_zone, [:type, :zone])
+        @test size(wide_type_zone, 1) == 3
+        @test only(wide_type_zone[(wide_type_zone.type .== "A") .& (wide_type_zone.zone .== "z1"), :Total]) ≈ 15.0
+
         # Test add_total_row!
         df_with_total = MacroEnergy.add_total_row!(copy(by_type), :type)
         @test "Total" in df_with_total.type
@@ -1313,6 +1322,7 @@ function test_writing_output()
         )
         @test isfile(joinpath(test_dir, "test_costs_by_type.csv"))
         @test isfile(joinpath(test_dir, "test_costs_by_zone.csv"))
+        @test isfile(joinpath(test_dir, "test_costs_by_type_zone.csv"))
         rm(test_dir, recursive = true)
 
         # Test aggregate_operational_costs (for Benders)
