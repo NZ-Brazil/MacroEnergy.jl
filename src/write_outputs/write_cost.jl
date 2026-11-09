@@ -428,6 +428,7 @@ const VARIABLE_OPERATING_COST_CATEGORIES = Set([:VariableOM, :Fuel, :Startup, :N
 Write detailed cost breakdown files (both discounted and undiscounted):
 - costs\_by\_type.csv / undiscounted\_costs\_by\_type.csv
 - costs\_by\_zone.csv / undiscounted\_costs\_by\_zone.csv
+- costs\_by\_type\_zone.csv / undiscounted\_costs\_by\_type\_zone.csv
 
 Costs are computed once per discounting mode, then aggregated and written.
 
@@ -571,6 +572,12 @@ function write_cost_breakdown_files!(
     layout == "wide" && (costs_by_zone = reshape_costs_wide(costs_by_zone, :zone))
     @info "Writing detailed $(discounted ? "discounted" : "undiscounted") costs by zone to $(joinpath(results_dir, "$(prefix)_by_zone.csv"))"
     write_dataframe(joinpath(results_dir, "$(prefix)_by_zone.csv"), costs_by_zone, String[])
+
+    # Write costs by type and zone (e.g., each VRE technology in each zone)
+    costs_by_type_zone = aggregate_costs_by_type_zone(detailed_costs)
+    layout == "wide" && (costs_by_type_zone = reshape_costs_wide(costs_by_type_zone, [:type, :zone]))
+    @info "Writing detailed $(discounted ? "discounted" : "undiscounted") costs by type and zone to $(joinpath(results_dir, "$(prefix)_by_type_zone.csv"))"
+    write_dataframe(joinpath(results_dir, "$(prefix)_by_type_zone.csv"), costs_by_type_zone, String[])
     
     return nothing
 end
@@ -880,6 +887,19 @@ function aggregate_costs_by_zone(costs_df::DataFrame)
 end
 
 """
+    aggregate_costs_by_type_zone(costs_df::DataFrame)
+
+Aggregate detailed costs by asset type and zone.
+Returns a DataFrame with one row per (type, zone, category) combination.
+"""
+function aggregate_costs_by_type_zone(costs_df::DataFrame)
+    if isempty(costs_df)
+        return DataFrame(type=String[], zone=String[], category=Symbol[], value=Float64[])
+    end
+    return combine(groupby(costs_df, [:type, :zone, :category]), :value => sum => :value)
+end
+
+"""
     aggregate_operational_costs(cost_dfs::Vector{DataFrame})
 
 Aggregate operational costs from multiple subproblems into a single DataFrame.
@@ -955,18 +975,19 @@ function validate_total_cost(
 end
 
 """
-    reshape_costs_wide(df::DataFrame, group_col::Symbol)
+    reshape_costs_wide(df::DataFrame, group_col::Union{Symbol,Vector{Symbol}})
 
-Reshape cost DataFrame from long to wide format.
+Reshape cost DataFrame from long to wide format. `group_col` may be one column or several (e.g. `[:type, :zone]`).
 """
-function reshape_costs_wide(df::DataFrame, group_col::Symbol)
+function reshape_costs_wide(df::DataFrame, group_col::Union{Symbol,Vector{Symbol}})
     if isempty(df)
         return df
     end
     
     wide_df = unstack(df, group_col, :category, :value, fill=0.0)
     
-    cost_cols = [col for col in names(wide_df) if col != string(group_col) && Symbol(col) in COST_CATEGORIES]
+    group_names = string.(vcat(group_col))
+    cost_cols = [col for col in names(wide_df) if !(col in group_names) && Symbol(col) in COST_CATEGORIES]
     if !isempty(cost_cols)
         wide_df[!, :Total] = sum(wide_df[!, col] for col in cost_cols)
     end
