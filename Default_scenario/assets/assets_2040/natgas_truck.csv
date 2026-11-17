@@ -1,0 +1,12 @@
+Type,id,location,edges--transmission_edge--commodity,edges--transmission_edge--has_capacity,edges--transmission_edge--can_expand,edges--transmission_edge--can_retire,edges--transmission_edge--integer_decisions,edges--transmission_edge--constraints--CapacityConstraint,edges--transmission_edge--constraints--MaxCapacityConstraint,edges--transmission_edge--start_vertex,edges--transmission_edge--end_vertex,edges--transmission_edge--distance,edges--transmission_edge--existing_capacity,edges--transmission_edge--max_capacity,edges--transmission_edge--investment_cost,edges--transmission_edge--fixed_om_cost,edges--transmission_edge--variable_om_cost,edges--transmission_edge--wacc,edges--transmission_edge--lifetime,edges--transmission_edge--capital_recovery_period,edges--transmission_edge--loss_fraction
+OneWayTransmissionLink,BR_NGTRUCK_AC,BR_AC,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_RO,natgas_BR_AC,510,100000,100000,0,0,19.09,0.0763,50,20,0
+OneWayTransmissionLink,BR_NGTRUCK_DF,BR_DF,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_MG,natgas_BR_DF,616,100000,100000,0,0,22.73,0.0763,50,20,0
+OneWayTransmissionLink,BR_NGTRUCK_GO,BR_GO,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_SP,natgas_BR_GO,534,100000,100000,0,0,19.61,0.0763,50,20,0
+OneWayTransmissionLink,BR_NGTRUCK_MA,BR_MA,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_MA_2,natgas_BR_MA,229,100000,100000,0,0,15.3,0.0763,50,20,0
+OneWayTransmissionLink,BR_NGTRUCK_PI,BR_PI,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_MA_2,natgas_BR_PI,220,100000,100000,0,0,15.5,0.0763,50,20,0
+OneWayTransmissionLink,BR_NGTRUCK_RO,BR_RO,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_AM,natgas_BR_RO,889,100000,100000,0,0,32.87,0.0763,50,20,0
+OneWayTransmissionLink,BR_NGTRUCK_RR,BR_RR,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_AM_2,natgas_BR_RR,1005,100000,100000,0,0,35.11,0.0763,50,20,0
+OneWayTransmissionLink,BR_NGTRUCK_TO,BR_TO,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_MA_2,natgas_BR_TO,950,100000,100000,0,0,35.27,0.0763,50,20,0
+OneWayTransmissionLink,BR_NGTRUCK_AZULAO_MANAUS,BR_AM,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_AM_2,natgas_BR_AM,346,100000,100000,0,0,23.95,0.0763,50,20,0
+OneWayTransmissionLink,BR_NGTRUCK_MT,BR_MT,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_MS,natgas_BR_MT,704,100000,100000,0,0,25.72,0.0763,50,20,0
+OneWayTransmissionLink,BR_NGTRUCK_GO_DF,BR_DF,NaturalGas,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,natgas_BR_GO,natgas_BR_DF,200,100000,100000,0,0,15.44,0.0763,50,20,0
