@@ -1115,12 +1115,350 @@
             },
             "instance_data": [
                 {
-                    "id": "natgas_fossil_BR",
+                    "id": "natgas_upgn_caraguatatuba_BR_SP",
                     "supply": {
                         "seg1": {
                             "price": {
                                 "timeseries": {
                                     "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_cacimbas_BR_ES",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_cabiunas_BR_RJ",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_origem_energia_BR_AL",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_estacao_vandemir_ferreira_BR_BA",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_3r_potiguar_BR_RN",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_urucu_BR_AM",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_sul_capixaba_BR_ES",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_lubnor_BR_CE",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_catu_BR_BA",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_alvopetro_BR_BA",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_complexo_boaventura_BR_RJ",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_petroreconcavo_BR_BA",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_eneva_BR_MA",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_offgrid_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_lng_bahia_BR_BA",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_lng_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_lng_baia_de_guanabara_BR_RJ",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_lng_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_lng_barra_dos_coqueiros_BR_SE",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_lng_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_lng_barcarena_BR_PA",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_lng_offgrid_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_lng_porto_do_acu_BR_RJ",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_lng_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_lng_trsp_BR_SP",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_lng_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_lng_tgs_BR_SC",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_lng_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_imp_bol_corumba_BR_MS",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_imp_bol_cuiaba_BR_MT",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_imp_arg_uruguaiana_BR_RS",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_arg_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_azulao_BR_AM",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_offgrid_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_upgn_reduc_BR_RJ",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_BR",
+                                    "path": "system/fuel_prices_2050.csv"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_imp_arg_porto_murtinho_BR_MS",
+                    "supply": {
+                        "seg1": {
+                            "price": {
+                                "timeseries": {
+                                    "header": "natgas_price_arg_BR",
                                     "path": "system/fuel_prices_2050.csv"
                                 }
                             }
@@ -1147,17 +1485,446 @@
             },
             "instance_data": [
                 {
-                    "id": "natgas_nonfossil_BR"
+                    "id": "natgas_nonfossil_BR_AC"
                 },
                 {
-                    "id": "natgas_BR"
+                    "id": "natgas_nonfossil_BR_AL"
                 },
                 {
-                    "id": "natgas_demand_BR",
+                    "id": "natgas_nonfossil_BR_AM"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_AP"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_BA"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_CE"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_DF"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_ES"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_GO"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_MA"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_MG"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_MS"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_MT"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_PA"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_PB"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_PE"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_PI"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_PR"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_RJ"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_RN"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_RO"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_RR"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_RS"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_SC"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_SE"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_SP"
+                },
+                {
+                    "id": "natgas_nonfossil_BR_TO"
+                },
+                {
+                    "id": "natgas_BR_AC"
+                },
+                {
+                    "id": "natgas_BR_AL"
+                },
+                {
+                    "id": "natgas_BR_AM"
+                },
+                {
+                    "id": "natgas_BR_AM_2"
+                },
+                {
+                    "id": "natgas_BR_AM_3"
+                },
+                {
+                    "id": "natgas_BR_AP"
+                },
+                {
+                    "id": "natgas_BR_BA"
+                },
+                {
+                    "id": "natgas_BR_CE"
+                },
+                {
+                    "id": "natgas_BR_CNV_1"
+                },
+                {
+                    "id": "natgas_BR_DF"
+                },
+                {
+                    "id": "natgas_BR_ES"
+                },
+                {
+                    "id": "natgas_BR_GO"
+                },
+                {
+                    "id": "natgas_BR_MA"
+                },
+                {
+                    "id": "natgas_BR_MA_2"
+                },
+                {
+                    "id": "natgas_BR_MA_3"
+                },
+                {
+                    "id": "natgas_BR_MG"
+                },
+                {
+                    "id": "natgas_BR_MS"
+                },
+                {
+                    "id": "natgas_BR_MS_2"
+                },
+                {
+                    "id": "natgas_BR_MT"
+                },
+                {
+                    "id": "natgas_BR_NEV_1"
+                },
+                {
+                    "id": "natgas_BR_NEV_2"
+                },
+                {
+                    "id": "natgas_BR_PA"
+                },
+                {
+                    "id": "natgas_BR_PB"
+                },
+                {
+                    "id": "natgas_BR_PE"
+                },
+                {
+                    "id": "natgas_BR_PI"
+                },
+                {
+                    "id": "natgas_BR_PR"
+                },
+                {
+                    "id": "natgas_BR_RJ"
+                },
+                {
+                    "id": "natgas_BR_RN"
+                },
+                {
+                    "id": "natgas_BR_RO"
+                },
+                {
+                    "id": "natgas_BR_RR"
+                },
+                {
+                    "id": "natgas_BR_RS"
+                },
+                {
+                    "id": "natgas_BR_RS_2"
+                },
+                {
+                    "id": "natgas_BR_SC"
+                },
+                {
+                    "id": "natgas_BR_SCV_1"
+                },
+                {
+                    "id": "natgas_BR_SC_2"
+                },
+                {
+                    "id": "natgas_BR_SE"
+                },
+                {
+                    "id": "natgas_BR_SP"
+                },
+                {
+                    "id": "natgas_BR_SV_1"
+                },
+                {
+                    "id": "natgas_BR_SV_2"
+                },
+                {
+                    "id": "natgas_BR_TO"
+                },
+                {
+                    "id": "natgas_demand_BR_AC",
                     "demand": {
                         "timeseries": {
-                            "path": "system/demand_2050.csv",
-                            "header": "Demand_NaturalGas"
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_AC"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_AL",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_AL"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_AM",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_AM"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_AP",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_AP"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_BA",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_BA"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_CE",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_CE"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_DF",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_DF"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_ES",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_ES"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_GO",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_GO"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_MA",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_MA"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_MG",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_MG"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_MS",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_MS"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_MT",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_MT"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_PA",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_PA"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_PB",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_PB"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_PE",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_PE"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_PI",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_PI"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_PR",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_PR"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_RJ",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_RJ"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_RN",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_RN"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_RO",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_RO"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_RR",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_RR"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_RS",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_RS"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_SC",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_SC"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_SE",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_SE"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_SP",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_SP"
+                        }
+                    }
+                },
+                {
+                    "id": "natgas_demand_BR_TO",
+                    "demand": {
+                        "timeseries": {
+                            "path": "system/natgas_demand_2050.csv",
+                            "header": "natgas_BR_TO"
                         }
                     }
                 }
